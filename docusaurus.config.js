@@ -6,8 +6,8 @@ module.exports = {
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'https://cdn.puh.hosting/puhhosting/favicon/favicon-16x16.png',
-  organizationName: 'MG-100', // Usually your GitHub org/user name.
-  projectName: 'PuhFAQ', // Usually your repo name.
+  organizationName: 'PuhHosting', // Usually your GitHub org/user name.
+  projectName: 'FAQ', // Usually your repo name.
   themeConfig: {
     navbar: {
       title: 'PuhHosting FAQ',
