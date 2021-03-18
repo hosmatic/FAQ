@@ -1,7 +1,7 @@
 module.exports = {
   title: 'PuhHosting FAQ',
   tagline: 'Der Ort für deine Antworten',
-  url: 'https://faq.puh.hosting',
+  url: 'https://puhhosting.github.io/FAQ',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
