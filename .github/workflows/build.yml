@@ -51,22 +51,9 @@ jobs:
           npm i
           fi
           npm run deploy
-  create-cname:
-    if: github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: webfactory/ssh-agent@v0.5.0
+      - name: Create A File
+      - uses: 1arp/create-a-file-action@0.2
         with:
-          ssh-private-key: ${{ secrets.KEY }}
-      - name: Create CNAME Record
-        env:
-          USE_SSH: true
-          GIT_USER: git
-        run: |
-          git pull origin gh-pages
-          git checkout origin/gh-pages
-          echo "faq.puh.hosting" > CNAME
-          git commit -m "Add CNAME"
-          git add *
-          git push origin gh-pages
+           path: CNAME
+           file:
+           content: "faq.puh.hosting"
