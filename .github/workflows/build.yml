@@ -52,6 +52,7 @@ jobs:
           fi
           npm run deploy
       - name: Add CNAME
-      - uses: finnp/create-file-action@master
-			FILE_NAME: "CNAME"
-			FILE_DATA: "faq.puh.hosting"
+        uses: finnp/create-file-action@master
+        env:
+            FILE_NAME: "CNAME"
+            FILE_DATA: "faq.puh.hosting"
