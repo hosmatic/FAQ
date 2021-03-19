@@ -52,3 +52,5 @@ jobs:
           fi
           npm run deploy
           echo "faq.puh.hosting" > CNAME
+    
+  
