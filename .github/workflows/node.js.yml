@@ -50,4 +50,9 @@ jobs:
           else
           npm i
           fi
+          
+      - uses: "finnp/create-file-action@master"
+      CNAME:
+        FILE_NAME: "CNAME"
+        FILE_DATA: "faq.puh.hosting"
           npm run deploy
