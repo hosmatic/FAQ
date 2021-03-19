@@ -57,3 +57,5 @@ jobs:
         with:
            domain: faq.puh.hosting
            build_dir: /
+        env:
+           GITHUB_TOKEN: ${{ secrets.GITHUB }}
