@@ -64,7 +64,7 @@ jobs:
           USE_SSH: true
           GIT_USER: git
         run: |
-          git pull
+          git pull origin gh-pages
           git checkout origin/gh-pages
           echo "faq.puh.hosting" > CNAME
           git commit -m "Add CNAME"
