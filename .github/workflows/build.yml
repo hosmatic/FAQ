@@ -54,6 +54,6 @@ jobs:
       - name: Create A File
         uses: 1arp/create-a-file-action@0.2
         with:
-           path: CNAME
+           path: /home/runner/work/FAQ/FAQ/CNAME
            file:
            content: "faq.puh.hosting"
