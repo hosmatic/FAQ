@@ -56,3 +56,4 @@ jobs:
         uses: crazy-max/ghaction-github-pages@v2
         with:
            domain: faq.puh.hosting
+           build_dir: /
