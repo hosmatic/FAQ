@@ -55,7 +55,7 @@ jobs:
         if: success()
         uses: crazy-max/ghaction-github-pages@v2
         with:
-           domain: faq.puh.hosting
+           fqdn: faq.puh.hosting
            build_dir: /
         env:
            GITHUB_TOKEN: ${{ secrets.GITHUB }}
