@@ -50,7 +50,7 @@ jobs:
           else
           npm i
           fi
-          cat > CNAME <<EOL
-                    faq.puh.hosting
-                    EOL
           npm run deploy
+          cat > CNAME <<EOL
+                              faq.puh.hosting
+                              EOL
