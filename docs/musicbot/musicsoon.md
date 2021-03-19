@@ -1,5 +1,5 @@
 ---
-id: Music1
+id: musicsoon
 title: MusicBot
 ---
 

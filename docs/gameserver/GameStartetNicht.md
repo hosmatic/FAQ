@@ -1,5 +1,5 @@
 ---
-id: GameStartetNicht
+id: GameServerStartetNicht
 title: Mein Server startet nicht mehr
 ---
 

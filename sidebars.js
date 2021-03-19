@@ -2,8 +2,8 @@ module.exports = {
   someSidebar: {
     Generell: ['infos'],
     Account: ['Credits', 'Partner', 'DiscordVerifizieren', 'AusversehenProduktBestellt'],
-    Webspace: ['DomainVerbinden', 'Zertifikaterstellen', 'webmail'],
-    Gameserver: ['GameStartetNicht'],
-    MusicBots: ['Music1'],
+    Webspace: ['ConnectDomain', 'ZertifikatErstellen', 'Webmail'],
+    Gameserver: ['GameServerStartetNicht'],
+    MusicBots: ['musicsoon'],
   },
 };

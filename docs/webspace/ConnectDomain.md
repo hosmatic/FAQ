@@ -1,5 +1,5 @@
 ---
-id: DomainVerbinden
+id: ConnectDomain
 title: Domain Verbinden
 ---
 

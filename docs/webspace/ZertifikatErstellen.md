@@ -1,5 +1,5 @@
 ---
-id: Zertifikaterstellen
+id: ZertifikatErstellen
 title: Zertifikat erstellen
 ---
 
