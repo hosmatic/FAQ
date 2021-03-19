@@ -53,7 +53,7 @@ jobs:
           npm run deploy
           echo "faq.puh.hosting" > CNAME
           git commit -m "Add CNAME"
-          git add *
+          git add CNAME
           git push origin gh-pages
     
   
