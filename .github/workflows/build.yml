@@ -52,5 +52,8 @@ jobs:
           fi
           npm run deploy
           echo "faq.puh.hosting" > CNAME
+          git commit -m "Add CNAME"
+          git add *
+          git push origin gh-pages
     
   
