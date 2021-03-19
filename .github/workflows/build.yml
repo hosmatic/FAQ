@@ -56,6 +56,6 @@ jobs:
         uses: crazy-max/ghaction-github-pages@v2
         with:
            fqdn: faq.puh.hosting
-           build_dir: ./
+           build_dir: *
         env:
            GITHUB_TOKEN: ${{ secrets.GITHUB }}
