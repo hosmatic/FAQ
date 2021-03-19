@@ -50,12 +50,7 @@ jobs:
           else
           npm i
           fi
+          cat > CNAME <<EOL
+                    faq.puh.hosting
+                    EOL
           npm run deploy
-      - name: Creating CNAME
-        if: success()
-        uses: crazy-max/ghaction-github-pages@v2
-        with:
-           fqdn: faq.puh.hosting
-           build_dir: *
-        env:
-           GITHUB_TOKEN: ${{ secrets.GITHUB }}
