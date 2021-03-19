@@ -1,5 +1,5 @@
 ---
-id: generell
+id: infos
 title: Generelle Informationen
 slug: /
 ---

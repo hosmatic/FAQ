@@ -1,5 +1,5 @@
 ---
-id: Discord
+id: DiscordVerifizieren
 title: Account mit Discord verifizieren
 ---
 

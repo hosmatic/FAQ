@@ -1,5 +1,5 @@
 ---
-id: Ausversehen-Produkt-Bestellt
+id: AusversehenProduktBestellt
 title: Ausversehen ein Produkt bestellt
 ---
 

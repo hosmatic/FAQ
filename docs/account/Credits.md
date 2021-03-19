@@ -1,5 +1,5 @@
 ---
-id: credits
+id: Credits
 title: Credits
 ---
 
