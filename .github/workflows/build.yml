@@ -36,10 +36,6 @@ jobs:
       - uses: webfactory/ssh-agent@v0.5.0
         with:
           ssh-private-key: ${{ secrets.KEY }}
-      - uses: grasilife/github-pages-deploy-action@master
-        env:
-          BRANCH: gh-pages
-          CNAME: faq.puh.hosting
       - name: Release to GitHub Pages
         env:
           USE_SSH: true
@@ -55,3 +51,8 @@ jobs:
           npm i
           fi
           npm run deploy
+      - name: Creating CNAME
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+           domain: faq.puh.hosting
