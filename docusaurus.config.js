@@ -8,6 +8,15 @@ module.exports = {
   favicon: 'https://cdn.puh.hosting/puhhosting/favicon/favicon-16x16.png',
   organizationName: 'PuhHosting', // Usually your GitHub org/user name.
   projectName: 'FAQ', // Usually your repo name.
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
+      },
+    ],
+  ],
   themeConfig: {
     navbar: {
       title: 'PuhHosting FAQ',
