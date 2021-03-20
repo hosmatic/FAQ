@@ -110,7 +110,7 @@ module.exports = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} PuhHosting, made with ❤.`,
+      copyright: `Copyright © ${new Date().getFullYear()} PuhHosting, made with ❤ and build with Docusaurus.`,
     },
   },
   presets: [
