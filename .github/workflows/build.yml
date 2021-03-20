@@ -1,5 +1,5 @@
 
-name: github pages
+name: Build Worker
 
 on:
   pull_request:
