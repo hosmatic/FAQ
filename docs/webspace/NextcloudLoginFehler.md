@@ -5,19 +5,22 @@ title: Nextcloud Login Fehler beheben
 
 > Schritt 1
 
-Erstelle einen Ordner namens **phpsessions** auserhalb des Nextcloud Ordner
+Erstelle einen Ordner namens **phpsessions** im Hauptverzeichnis
+![](https://puhscreen.de/1e2bb/DejisobA16.png/raw)
 
 > Schritt 2
 
-Gehe dann bei deiner Nextcloud in Plesk auf **PHP-Einstellungen**
+Gehe nun zu der betroffenen Domain wo die Nextcloud installiert ist und klicke auf **PHP-Einstellungen**
+![](https://puhscreen.de/1e2bb/NEgEWEHa93.png/raw)
 
 > Schritt 3
 
-Suche den Parameter **session.save_path** und gebe folgendes ein und klicke anschließen auf OK:
-/var/www/vhosts/HAUPTDOMAIN/phpsessions
+Suche nun den Parameter **session.save_path** und gebe folgendes ein und klicke anschließen auf OK:
+```{WEBSPACEROOT}{/}phpsessions```
+![](https://puhscreen.de/1e2bb/cOsedORi05.png/raw)
 
 > Schritt 4
 
-Nun warte ein paar Minuten und dann sollte der Nextcloud Login funktionieren.
+Jetzt warte paar Minuten und anschließend sollte der Login bei deiner Nextcloud wieder funktionieren.
 
 > Fertig!
