@@ -8,6 +8,16 @@ module.exports = {
   favicon: 'https://cdn.puh.hosting/puhhosting/favicon/favicon-16x16.png',
   organizationName: 'PuhHosting',
   projectName: 'FAQ',
+  plugins: [
+    [
+      '@docusaurus/plugin-sitemap',
+      {
+        changefreq: 'weekly',
+        priority: 0.5,
+        trailingSlash: false,
+      },
+    ],
+  ],
   themeConfig: {
     navbar: {
       title: 'PuhHosting FAQ',
