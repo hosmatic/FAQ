@@ -12,6 +12,10 @@ module.exports = {
     [
       '@docusaurus/plugin-content-docs',
       {
+        id: 'community',
+        path: 'community',
+        editCurrentVersion: true,
+        routeBasePath: 'community',
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
       },
