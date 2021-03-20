@@ -52,3 +52,9 @@ jobs:
           fi
           npm run deploy
           echo faq.puh.hosting > CNAME
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB }}
+          publish_dir: ./
+          cname: faq.puh.hosting
