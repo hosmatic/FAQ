@@ -7,7 +7,12 @@ on:
       - master
     paths:
       - '.github/workflows/build.yml'
-
+      - 'docs/'
+      - 'src/'
+      - 'static/'
+      - 'docusaurus.config.js'
+      - 'package.json'
+      - 'sidebars.js'
 jobs:
   deploy:
     runs-on: ubuntu-18.04
