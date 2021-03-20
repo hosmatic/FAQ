@@ -8,7 +8,33 @@ module.exports = {
   favicon: 'https://cdn.puh.hosting/puhhosting/favicon/favicon-16x16.png',
   organizationName: 'PuhHosting',
   projectName: 'FAQ',
+  i18n: {
+    defaultLocale: 'de',
+    locales: ['de', 'en'],
+    localeConfigs: {
+      de: {
+        label: 'German',
+        direction: 'ltr',
+      },
+      en: {
+        label: 'English',
+        direction: 'ltr',
+      },
+    },
+  },
   plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'community',
+        editUrl: ({locale, docPath}) => {
+          return `https://github.com/PuhHosting/FAQ/edit/master/docs/${locale}/${docPath}`;
+        },
+        editCurrentVersion: true,
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
+      },
+    ],
     [
       '@docusaurus/plugin-sitemap',
       {
