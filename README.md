@@ -1,33 +1,14 @@
-# Website
+<p align="center">
+  <a href="https://www.puh.hosting">
+    <img alt="PuhHosting" src="https://cdn.puh.hosting/puhhosting/Logo/App.png" width="150" />
+  </a>
+</p>
+<p align="center">
+  Official FAQ Website for PuhHosting.eu made with Docusaurus 2.
+</p>
 
-This website is built using [Docusaurus 2](https://v2.docusaurus.io/), a modern static website generator.
-Test
-## Installation
-
-```console
-yarn install
-```
-
-## Local Development
-
-```console
-yarn start
-```
-
-This command starts a local development server and open up a browser window. Most changes are reflected live without having to restart the server.
-
-## Build
-
-```console
-yarn build
-```
-
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
-
-## Deployment
-
-```console
-GIT_USER=<Your GitHub username> USE_SSH=true yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+## Contributing ✨
+1. Fork this Project
+2. Add your custom FAQ File
+3. Create a Pull Request with your email
+4. When the Pull Request was approved you become a small gift :)
