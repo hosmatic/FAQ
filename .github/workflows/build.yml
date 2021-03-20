@@ -2,6 +2,9 @@
 name: github pages
 
 on:
+  pull_request:
+    branches:
+      - master
   push:
     branches:
       - master
@@ -14,6 +17,24 @@ on:
       - 'package.json'
       - 'sidebars.js'
 jobs:
+  checks:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Test Build
+        run: |
+          if [ -e yarn.lock ]; then
+          yarn install --frozen-lockfile
+          elif [ -e package-lock.json ]; then
+          npm ci
+          else
+          npm i
+          fi
+          yarn build
   deploy:
     runs-on: ubuntu-18.04
     defaults:
