@@ -9,8 +9,6 @@ module.exports = {
   organizationName: 'PuhHosting',
   projectName: 'FAQ',
   plugins: [
-    ['@docusaurus/plugin-google-analytics'],
-    ['@docusaurus/plugin-google-gtag'],
     [
       '@docusaurus/plugin-sitemap',
       {
@@ -51,11 +49,11 @@ module.exports = {
   ],
   themeConfig: {
     googleAnalytics: {
-      trackingID: 'UA-159552747-6\n',
+      trackingID: 'UA-159552747-6',
       anonymizeIP: true,
     },
     gtag: {
-      trackingID: 'UA-159552747-6\n',
+      trackingID: 'UA-159552747-6',
       anonymizeIP: true,
     },
     navbar: {
