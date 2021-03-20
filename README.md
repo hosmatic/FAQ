@@ -9,6 +9,7 @@
 
 ## Contributing ✨
 1. Fork this Project
-2. Add your custom FAQ File
-3. Create a Pull Request with your email
-4. When the Pull Request was approved you become a small gift :)
+2. Add your custom FAQ File in the folder docs
+3. Add your FAQ ID to sidebars.js in the right section
+4. Create a Pull Request with your email
+5. When the Pull Request was approved you become a small gift :)
