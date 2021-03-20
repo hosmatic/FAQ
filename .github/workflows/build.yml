@@ -51,6 +51,4 @@ jobs:
           npm i
           fi
           npm run deploy
-          cat > CNAME <<EOL
-                              faq.puh.hosting
-                              EOL
+          echo faq.puh.hosting > CNAME
