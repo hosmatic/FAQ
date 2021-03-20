@@ -8,20 +8,6 @@ module.exports = {
   favicon: 'https://cdn.puh.hosting/puhhosting/favicon/favicon-16x16.png',
   organizationName: 'PuhHosting',
   projectName: 'FAQ',
-  i18n: {
-    defaultLocale: 'de',
-    locales: ['de', 'en'],
-    localeConfigs: {
-      de: {
-        label: 'German',
-        direction: 'ltr',
-      },
-      en: {
-        label: 'English',
-        direction: 'ltr',
-      },
-    },
-  },
   plugins: [
     [
       '@docusaurus/plugin-content-docs',
