@@ -10,6 +10,15 @@ module.exports = {
   projectName: 'FAQ',
   plugins: [
     [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'docs',
+        path: 'docs',
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
+      },
+    ],
+    [
       '@docusaurus/plugin-sitemap',
       {
         id: 'sitemap',
