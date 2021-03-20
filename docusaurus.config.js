@@ -6,21 +6,8 @@ module.exports = {
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'https://cdn.puh.hosting/puhhosting/favicon/favicon-16x16.png',
-  organizationName: 'PuhHosting', // Usually your GitHub org/user name.
-  projectName: 'FAQ', // Usually your repo name.
-  plugins: [
-    [
-      '@docusaurus/plugin-content-docs',
-      {
-        id: 'community',
-        path: 'community',
-        editCurrentVersion: true,
-        routeBasePath: 'community',
-        showLastUpdateAuthor: true,
-        showLastUpdateTime: true,
-      },
-    ],
-  ],
+  organizationName: 'PuhHosting',
+  projectName: 'FAQ',
   themeConfig: {
     navbar: {
       title: 'PuhHosting FAQ',
