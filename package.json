@@ -1,7 +1,7 @@
 {
   "name": "puh-faq",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
