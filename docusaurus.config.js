@@ -12,11 +12,14 @@ module.exports = {
     [
       '@docusaurus/plugin-content-docs',
       {
-        id: 'community',
-        editUrl: ({locale, docPath}) => {
-          return `https://github.com/PuhHosting/FAQ/edit/master/docs/${locale}/${docPath}`;
+        id: 'docs',
+        path: 'docs',
+        editUrl: function ({
+          locale,
+          docPath,
+        }) {
+          return `https://github.com/PuhHosting/FAQ/edit/master/website/${docPath}`;
         },
-        editCurrentVersion: true,
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
       },
