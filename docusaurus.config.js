@@ -6,7 +6,7 @@ module.exports = {
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'https://cdn.puh.hosting/puhhosting/favicon/favicon-16x16.png',
-  organizationName: 'PuhHosting',
+  organizationName: 'PuhHosting',test
   projectName: 'FAQ',
   plugins: [
     [
