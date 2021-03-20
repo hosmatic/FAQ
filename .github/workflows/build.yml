@@ -7,14 +7,13 @@ on:
       - master
     paths:
       - '.github/workflows/build.yml'
-      - 'website/**'
 
 jobs:
   deploy:
     runs-on: ubuntu-18.04
     defaults:
       run:
-        working-directory: website
+        working-directory: ./
     steps:
       - uses: actions/checkout@v2
 
@@ -42,5 +41,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./website/build
+          publish_dir: ./build
           cname: faq.puh.hosting
