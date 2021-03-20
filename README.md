@@ -7,7 +7,7 @@
   Official FAQ Website for PuhHosting.eu made with Docusaurus 2.
 </p>
 
-## Contributing ✨
+## Contributing 🔧
 1. Fork this Project
 2. Add your custom FAQ File in the folder docs
 3. Add your FAQ ID to sidebars.js in the right section
