@@ -36,6 +36,7 @@ jobs:
           fi
           yarn build
   deploy:
+    if: github.event_name == 'push'
     runs-on: ubuntu-18.04
     defaults:
       run:
