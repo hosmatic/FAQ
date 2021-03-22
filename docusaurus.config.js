@@ -13,13 +13,10 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'faqdocs',
-        editUrl: function ({
-                             docPath,
-                           }) {
+        editUrl: ({docPath}) => {
           return `https://github.com/PuhHosting/FAQ/edit/master/docs/${docPath}`;
         },
-        docLayoutComponent: '@theme/DocPage',
-        docItemComponent: '@theme/DocItem',
+        editCurrentVersion: true,
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
       },
