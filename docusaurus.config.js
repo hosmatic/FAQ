@@ -10,18 +10,6 @@ module.exports = {
   projectName: 'FAQ',
   plugins: [
     [
-      '@docusaurus/plugin-content-docs',
-      {
-        id: 'faqdocs',
-        editUrl: ({docPath}) => {
-          return `https://github.com/PuhHosting/FAQ/edit/master/docs/${docPath}`;
-        },
-        editCurrentVersion: true,
-        showLastUpdateAuthor: true,
-        showLastUpdateTime: true,
-      },
-    ],
-    [
       '@docusaurus/plugin-sitemap',
       {
         id: 'sitemap',
