@@ -20,8 +20,6 @@ module.exports = {
                            }) {
           return `https://github.com/PuhHosting/FAQ/edit/master/docs/${versionDocsDirPath}/${docPath}`;
         },
-        routeBasePath: 'docs',
-        include: ['**/*.md', '**/*.mdx'], // Extensions to include.
         docLayoutComponent: '@theme/DocPage',
         docItemComponent: '@theme/DocItem',
         showLastUpdateAuthor: true,
