@@ -14,10 +14,9 @@ module.exports = {
       {
         id: 'faqdocs',
         editUrl: function ({
-                             versionDocsDirPath,
                              docPath,
                            }) {
-          return `https://github.com/PuhHosting/FAQ/edit/master/docs/${versionDocsDirPath}/${docPath}`;
+          return `https://github.com/PuhHosting/FAQ/edit/master/docs/${docPath}`;
         },
         docLayoutComponent: '@theme/DocPage',
         docItemComponent: '@theme/DocItem',
