@@ -10,6 +10,24 @@ module.exports = {
   projectName: 'FAQ',
   plugins: [
     [
+      '@docusaurus/plugin-content-docs',
+      {
+        path: 'docs',
+        editUrl: function ({
+                             versionDocsDirPath,
+                             docPath,
+                           }) {
+          return `https://github.com/PuhHosting/FAQ/edit/master/docs/${versionDocsDirPath}/${docPath}`;
+        },
+        routeBasePath: 'docs',
+        include: ['**/*.md', '**/*.mdx'], // Extensions to include.
+        docLayoutComponent: '@theme/DocPage',
+        docItemComponent: '@theme/DocItem',
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
+      },
+    ],
+    [
       '@docusaurus/plugin-sitemap',
       {
         id: 'sitemap',
