@@ -12,6 +12,7 @@ module.exports = {
     [
       '@docusaurus/plugin-content-docs',
       {
+        id: 'faqdocs',
         path: 'docs',
         editUrl: function ({
                              versionDocsDirPath,
