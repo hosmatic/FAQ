@@ -5,5 +5,6 @@ module.exports = {
     Webspace: ['webspace/ConnectDomain', 'webspace/ZertifikatErstellen', 'webspace/Webmail', 'webspace/NextcloudLoginFehler'],
     Gameserver: ['gameserver/GameServerStartetNicht'],
     MusicBots: ['musicbot/musicsoon'],
+    Datenbanken: ['database/mysql'],
   },
 };
