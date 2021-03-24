@@ -12,4 +12,4 @@
 2. Add your custom FAQ File in the folder docs
 3. Add your FAQ ID to sidebars.js in the right section
 4. Create a Pull Request with your email
-5. When the Pull Request was approved you become a small gift :)
+5. Once the Pull Request gets approved you receive a small gift :)
