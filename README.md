@@ -4,7 +4,7 @@
   </a>
 </p>
 <p align="center">
-  Official FAQ Website for PuhHosting.eu made with Docusaurus 2.
+  Official FAQ Website for puh.hosting made with Docusaurus 2.
 </p>
 
 ## Contributing 🔧
