@@ -7,13 +7,13 @@ title: Wie erstelle ich ein Ticket
 
 Gehe in das [Controlpanel] und öffne die Kategorie "Tickets"
 
-!()[https://screen.magic-pics.tk/FOku9/lAjOromI65.png/raw]
+![](https://screen.magic-pics.tk/FOku9/lAjOromI65.png/raw)
 
 > Schritt2
 
 Klicke auf "[Ticket erstellen]"
 
-!()[https://screen.magic-pics.tk/FOku9/LIDUmUju14.png/raw]
+![](https://screen.magic-pics.tk/FOku9/LIDUmUju14.png/raw)
 
 > Schritt 3
 
