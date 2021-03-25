@@ -5,9 +5,9 @@ title: Wie finde ich die ProduktID
 
 > Schritt 1
 
-öffne das Controlpanel.
+Öffne das Controlpanel.
 
-° Schritt 2
+> Schritt 2
 
 Suche die ProduktID heraus (siehe Screenshot)
 
