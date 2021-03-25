@@ -49,6 +49,7 @@ module.exports = {
     [
       '@docusaurus/plugin-content-docs',
       {
+        id: 'community',
         /**
          * Path to data on filesystem relative to site dir.
          */
@@ -57,7 +58,12 @@ module.exports = {
          * Base url to edit your site.
          * Docusaurus will compute the final editUrl with "editUrl + relativeDocPath"
          */
-        editUrl: 'https://github.com/PuhHosting/FAQ/edit/master/',
+        editUrl: ({locale, versionDocsDirPath, docPath}) => {
+          if (locale !== 'en') {
+            return `https://crowdin.com/project/docusaurus-v2/${locale}`;
+          }
+          return `https://github.com/PuhHosting/FAQ/edit/master/${versionDocsDirPath}/${docPath}`;
+        },
         /**
          * Useful if you don't want users to submit doc pull-requests to older versions.
          * When docs are versioned, the edit url will link to the doc
@@ -72,6 +78,11 @@ module.exports = {
          */
         routeBasePath: 'docs',
         include: ['**/*.md'], // Extensions to include.
+        /**
+         * Path to sidebar configuration for showing a list of markdown pages.
+         * Warning: will change
+         */
+        sidebarPath: './sidebar.js',
         /**
          * Theme components used by the docs pages
          */
