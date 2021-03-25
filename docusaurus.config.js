@@ -50,51 +50,17 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'community',
-        /**
-         * Path to data on filesystem relative to site dir.
-         */
-        path: 'docs',
-        /**
-         * Base url to edit your site.
-         * Docusaurus will compute the final editUrl with "editUrl + relativeDocPath"
-         */
+        path: 'community',
         editUrl: ({locale, versionDocsDirPath, docPath}) => {
           if (locale !== 'en') {
             return `https://crowdin.com/project/docusaurus-v2/${locale}`;
           }
           return `https://github.com/PuhHosting/FAQ/edit/master/${versionDocsDirPath}/${docPath}`;
         },
-        /**
-         * Useful if you don't want users to submit doc pull-requests to older versions.
-         * When docs are versioned, the edit url will link to the doc
-         * in current version, instead of the versioned doc.
-         * Note: this option is ignored when editUrl is a function
-         */
         editCurrentVersion: true,
-        /**
-         * URL route for the docs section of your site.
-         * *DO NOT* include a trailing slash.
-         * INFO: It is possible to set just `/` for shipping docs without base path.
-         */
-        routeBasePath: 'docs',
-        include: ['**/*.md'], // Extensions to include.
-        /**
-         * Path to sidebar configuration for showing a list of markdown pages.
-         * Warning: will change
-         */
-        sidebarPath: './sidebar.js',
-        /**
-         * Theme components used by the docs pages
-         */
-        docLayoutComponent: '@theme/DocPage',
-        docItemComponent: '@theme/DocItem',
-        /**
-         * Whether to display the author who last updated the doc.
-         */
+        routeBasePath: 'community',
+        sidebarPath: require.resolve('./sidebars.js'),
         showLastUpdateAuthor: true,
-        /**
-         * Whether to display the last date the doc was updated.
-         */
         showLastUpdateTime: true,
       },
     ],
