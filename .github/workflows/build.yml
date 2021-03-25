@@ -36,6 +36,7 @@ jobs:
           fi
           yarn build
   deploy:
+    needs: checks
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-18.04
     defaults:
