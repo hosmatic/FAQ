@@ -18,7 +18,7 @@ module.exports = {
     {
       type: 'category',
       label: 'Gameserver',
-      items: ['gameserver/GameServerStartetNicht'],
+      items: ['gameserver/GameServerStartetNicht', 'gameserver/ConnectWithFtpClient'],
     },
     {
       type: 'category',
