@@ -46,6 +46,47 @@ module.exports = {
         ],
       },
     ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        /**
+         * Path to data on filesystem relative to site dir.
+         */
+        path: 'docs',
+        /**
+         * Base url to edit your site.
+         * Docusaurus will compute the final editUrl with "editUrl + relativeDocPath"
+         */
+        editUrl: 'https://github.com/PuhHosting/FAQ/edit/master/',
+        /**
+         * Useful if you don't want users to submit doc pull-requests to older versions.
+         * When docs are versioned, the edit url will link to the doc
+         * in current version, instead of the versioned doc.
+         * Note: this option is ignored when editUrl is a function
+         */
+        editCurrentVersion: true,
+        /**
+         * URL route for the docs section of your site.
+         * *DO NOT* include a trailing slash.
+         * INFO: It is possible to set just `/` for shipping docs without base path.
+         */
+        routeBasePath: 'docs',
+        include: ['**/*.md'], // Extensions to include.
+        /**
+         * Theme components used by the docs pages
+         */
+        docLayoutComponent: '@theme/DocPage',
+        docItemComponent: '@theme/DocItem',
+        /**
+         * Whether to display the author who last updated the doc.
+         */
+        showLastUpdateAuthor: true,
+        /**
+         * Whether to display the last date the doc was updated.
+         */
+        showLastUpdateTime: true,
+      },
+    ],
   ],
   themeConfig: {
     googleAnalytics: {
