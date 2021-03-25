@@ -97,7 +97,7 @@ module.exports = {
           ],
         },
         {
-          title: 'Rechliches',
+          title: 'Rechtliches',
           items: [
             {
               label: 'Impressum',
