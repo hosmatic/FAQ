@@ -13,3 +13,9 @@
 3. Add your FAQ ID to sidebars.js in the right section
 4. Create a Pull Request with your email
 5. Once the Pull Request gets approved you receive a small gift :)
+
+## Contributors
+
+<a href="https://github.com/PuhHosting/FAQ/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=PuhHosting/FAQ"  alt="Contributors"/>
+</a>
