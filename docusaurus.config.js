@@ -50,7 +50,7 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'community',
-        path: 'community',
+        path: 'docs',
         editUrl: ({locale, versionDocsDirPath, docPath}) => {
           if (locale !== 'en') {
             return `https://crowdin.com/project/docusaurus-v2/${locale}`;
@@ -58,7 +58,7 @@ module.exports = {
           return `https://github.com/PuhHosting/FAQ/edit/master/${versionDocsDirPath}/${docPath}`;
         },
         editCurrentVersion: true,
-        routeBasePath: 'community',
+        routeBasePath: 'docs',
         sidebarPath: require.resolve('./sidebars.js'),
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
