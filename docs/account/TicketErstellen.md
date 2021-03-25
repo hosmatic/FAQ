@@ -17,7 +17,7 @@ Klicke auf "[Ticket erstellen]"
 
 > Schritt 3
 
-Gebe bei dem Feld "Betreff" ein kurzes Stichwort für dein Problem an und falls es einen Zusammenhang mit einem Produkt hat, kannst du im feld darunter ein Produkt auswählen. Im Feld Namens "Nachricht" gibst du dann Detaliert dein Problem an, dass sich dann unsere Teammitglieder durchlesen werden und dir dann probieren zu helfen.
+Gebe bei dem Feld "Betreff" ein kurzes Stichwort für dein Problem an und falls es einen Zusammenhang mit einem Produkt hat, kannst du im Feld darunter ein Produkt auswählen. Im Feld Namens "Nachricht" gibst du dann Detaliert dein Problem an, dass sich dann unsere Teammitglieder durchlesen werden und dir dann probieren zu helfen.
 
 
 
