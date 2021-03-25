@@ -8,7 +8,7 @@ module.exports = {
     {
       type: 'category',
       label: 'Account',
-      items: ['account/Credits', 'account/Partner', 'account/DiscordVerifizieren', 'account/AusversehenProduktBestellt', 'account/TicketErstellen'],
+      items: ['account/Credits', 'account/Partner', 'account/DiscordVerifizieren', 'account/AusversehenProduktBestellt', 'account/TicketErstellen', 'account/ProduktIDFinden'],
     },
     {
       type: 'category',
