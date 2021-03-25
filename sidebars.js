@@ -13,7 +13,7 @@ module.exports = {
     {
       type: 'category',
       label: 'Webspace',
-      items: ['webspace/ConnectDomain', 'webspace/ZertifikatErstellen', 'webspace/Webmail', 'webspace/NextcloudLoginFehler', 'webspace/gitverbinden'],
+      items: ['webspace/ConnectDomain', 'webspace/ZertifikatErstellen', 'webspace/Webmail', 'webspace/NextcloudLoginFehler', 'webspace/gitverbinden', 'webspace/nodejs'],
     },
     {
       type: 'category',
