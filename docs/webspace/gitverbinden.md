@@ -11,8 +11,8 @@ Klicke auf "Git"
 
 > Schritt 2
 
-Hohle dir von deime GitHub-Repository den SSK-Link
-![](https://screen.r-it.link/Zono0/qAPimaJo95.png/raw)
+Hohle dir von deime GitHub-Repository den SSH-Link
+![](https://screen.r-it.link/Zono0/TOGOjihi97.png/raw)
 
 > Schritt 3
 
