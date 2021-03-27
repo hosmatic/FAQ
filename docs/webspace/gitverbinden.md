@@ -11,7 +11,7 @@ Klicke auf "Git"
 
 > Schritt 2
 
-Hohle dir von deime GitHub-Repository den SSH-Link
+Hohle dir von deinem GitHub-Repository den SSH-Link
 ![](https://screen.r-it.link/Zono0/TOGOjihi97.png/raw)
 
 > Schritt 3
