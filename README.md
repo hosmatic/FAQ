@@ -7,6 +7,7 @@
   Official FAQ Website for puh.hosting made with Docusaurus 2.
 </p>
 [![Build Worker](https://github.com/PuhHosting/FAQ/actions/workflows/build.yml/badge.svg)](https://github.com/PuhHosting/FAQ/actions/workflows/build.yml)
+![Discord](https://img.shields.io/discord/683279660406013969?label=Discord&logo=Discord&logoColor=white)
 
 ## Contributing 🔧
 1. Fork this Project
