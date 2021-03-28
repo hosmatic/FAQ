@@ -8,14 +8,6 @@ on:
   push:
     branches:
       - master
-    paths:
-      - '.github/workflows/build.yml'
-      - 'docs/'
-      - 'src/'
-      - 'static/'
-      - 'docusaurus.config.js'
-      - 'package.json'
-      - 'sidebars.js'
 jobs:
   checks:
     runs-on: ubuntu-18.04
