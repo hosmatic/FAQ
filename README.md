@@ -6,6 +6,7 @@
 <p align="center">
   Official FAQ Website for puh.hosting made with Docusaurus 2.
 </p>
+[![Build Worker](https://github.com/PuhHosting/FAQ/actions/workflows/build.yml/badge.svg)](https://github.com/PuhHosting/FAQ/actions/workflows/build.yml)
 
 ## Contributing 🔧
 1. Fork this Project
