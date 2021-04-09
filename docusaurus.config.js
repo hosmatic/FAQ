@@ -8,6 +8,18 @@ module.exports = {
   favicon: 'https://cdn.puh.hosting/puhhosting/favicon/favicon-16x16.png',
   organizationName: 'PuhHosting',
   projectName: 'FAQ',
+  i18n: {
+    defaultLocale: 'de',
+    locales: ['de', 'en'],
+    localeConfigs: {
+      en: {
+        label: 'English',
+      },
+      de: {
+        label: 'Deutsch',
+      },
+    },
+  },
   plugins: [
     [
       '@docusaurus/plugin-sitemap',
@@ -68,6 +80,10 @@ module.exports = {
           activeBasePath: 'docs',
           label: 'FAQ',
           position: 'left',
+        },
+        {
+          type: 'localeDropdown',
+          position: 'right',
         },
         {
           href: 'https://www.puh.hosting',
