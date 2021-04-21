@@ -8,6 +8,18 @@ module.exports = {
   favicon: 'https://cdn.puh.hosting/puhhosting/favicon/favicon-16x16.png',
   organizationName: 'PuhHosting',
   projectName: 'FAQ',
+  i18n: {
+    defaultLocale: 'de',
+    locales: ['de', 'en'],
+    localeConfigs: {
+      en: {
+        label: 'English',
+      },
+      de: {
+        label: 'Deutsch',
+      },
+    },
+  },
   plugins: [
     [
       '@docusaurus/plugin-sitemap',
@@ -70,6 +82,10 @@ module.exports = {
           position: 'left',
         },
         {
+          type: 'localeDropdown',
+          position: 'right',
+        },
+        {
           href: 'https://www.puh.hosting',
           label: 'Website',
           position: 'right',
@@ -115,16 +131,19 @@ module.exports = {
   },
   presets: [
     [
-      '@docusaurus/preset-classic',
+      "@docusaurus/preset-classic",
       {
         docs: {
-          sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
+          sidebarPath: require.resolve("./sidebars.js"),
+          editUrl:
+              "https://github.com/PuhHosting/FAQ/edit/master/",
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
-        },
-      },
-    ],
+          customCss: require.resolve("./src/css/custom.css")
+        }
+      }
+    ]
   ],
 };
