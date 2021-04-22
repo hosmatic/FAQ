@@ -1,6 +1,6 @@
 ---
 id: DiscordVerifizieren
-title: Account mit Discord verifizieren
+title: Account mit Discord verknüpfen
 ---
 
 > Schritt 1
@@ -16,7 +16,7 @@ title: Account mit Discord verifizieren
 
 > Schritt 2
 
-Scrolle etwas herunter, bis du die Kategorie "Discord" fidnest.
+Scrolle etwas herunter, bis du die Kategorie "Discord" findest.
 ![](https://screen.magic-pics.tk/FOku9/zAMukUpi47.png/raw)
 
 <br/>
@@ -27,7 +27,7 @@ Scrolle etwas herunter, bis du die Kategorie "Discord" fidnest.
 
 > Schritt 3
 
-Klicke auf "Discord verifizieren" um deinen Account zu verifizieren.
+Klicke auf "Discord verknüpfen" um deinen Account zu verknüpfen.
 ![](https://screen.magic-pics.tk/FOku9/libEfUvU61.png/raw)
 
 <br/>
@@ -49,7 +49,7 @@ Nun sollte sich ThySystems öffnen und dich fragen, ob du deinen Discord mit Puh
 
 > Schritt 5
 
-Klicke auf "Verbinden" und dann sollte sich die Discord Seite öffnen. Dann musst du nur noch auf Verifizieren klicken.
+Klicke auf "Verbinden" und dann sollte sich die Discord Seite öffnen. Dann musst du nur noch auf Verknüpfen klicken.
 
 
 :information_source: Wenn du deinen Account mit Discord verknüpft hast, solltest du den Kundenrang auf dem [Discord] erhalten. 
