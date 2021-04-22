@@ -4,7 +4,7 @@ module.exports = {
       {
         type: 'category',
         label: 'Generell',
-        items: ['general/infos', 'general/beratung'],
+        items: ['general/infos', 'general/Beratung'],
       },
       {
         type: 'category',
