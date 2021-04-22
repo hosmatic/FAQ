@@ -9,18 +9,18 @@ title: Partner
 Die Administratoren schauen sich dann deine Ideen an und entscheiden, ob du mit deinem Projekt als Puh Partner geeignet bist. Vorraussetzungen hierfür gibt es aber nicht.
 
 
-## Was sind die vorteile eines Partners?
+## Was sind die Vorteile eines Partners?
 
-> Als Partner hat man einen spezialisieren Affliate link, der das doppelte (statt 3 Credits pro klick 6) bringt Außerdem haben Partner bevorzugten Support. Man hat auch ein Partnerpanel, indem man News erstellen kann, die dann im PuhHosting Discord abgesendet werden.
-
-
+> Als Partner hat man einen speziellen Affliate link, der das Doppelte (statt 3 Credits pro klick 6) bringt Außerdem haben Partner bevorzugten Support. Man hat auch ein Partnerpanel, indem man News erstellen kann, die dann im PuhHosting Discord abgesendet werden.
 
 
-<br/>
+
 
 <br/>
 
-Ein kleiner einblick in das Partner Controlpanel
+<br/>
+
+Ein kleiner Einblick in das Partner Controlpanel
 
 ![Einblick in das Partnerpanel](https://screen.magic-pics.tk/FOku9/nITicENa65.png/raw)
 
