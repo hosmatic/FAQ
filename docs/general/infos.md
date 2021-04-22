@@ -6,13 +6,13 @@ slug: /
 
 
 ## Wie finanzieren wir uns?
-- Wir zahlen alles aus eigener Tasche, jetzt kommt die Frage dass ist doch nur ein Minus Geschäft oder? Ja, wir machen dies aber daher es uns Spaß macht euch einen Kostenlosen Webspace, Musikbot, Gameserver und Datenbanken zu geben.
+- Wir zahlen alles aus eigener Tasche, jetzt kommt die Frage: "Das ist doch nur ein Minus Geschäft, oder?" Ja, wir machen dies aber, da es uns Spaß macht, euch kostenlose Webspaces, Musikbots, Gameserver und Datenbanken zu geben.
 
 ## Wo stehen die Server?
 - Unsere Server stehen in Frankfurt am Main im Interwerk. Wir besitzen aktuell noch keine eigene Hardware und mieten sie nur von dort.
 
 ## Wie sieht es mit dem Datenschutz aus?
-- Bei PuhHosting haben nur 2 Leute Zugang zu relevanten Kunden-Daten. Dies wird sich auch nicht ändern, mit denen jeweiligen Personen wurde eine Verschwiegenheitserklärung abgeschlossen. Passwörter werden nicht mehr in unserer Datenbank gespeichert die werden über TheSystem OAuth gespeichert. Mehr Informationen findest du unter https://www.puh.hosting/privacy/
+- Bei PuhHosting haben nur 2 Leute Zugang zu relevanten Kunden-Daten. Dies wird sich auch nicht ändern, mit denen jeweiligen Personen wurde eine Verschwiegenheitserklärung abgeschlossen. Passwörter werden nicht mehr in unserer Datenbank gespeichert, sondern über TheSystem OAuth gespeichert. Mehr Informationen findest du unter https://www.puh.hosting/privacy/
 
 ## Bietet ihr einen Telefon Support an?
 - Ja, du kannst unter der +49 3571 9052381 für Produkte-Beratung oder Allgemeine Fragen anrufen. 

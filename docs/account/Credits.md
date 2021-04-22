@@ -4,7 +4,7 @@ title: Credits
 ---
 
 
-## Wie bekomme ich credits?
+## Wie bekomme ich Credits?
 
 > Credits bekommt man durch unser Affliate System. Du kannst dir einen Link im Controlpanel generieren lassen. Klicke [Hier] um dir einen zu erstellen oder einen zu verwalten.
 
@@ -57,7 +57,7 @@ Klicke links im Menü auf "Affliate".
 
 > Schritt 3:
 
-Klicke auf auszahlen
+Klicke auf "Auszahlen"
 ![](https://screen.r-it.link/Zono0/PONIGODi66.png/raw)
 
 
