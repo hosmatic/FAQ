@@ -1,6 +1,6 @@
 ---
-id: AccountSperre
-title: AccountSperre
+id: AccountEinschraekung
+title: Account Einschränkung
 ---
 
 > Mein Account wurde eingeschränkt. Was soll ich tun?
