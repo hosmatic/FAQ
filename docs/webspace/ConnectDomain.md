@@ -4,7 +4,7 @@ title: Domain Verbinden
 ---
 
 
-## Wie kann ich eine Domain zu meine Website hinzufüen? 
+## Wie kann ich eine Domain zu meine Website hinzufügen? 
 
 
 > Schritt 1
@@ -23,12 +23,12 @@ Drücke auf "OK"
 
 > Schritt 4
 
-Geh zu deinen DNS Anbieter und setze folgende Einträge damit man deine Website mit diener Domain aufrufen kann.
+Geh zu deinen DNS Anbieter und setze folgende Einträge, damit man deine Website mit deiner Domain aufrufen kann.
 ![](https://screen.magic-pics.tk/FOku9/hasaRoHE78.png/raw)
 
 > Schritt 5
 
-Fühge nun folgende einträge hinzu:
+Füge nun folgende Einträge hinzu:
 
 |Record|Name|IPv4|
 | ------------- | :-----------: | :-----------:|
@@ -45,7 +45,7 @@ Fühge nun folgende einträge hinzu:
 |AAAA|www|IPv6 des Webhostes|
 
 
-> Fertig! deine Website sollte in den nächsten Minuten erreichbar sein.
+> Fertig! deine Website sollte in den nächsten Minuten erreichbar sein. Es kann allerdings bis zu 24 Stunden dauern, bis die Website über deine Domain erreichbar ist.
 
 <br/>
 
