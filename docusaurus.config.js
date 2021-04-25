@@ -38,6 +38,7 @@ module.exports = {
           'appInstalled',
           'standalone',
           'queryString',
+          'mobile',
         ],
         pwaHead: [
           {
