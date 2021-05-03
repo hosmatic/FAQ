@@ -1,17 +1,283 @@
-/******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
-/******/ 	var __webpack_modules__ = ({
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "/";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@docusaurus/plugin-pwa/src/sw.js");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./node_modules/@docusaurus/plugin-pwa/src lazy recursive":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@docusaurus/plugin-pwa/src lazy namespace object ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function webpackEmptyAsyncContext(req) {
+	// Here Promise.resolve().then() is used instead of new Promise() to prevent
+	// uncaught exception popping up in devtools
+	return Promise.resolve().then(function() {
+		var e = new Error("Cannot find module '" + req + "'");
+		e.code = 'MODULE_NOT_FOUND';
+		throw e;
+	});
+}
+webpackEmptyAsyncContext.keys = function() { return []; };
+webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
+module.exports = webpackEmptyAsyncContext;
+webpackEmptyAsyncContext.id = "./node_modules/@docusaurus/plugin-pwa/src lazy recursive";
+
+/***/ }),
+
+/***/ "./node_modules/@docusaurus/plugin-pwa/src/sw.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@docusaurus/plugin-pwa/src/sw.js ***!
+  \*******************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var workbox_precaching__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! workbox-precaching */ "./node_modules/workbox-precaching/index.mjs");
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+/* eslint-disable no-restricted-globals */
+
+
+
+function parseSwParams() {
+  const params = JSON.parse(
+    new URLSearchParams(self.location.search).get('params'),
+  );
+  if (params.debug) {
+    console.log('[Docusaurus-PWA][SW]: Service Worker params:', params);
+  }
+  return params;
+}
+
+// doc advise against dynamic imports in SW
+// https://developers.google.com/web/tools/workbox/guides/using-bundlers#code_splitting_and_dynamic_imports
+// https://twitter.com/sebastienlorber/status/1280155204575518720
+// but I think it's working fine as it's inlined by webpack, need to double check?
+async function runSWCustomCode(params) {
+  if (undefined) {
+    const customSW = await __webpack_require__("./node_modules/@docusaurus/plugin-pwa/src lazy recursive")(undefined);
+    if (typeof customSW.default === 'function') {
+      customSW.default(params);
+    } else if (params.debug) {
+      console.warn(
+        '[Docusaurus-PWA][SW]: swCustom should have a default export function',
+      );
+    }
+  }
+}
+
+/**
+ * Gets different possible variations for a request URL. Similar to
+ * https://git.io/JvixK
+ *
+ * @param {string} url
+ */
+function getPossibleURLs(url) {
+  const possibleURLs = [];
+  const urlObject = new URL(url, self.location.href);
+
+  if (urlObject.origin !== self.location.origin) {
+    return possibleURLs;
+  }
+
+  // Ignore search params and hash
+  urlObject.search = '';
+  urlObject.hash = '';
+
+  // /blog.html
+  possibleURLs.push(urlObject.href);
+
+  // /blog/ => /blog/index.html
+  if (urlObject.pathname.endsWith('/')) {
+    possibleURLs.push(`${urlObject.href}index.html`);
+  } else {
+    // /blog => /blog/index.html
+    possibleURLs.push(`${urlObject.href}/index.html`);
+  }
+
+  return possibleURLs;
+}
+
+(async () => {
+  const params = parseSwParams();
+
+  const precacheManifest = [{"revision":"8c227a0a52f5c69134cca9a953f6a690","url":"404.html"},{"revision":"82863be0e9b27a5d2096b5126453e093","url":"assets/css/styles.cde6cfcd.css"},{"revision":"6bcb8cac9b1e24cf2692ea53f409718f","url":"assets/js/035c4ab8.d4abe4fb.js"},{"revision":"ddf3445de790890f706f867fa1cfda52","url":"assets/js/04e49abd.8c1bc6bf.js"},{"revision":"ebf506bcf8f10854c1da434049d1bd22","url":"assets/js/1.1b2202d4.js"},{"revision":"d8065e283f8a4a8fd0c561b087804fe2","url":"assets/js/1395f85c.36fd0c1d.js"},{"revision":"9ef9f8510973df150dc6c108d5c83d8f","url":"assets/js/17896441.fb5e75e7.js"},{"revision":"bb6ba913c929bc4d897204bb0f580900","url":"assets/js/1b257175.d6d25559.js"},{"revision":"ab3a622745c3d15714406be406524f47","url":"assets/js/1ce26f5d.fc7fce57.js"},{"revision":"b14d185adffd5810549f82eb2562d493","url":"assets/js/2.e70f8e8c.js"},{"revision":"1ad95a992106823e8156d6a5a9764229","url":"assets/js/2393acd7.08e8fdb4.js"},{"revision":"e1eecbd840009a587296005465ef409f","url":"assets/js/28.4a39de49.js"},{"revision":"ee2daeb74545b76859e521122cf01834","url":"assets/js/29.92bf8b4d.js"},{"revision":"2b6447aef6aa49e603df94076043805b","url":"assets/js/29b25538.eb7419c6.js"},{"revision":"cc56a5c8c4231ca744564eb89d3b20c9","url":"assets/js/30.f6a12c30.js"},{"revision":"4f8af4b74ac9e092a0300b10fa6cdecc","url":"assets/js/31.91140120.js"},{"revision":"5682738df7ca141a915fb6269506db7a","url":"assets/js/32.6231fb5e.js"},{"revision":"3bc10a8df2a72dde9bb769e53cc39d8a","url":"assets/js/3b8dc200.4747e90f.js"},{"revision":"8e3144e6a502f7049cd326008e49467e","url":"assets/js/4ea9200f.1b31be6d.js"},{"revision":"4dda5751bb4934c66213e59af250103f","url":"assets/js/508d93ed.8d9342b9.js"},{"revision":"55fbf4e4d7e69a4f12a2a5a88c95908f","url":"assets/js/56103bec.ae3370bc.js"},{"revision":"8f111e8b5a02df6298b3edc534d5dc7a","url":"assets/js/572ca114.8a5f9896.js"},{"revision":"03207c7f398ae4355b98b7799c9dfa9c","url":"assets/js/5c672a63.3e282db8.js"},{"revision":"9fac247421aaf4b6b6a18a6dc27e221e","url":"assets/js/8f9ef59a.acec65ed.js"},{"revision":"a028604842c7f0718dd0a10a6673be75","url":"assets/js/935f2afb.e5c64e89.js"},{"revision":"e99d8ab5dddeaaa539a51969022c4564","url":"assets/js/9eb10be3.37cf8a19.js"},{"revision":"544e92823fa20bcf351f6d636eb6f31f","url":"assets/js/c4f5d8e4.e6fe2a69.js"},{"revision":"32d0a454046f5664eb6f859d48916ab0","url":"assets/js/c7330af1.82dd55ff.js"},{"revision":"118c0f2d7a4549be08e8dbfd6a1c385d","url":"assets/js/d8cd5eba.cf6951ef.js"},{"revision":"9835c7c9bc206a5ac09e71b83ed0128e","url":"assets/js/ecb98621.277f4bdc.js"},{"revision":"a3226aa4550d84a132f835c2eee0d03c","url":"assets/js/fcab3d3b.bcf770ad.js"},{"revision":"3e152c3d4aea8dc13b0b1bab558186ed","url":"assets/js/ff9f7ebb.fc36a8c0.js"},{"revision":"8eb48ccf47cea868145af62331bbb2b7","url":"assets/js/main.89bce0b5.js"},{"revision":"b7966116e00530c2d061698166484ad6","url":"assets/js/runtime~main.782d1161.js"},{"revision":"ab4138c34bf4f5d0163ae40d733a5c10","url":"assets/js/styles.2fc5f6fa.js"},{"revision":"0b65e0daa8feba1bde7fcce0ec90d11c","url":"docs/account/AccountEinschraekung/index.html"},{"revision":"dcbf47fb7b6e3d6399edb6f9489762dd","url":"docs/account/AusversehenProduktBestellt/index.html"},{"revision":"fb609aded74de8ae56659a09a7f92b34","url":"docs/account/Credits/index.html"},{"revision":"70a652558a7af7f2e70e04b3afd766dd","url":"docs/account/DiscordVerifizieren/index.html"},{"revision":"f8b995e0de355bef8accb826909bfb3f","url":"docs/account/Partner/index.html"},{"revision":"4c0c7aa559f185c7e1dbc8a332095412","url":"docs/account/ProduktDeleteError/index.html"},{"revision":"22bca156242330ac596dc593d337bff5","url":"docs/account/ProduktIDFinden/index.html"},{"revision":"f27c411367359f294aad28455d451317","url":"docs/account/TicketErstellen/index.html"},{"revision":"64809d572610957163fc1b9fdef0edfa","url":"docs/database/mysql/index.html"},{"revision":"ff2343a9b68674bc08bcd87effcc38f6","url":"docs/gameserver/ConnectWithFtpClient/index.html"},{"revision":"60195c53de80dc193d5ece5fbfed44f1","url":"docs/gameserver/GameServerStartetNicht/index.html"},{"revision":"1e72a916741644faaa5007d84e1c1e33","url":"docs/general/Beratung/index.html"},{"revision":"1c0dbe04392a141150eacafe6cf6dcb5","url":"docs/index.html"},{"revision":"f6a0ae75aeebb1e31d306c58f50c92b9","url":"docs/musicbot/musicsoon/index.html"},{"revision":"db47ca44d58322990f1d67bec1d16fe5","url":"docs/webspace/ConnectDomain/index.html"},{"revision":"50cddea2dc69e2c2479025e6af49a647","url":"docs/webspace/gitverbinden/index.html"},{"revision":"a302ec73f55af39a69fffa041155a9ba","url":"docs/webspace/NextcloudLoginFehler/index.html"},{"revision":"b1ce0807cc19a4ea4ebbae39bf0a1d5a","url":"docs/webspace/nodejs/index.html"},{"revision":"458f0d0325564d81c9f0573c691929cd","url":"docs/webspace/Webmail/index.html"},{"revision":"194aaa78d71010b50cdd52bcb927aa6a","url":"docs/webspace/ZertifikatErstellen/index.html"},{"revision":"b117e6c6399fb0e19311e50ed0d9c9e8","url":"index.html"},{"revision":"bad28980839f31e8add550f5960231e7","url":"manifest.json"},{"revision":"4343e07bf942aefb5f334501958fbc0e","url":"img/favicon.ico"},{"revision":"8a569becdc1d555f9a7d2a71ddd010ae","url":"img/icons/icon-144x144.png"},{"revision":"5542cb49753aae6257b40386886c0095","url":"img/icons/icon-152x152.png"},{"revision":"00a6a3223b74ea470f6a07895051e91c","url":"img/icons/icon-192x192.png"},{"revision":"8d7555754a6e55efce219004071a3dcd","url":"img/icons/icon-256x256.png"},{"revision":"79ae3b752589396b3237cecdf090f59a","url":"img/icons/icon-72x72.png"},{"revision":"edb51e40677b91a05b6b803ef635ffaa","url":"img/icons/icon-96x96.png"},{"revision":"aa4fa2cdc39d33f2ee3b8f245b6d30d9","url":"img/logo.svg"},{"revision":"d6778e4a4460222012846a7a1ef53021","url":"img/puhhosting.png"},{"revision":"de7de10d0bf3a54b6bb6ffb90691926e","url":"img/undraw-faq.svg"},{"revision":"3a43ee0cf02d05d12d34357127b43c84","url":"img/undraw-free.svg"},{"revision":"9720d44d456ae80478f665a5a1c00dae","url":"img/undraw-tutorial.svg"}];
+  const controller = new workbox_precaching__WEBPACK_IMPORTED_MODULE_0__["PrecacheController"]({
+    fallbackToNetwork: true, // safer to turn this true?
+  });
+
+  if (params.offlineMode) {
+    controller.addToCacheList(precacheManifest);
+    if (params.debug) {
+      console.log('[Docusaurus-PWA][SW]: addToCacheList', {
+        precacheManifest,
+      });
+    }
+  }
+
+  await runSWCustomCode(params);
+
+  self.addEventListener('install', (event) => {
+    if (params.debug) {
+      console.log('[Docusaurus-PWA][SW]: install event', {
+        event,
+      });
+    }
+    event.waitUntil(controller.install(event));
+  });
+
+  self.addEventListener('activate', (event) => {
+    if (params.debug) {
+      console.log('[Docusaurus-PWA][SW]: activate event', {
+        event,
+      });
+    }
+    event.waitUntil(controller.activate(event));
+  });
+
+  self.addEventListener('fetch', async (event) => {
+    if (params.offlineMode) {
+      const requestURL = event.request.url;
+      const possibleURLs = getPossibleURLs(requestURL);
+      for (let i = 0; i < possibleURLs.length; i += 1) {
+        const possibleURL = possibleURLs[i];
+        const cacheKey = controller.getCacheKeyForURL(possibleURL);
+        if (cacheKey) {
+          const cachedResponse = caches.match(cacheKey);
+          if (params.debug) {
+            console.log('[Docusaurus-PWA][SW]: serving cached asset', {
+              requestURL,
+              possibleURL,
+              possibleURLs,
+              cacheKey,
+              cachedResponse,
+            });
+          }
+          event.respondWith(cachedResponse);
+          break;
+        }
+      }
+    }
+  });
+
+  self.addEventListener('message', async (event) => {
+    if (params.debug) {
+      console.log('[Docusaurus-PWA][SW]: message event', {
+        event,
+      });
+    }
+
+    const type = event.data && event.data.type;
+
+    if (type === 'SKIP_WAITING') {
+      self.skipWaiting();
+    }
+  });
+})();
+
+
+/***/ }),
 
 /***/ "./node_modules/workbox-core/_private/Deferred.js":
 /*!********************************************************!*\
   !*** ./node_modules/workbox-core/_private/Deferred.js ***!
   \********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: Deferred */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Deferred": () => (/* binding */ Deferred)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Deferred", function() { return Deferred; });
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_version.js */ "./node_modules/workbox-core/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_0__);
 /*
@@ -50,12 +316,12 @@ class Deferred {
 /*!************************************************************!*\
   !*** ./node_modules/workbox-core/_private/WorkboxError.js ***!
   \************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: WorkboxError */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "WorkboxError": () => (/* binding */ WorkboxError)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WorkboxError", function() { return WorkboxError; });
 /* harmony import */ var _models_messages_messageGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../models/messages/messageGenerator.js */ "./node_modules/workbox-core/models/messages/messageGenerator.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_version.js */ "./node_modules/workbox-core/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_1__);
@@ -87,7 +353,7 @@ class WorkboxError extends Error {
      * be added as a key on the context object.
      */
     constructor(errorCode, details) {
-        const message = (0,_models_messages_messageGenerator_js__WEBPACK_IMPORTED_MODULE_0__.messageGenerator)(errorCode, details);
+        const message = Object(_models_messages_messageGenerator_js__WEBPACK_IMPORTED_MODULE_0__["messageGenerator"])(errorCode, details);
         super(message);
         this.name = errorCode;
         this.details = details;
@@ -102,12 +368,12 @@ class WorkboxError extends Error {
 /*!******************************************************!*\
   !*** ./node_modules/workbox-core/_private/assert.js ***!
   \******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: assert */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "assert": () => (/* binding */ finalAssertExports)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "assert", function() { return finalAssertExports; });
 /* harmony import */ var _private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_private/WorkboxError.js */ "./node_modules/workbox-core/_private/WorkboxError.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_version.js */ "./node_modules/workbox-core/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_1__);
@@ -128,37 +394,37 @@ __webpack_require__.r(__webpack_exports__);
  */
 const isArray = (value, details) => {
     if (!Array.isArray(value)) {
-        throw new _private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_0__.WorkboxError('not-an-array', details);
+        throw new _private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_0__["WorkboxError"]('not-an-array', details);
     }
 };
 const hasMethod = (object, expectedMethod, details) => {
     const type = typeof object[expectedMethod];
     if (type !== 'function') {
         details['expectedMethod'] = expectedMethod;
-        throw new _private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_0__.WorkboxError('missing-a-method', details);
+        throw new _private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_0__["WorkboxError"]('missing-a-method', details);
     }
 };
 const isType = (object, expectedType, details) => {
     if (typeof object !== expectedType) {
         details['expectedType'] = expectedType;
-        throw new _private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_0__.WorkboxError('incorrect-type', details);
+        throw new _private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_0__["WorkboxError"]('incorrect-type', details);
     }
 };
 const isInstance = (object, expectedClass, details) => {
     if (!(object instanceof expectedClass)) {
         details['expectedClass'] = expectedClass;
-        throw new _private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_0__.WorkboxError('incorrect-class', details);
+        throw new _private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_0__["WorkboxError"]('incorrect-class', details);
     }
 };
 const isOneOf = (value, validValues, details) => {
     if (!validValues.includes(value)) {
         details['validValueDescription'] =
             `Valid values are ${JSON.stringify(validValues)}.`;
-        throw new _private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_0__.WorkboxError('invalid-value', details);
+        throw new _private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_0__["WorkboxError"]('invalid-value', details);
     }
 };
 const isArrayOfClass = (value, expectedClass, details) => {
-    const error = new _private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_0__.WorkboxError('not-array-of-class', details);
+    const error = new _private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_0__["WorkboxError"]('not-array-of-class', details);
     if (!Array.isArray(value)) {
         throw error;
     }
@@ -168,7 +434,7 @@ const isArrayOfClass = (value, expectedClass, details) => {
         }
     }
 };
-const finalAssertExports =  false ? 0 : {
+const finalAssertExports =  false ? undefined : {
     hasMethod,
     isArray,
     isInstance,
@@ -185,12 +451,12 @@ const finalAssertExports =  false ? 0 : {
 /*!**********************************************************************!*\
   !*** ./node_modules/workbox-core/_private/cacheMatchIgnoreParams.js ***!
   \**********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: cacheMatchIgnoreParams */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "cacheMatchIgnoreParams": () => (/* binding */ cacheMatchIgnoreParams)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cacheMatchIgnoreParams", function() { return cacheMatchIgnoreParams; });
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_version.js */ "./node_modules/workbox-core/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_0__);
 /*
@@ -245,12 +511,12 @@ async function cacheMatchIgnoreParams(cache, request, ignoreParams, matchOptions
 /*!**********************************************************!*\
   !*** ./node_modules/workbox-core/_private/cacheNames.js ***!
   \**********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: cacheNames */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "cacheNames": () => (/* binding */ cacheNames)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cacheNames", function() { return cacheNames; });
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_version.js */ "./node_modules/workbox-core/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_0__);
 /*
@@ -310,12 +576,12 @@ const cacheNames = {
 /*!**********************************************************************************!*\
   !*** ./node_modules/workbox-core/_private/canConstructResponseFromBodyStream.js ***!
   \**********************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: canConstructResponseFromBodyStream */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "canConstructResponseFromBodyStream": () => (/* binding */ canConstructResponseFromBodyStream)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "canConstructResponseFromBodyStream", function() { return canConstructResponseFromBodyStream; });
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_version.js */ "./node_modules/workbox-core/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_0__);
 /*
@@ -361,12 +627,12 @@ function canConstructResponseFromBodyStream() {
 /*!**************************************************************************!*\
   !*** ./node_modules/workbox-core/_private/executeQuotaErrorCallbacks.js ***!
   \**************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: executeQuotaErrorCallbacks */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "executeQuotaErrorCallbacks": () => (/* binding */ executeQuotaErrorCallbacks)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "executeQuotaErrorCallbacks", function() { return executeQuotaErrorCallbacks; });
 /* harmony import */ var _private_logger_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_private/logger.js */ "./node_modules/workbox-core/_private/logger.js");
 /* harmony import */ var _models_quotaErrorCallbacks_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../models/quotaErrorCallbacks.js */ "./node_modules/workbox-core/models/quotaErrorCallbacks.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_version.js */ "./node_modules/workbox-core/_version.js");
@@ -390,17 +656,17 @@ __webpack_require__.r(__webpack_exports__);
  */
 async function executeQuotaErrorCallbacks() {
     if (true) {
-        _private_logger_js__WEBPACK_IMPORTED_MODULE_0__.logger.log(`About to run ${_models_quotaErrorCallbacks_js__WEBPACK_IMPORTED_MODULE_1__.quotaErrorCallbacks.size} ` +
+        _private_logger_js__WEBPACK_IMPORTED_MODULE_0__["logger"].log(`About to run ${_models_quotaErrorCallbacks_js__WEBPACK_IMPORTED_MODULE_1__["quotaErrorCallbacks"].size} ` +
             `callbacks to clean up caches.`);
     }
-    for (const callback of _models_quotaErrorCallbacks_js__WEBPACK_IMPORTED_MODULE_1__.quotaErrorCallbacks) {
+    for (const callback of _models_quotaErrorCallbacks_js__WEBPACK_IMPORTED_MODULE_1__["quotaErrorCallbacks"]) {
         await callback();
         if (true) {
-            _private_logger_js__WEBPACK_IMPORTED_MODULE_0__.logger.log(callback, 'is complete.');
+            _private_logger_js__WEBPACK_IMPORTED_MODULE_0__["logger"].log(callback, 'is complete.');
         }
     }
     if (true) {
-        _private_logger_js__WEBPACK_IMPORTED_MODULE_0__.logger.log('Finished running callbacks.');
+        _private_logger_js__WEBPACK_IMPORTED_MODULE_0__["logger"].log('Finished running callbacks.');
     }
 }
 
@@ -412,12 +678,12 @@ async function executeQuotaErrorCallbacks() {
 /*!**************************************************************!*\
   !*** ./node_modules/workbox-core/_private/getFriendlyURL.js ***!
   \**************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: getFriendlyURL */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getFriendlyURL": () => (/* binding */ getFriendlyURL)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFriendlyURL", function() { return getFriendlyURL; });
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_version.js */ "./node_modules/workbox-core/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_0__);
 /*
@@ -443,12 +709,12 @@ const getFriendlyURL = (url) => {
 /*!******************************************************!*\
   !*** ./node_modules/workbox-core/_private/logger.js ***!
   \******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: logger */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "logger": () => (/* binding */ logger)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logger", function() { return logger; });
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_version.js */ "./node_modules/workbox-core/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_0__);
 /*
@@ -458,7 +724,7 @@ __webpack_require__.r(__webpack_exports__);
   https://opensource.org/licenses/MIT.
 */
 
-const logger = ( false ? 0 : (() => {
+const logger = ( false ? undefined : (() => {
     // Don't overwrite this value if it's already set.
     // See https://github.com/GoogleChrome/workbox/pull/2284#issuecomment-560470923
     if (!('__WB_DISABLE_DEV_LOGS' in self)) {
@@ -521,12 +787,12 @@ const logger = ( false ? 0 : (() => {
 /*!*******************************************************!*\
   !*** ./node_modules/workbox-core/_private/timeout.js ***!
   \*******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: timeout */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "timeout": () => (/* binding */ timeout)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "timeout", function() { return timeout; });
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_version.js */ "./node_modules/workbox-core/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_0__);
 /*
@@ -555,12 +821,12 @@ function timeout(ms) {
 /*!*********************************************************!*\
   !*** ./node_modules/workbox-core/_private/waitUntil.js ***!
   \*********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: waitUntil */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "waitUntil": () => (/* binding */ waitUntil)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "waitUntil", function() { return waitUntil; });
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_version.js */ "./node_modules/workbox-core/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_0__);
 /*
@@ -593,8 +859,10 @@ function waitUntil(event, asyncFn) {
 /*!***********************************************!*\
   !*** ./node_modules/workbox-core/_version.js ***!
   \***********************************************/
-/***/ (() => {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
 
 // @ts-ignore
 try {
@@ -609,12 +877,12 @@ catch (e) { }
 /*!***************************************************!*\
   !*** ./node_modules/workbox-core/copyResponse.js ***!
   \***************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: copyResponse */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "copyResponse": () => (/* binding */ copyResponse)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "copyResponse", function() { return copyResponse; });
 /* harmony import */ var _private_canConstructResponseFromBodyStream_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./_private/canConstructResponseFromBodyStream.js */ "./node_modules/workbox-core/_private/canConstructResponseFromBodyStream.js");
 /* harmony import */ var _private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./_private/WorkboxError.js */ "./node_modules/workbox-core/_private/WorkboxError.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./_version.js */ "./node_modules/workbox-core/_version.js");
@@ -656,7 +924,7 @@ async function copyResponse(response, modifier) {
         origin = responseURL.origin;
     }
     if (origin !== self.location.origin) {
-        throw new _private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_1__.WorkboxError('cross-origin-copy-response', { origin });
+        throw new _private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_1__["WorkboxError"]('cross-origin-copy-response', { origin });
     }
     const clonedResponse = response.clone();
     // Create a fresh `ResponseInit` object by cloning the headers.
@@ -670,7 +938,7 @@ async function copyResponse(response, modifier) {
     // Create the new response from the body stream and `ResponseInit`
     // modifications. Note: not all browsers support the Response.body stream,
     // so fall back to reading the entire body into memory as a blob.
-    const body = (0,_private_canConstructResponseFromBodyStream_js__WEBPACK_IMPORTED_MODULE_0__.canConstructResponseFromBodyStream)() ?
+    const body = Object(_private_canConstructResponseFromBodyStream_js__WEBPACK_IMPORTED_MODULE_0__["canConstructResponseFromBodyStream"])() ?
         clonedResponse.body : await clonedResponse.blob();
     return new Response(body, modifiedResponseInit);
 }
@@ -683,12 +951,12 @@ async function copyResponse(response, modifier) {
 /*!***********************************************************************!*\
   !*** ./node_modules/workbox-core/models/messages/messageGenerator.js ***!
   \***********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: messageGenerator */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "messageGenerator": () => (/* binding */ messageGenerator)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "messageGenerator", function() { return messageGenerator; });
 /* harmony import */ var _messages_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./messages.js */ "./node_modules/workbox-core/models/messages/messages.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../_version.js */ "./node_modules/workbox-core/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_1__);
@@ -709,14 +977,14 @@ const fallback = (code, ...args) => {
     return msg;
 };
 const generatorFunction = (code, details = {}) => {
-    const message = _messages_js__WEBPACK_IMPORTED_MODULE_0__.messages[code];
+    const message = _messages_js__WEBPACK_IMPORTED_MODULE_0__["messages"][code];
     if (!message) {
         throw new Error(`Unable to find message for code '${code}'.`);
     }
     return message(details);
 };
 const messageGenerator = ( false) ?
-    0 : generatorFunction;
+    undefined : generatorFunction;
 
 
 /***/ }),
@@ -725,12 +993,12 @@ const messageGenerator = ( false) ?
 /*!***************************************************************!*\
   !*** ./node_modules/workbox-core/models/messages/messages.js ***!
   \***************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: messages */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "messages": () => (/* binding */ messages)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "messages", function() { return messages; });
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../_version.js */ "./node_modules/workbox-core/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_0__);
 /*
@@ -957,12 +1225,12 @@ const messages = {
 /*!*****************************************************************!*\
   !*** ./node_modules/workbox-core/models/quotaErrorCallbacks.js ***!
   \*****************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: quotaErrorCallbacks */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "quotaErrorCallbacks": () => (/* binding */ quotaErrorCallbacks)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "quotaErrorCallbacks", function() { return quotaErrorCallbacks; });
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_version.js */ "./node_modules/workbox-core/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_0__);
 /*
@@ -984,12 +1252,12 @@ const quotaErrorCallbacks = new Set();
 /*!***************************************************************!*\
   !*** ./node_modules/workbox-precaching/PrecacheController.js ***!
   \***************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: PrecacheController */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "PrecacheController": () => (/* binding */ PrecacheController)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PrecacheController", function() { return PrecacheController; });
 /* harmony import */ var workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! workbox-core/_private/assert.js */ "./node_modules/workbox-core/_private/assert.js");
 /* harmony import */ var workbox_core_private_cacheNames_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! workbox-core/_private/cacheNames.js */ "./node_modules/workbox-core/_private/cacheNames.js");
 /* harmony import */ var workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! workbox-core/_private/logger.js */ "./node_modules/workbox-core/_private/logger.js");
@@ -1042,11 +1310,11 @@ class PrecacheController {
         this._urlsToCacheKeys = new Map();
         this._urlsToCacheModes = new Map();
         this._cacheKeysToIntegrities = new Map();
-        this._strategy = new _PrecacheStrategy_js__WEBPACK_IMPORTED_MODULE_10__.PrecacheStrategy({
-            cacheName: workbox_core_private_cacheNames_js__WEBPACK_IMPORTED_MODULE_1__.cacheNames.getPrecacheName(cacheName),
+        this._strategy = new _PrecacheStrategy_js__WEBPACK_IMPORTED_MODULE_10__["PrecacheStrategy"]({
+            cacheName: workbox_core_private_cacheNames_js__WEBPACK_IMPORTED_MODULE_1__["cacheNames"].getPrecacheName(cacheName),
             plugins: [
                 ...plugins,
-                new _utils_PrecacheCacheKeyPlugin_js__WEBPACK_IMPORTED_MODULE_7__.PrecacheCacheKeyPlugin({ precacheController: this }),
+                new _utils_PrecacheCacheKeyPlugin_js__WEBPACK_IMPORTED_MODULE_7__["PrecacheCacheKeyPlugin"]({ precacheController: this }),
             ],
             fallbackToNetwork,
         });
@@ -1088,7 +1356,7 @@ class PrecacheController {
      */
     addToCacheList(entries) {
         if (true) {
-            workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__.assert.isArray(entries, {
+            workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__["assert"].isArray(entries, {
                 moduleName: 'workbox-precaching',
                 className: 'PrecacheController',
                 funcName: 'addToCacheList',
@@ -1104,12 +1372,12 @@ class PrecacheController {
             else if (entry && entry.revision === undefined) {
                 urlsToWarnAbout.push(entry.url);
             }
-            const { cacheKey, url } = (0,_utils_createCacheKey_js__WEBPACK_IMPORTED_MODULE_5__.createCacheKey)(entry);
+            const { cacheKey, url } = Object(_utils_createCacheKey_js__WEBPACK_IMPORTED_MODULE_5__["createCacheKey"])(entry);
             const cacheMode = (typeof entry !== 'string' && entry.revision) ?
                 'reload' : 'default';
             if (this._urlsToCacheKeys.has(url) &&
                 this._urlsToCacheKeys.get(url) !== cacheKey) {
-                throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_3__.WorkboxError('add-to-cache-list-conflicting-entries', {
+                throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_3__["WorkboxError"]('add-to-cache-list-conflicting-entries', {
                     firstEntry: this._urlsToCacheKeys.get(url),
                     secondEntry: cacheKey,
                 });
@@ -1117,7 +1385,7 @@ class PrecacheController {
             if (typeof entry !== 'string' && entry.integrity) {
                 if (this._cacheKeysToIntegrities.has(cacheKey) &&
                     this._cacheKeysToIntegrities.get(cacheKey) !== entry.integrity) {
-                    throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_3__.WorkboxError('add-to-cache-list-conflicting-integrities', {
+                    throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_3__["WorkboxError"]('add-to-cache-list-conflicting-integrities', {
                         url,
                     });
                 }
@@ -1131,7 +1399,7 @@ class PrecacheController {
                     `Learn more at https://bit.ly/wb-precache`;
                 if (false) {}
                 else {
-                    workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_2__.logger.warn(warningMessage);
+                    workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_2__["logger"].warn(warningMessage);
                 }
             }
         }
@@ -1147,8 +1415,8 @@ class PrecacheController {
      * @return {Promise<module:workbox-precaching.InstallResult>}
      */
     install(event) {
-        return (0,workbox_core_private_waitUntil_js__WEBPACK_IMPORTED_MODULE_4__.waitUntil)(event, async () => {
-            const installReportPlugin = new _utils_PrecacheInstallReportPlugin_js__WEBPACK_IMPORTED_MODULE_6__.PrecacheInstallReportPlugin();
+        return Object(workbox_core_private_waitUntil_js__WEBPACK_IMPORTED_MODULE_4__["waitUntil"])(event, async () => {
+            const installReportPlugin = new _utils_PrecacheInstallReportPlugin_js__WEBPACK_IMPORTED_MODULE_6__["PrecacheInstallReportPlugin"]();
             this.strategy.plugins.push(installReportPlugin);
             // Cache entries one at a time.
             // See https://github.com/GoogleChrome/workbox/issues/2528
@@ -1168,7 +1436,7 @@ class PrecacheController {
             }
             const { updatedURLs, notUpdatedURLs } = installReportPlugin;
             if (true) {
-                (0,_utils_printInstallDetails_js__WEBPACK_IMPORTED_MODULE_9__.printInstallDetails)(updatedURLs, notUpdatedURLs);
+                Object(_utils_printInstallDetails_js__WEBPACK_IMPORTED_MODULE_9__["printInstallDetails"])(updatedURLs, notUpdatedURLs);
             }
             return { updatedURLs, notUpdatedURLs };
         });
@@ -1184,7 +1452,7 @@ class PrecacheController {
      * @return {Promise<module:workbox-precaching.CleanupResult>}
      */
     activate(event) {
-        return (0,workbox_core_private_waitUntil_js__WEBPACK_IMPORTED_MODULE_4__.waitUntil)(event, async () => {
+        return Object(workbox_core_private_waitUntil_js__WEBPACK_IMPORTED_MODULE_4__["waitUntil"])(event, async () => {
             const cache = await self.caches.open(this.strategy.cacheName);
             const currentlyCachedRequests = await cache.keys();
             const expectedCacheKeys = new Set(this._urlsToCacheKeys.values());
@@ -1196,7 +1464,7 @@ class PrecacheController {
                 }
             }
             if (true) {
-                (0,_utils_printCleanupDetails_js__WEBPACK_IMPORTED_MODULE_8__.printCleanupDetails)(deletedURLs);
+                Object(_utils_printCleanupDetails_js__WEBPACK_IMPORTED_MODULE_8__["printCleanupDetails"])(deletedURLs);
             }
             return { deletedURLs };
         });
@@ -1270,7 +1538,7 @@ class PrecacheController {
     createHandlerBoundToURL(url) {
         const cacheKey = this.getCacheKeyForURL(url);
         if (!cacheKey) {
-            throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_3__.WorkboxError('non-precached-url', { url });
+            throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_3__["WorkboxError"]('non-precached-url', { url });
         }
         return (options) => {
             options.request = new Request(url);
@@ -1288,12 +1556,12 @@ class PrecacheController {
 /*!*******************************************************************!*\
   !*** ./node_modules/workbox-precaching/PrecacheFallbackPlugin.js ***!
   \*******************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: PrecacheFallbackPlugin */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "PrecacheFallbackPlugin": () => (/* binding */ PrecacheFallbackPlugin)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PrecacheFallbackPlugin", function() { return PrecacheFallbackPlugin; });
 /* harmony import */ var _utils_getOrCreatePrecacheController_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/getOrCreatePrecacheController.js */ "./node_modules/workbox-precaching/utils/getOrCreatePrecacheController.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./_version.js */ "./node_modules/workbox-precaching/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_1__);
@@ -1340,7 +1608,7 @@ class PrecacheFallbackPlugin {
         this.handlerDidError = () => this._precacheController.matchPrecache(this._fallbackURL);
         this._fallbackURL = fallbackURL;
         this._precacheController = precacheController ||
-            (0,_utils_getOrCreatePrecacheController_js__WEBPACK_IMPORTED_MODULE_0__.getOrCreatePrecacheController)();
+            Object(_utils_getOrCreatePrecacheController_js__WEBPACK_IMPORTED_MODULE_0__["getOrCreatePrecacheController"])();
     }
 }
 
@@ -1352,12 +1620,12 @@ class PrecacheFallbackPlugin {
 /*!**********************************************************!*\
   !*** ./node_modules/workbox-precaching/PrecacheRoute.js ***!
   \**********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: PrecacheRoute */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "PrecacheRoute": () => (/* binding */ PrecacheRoute)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PrecacheRoute", function() { return PrecacheRoute; });
 /* harmony import */ var workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! workbox-core/_private/logger.js */ "./node_modules/workbox-core/_private/logger.js");
 /* harmony import */ var workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! workbox-core/_private/getFriendlyURL.js */ "./node_modules/workbox-core/_private/getFriendlyURL.js");
 /* harmony import */ var workbox_routing_Route_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! workbox-routing/Route.js */ "./node_modules/workbox-routing/Route.js");
@@ -1385,7 +1653,7 @@ __webpack_require__.r(__webpack_exports__);
  * @memberof module:workbox-precaching
  * @extends module:workbox-routing.Route
  */
-class PrecacheRoute extends workbox_routing_Route_js__WEBPACK_IMPORTED_MODULE_2__.Route {
+class PrecacheRoute extends workbox_routing_Route_js__WEBPACK_IMPORTED_MODULE_2__["Route"] {
     /**
      * @param {PrecacheController} precacheController A `PrecacheController`
      * instance used to both match requests and respond to fetch events.
@@ -1405,15 +1673,15 @@ class PrecacheRoute extends workbox_routing_Route_js__WEBPACK_IMPORTED_MODULE_2_
     constructor(precacheController, options) {
         const match = ({ request }) => {
             const urlsToCacheKeys = precacheController.getURLsToCacheKeys();
-            for (const possibleURL of (0,_utils_generateURLVariations_js__WEBPACK_IMPORTED_MODULE_3__.generateURLVariations)(request.url, options)) {
+            for (const possibleURL of Object(_utils_generateURLVariations_js__WEBPACK_IMPORTED_MODULE_3__["generateURLVariations"])(request.url, options)) {
                 const cacheKey = urlsToCacheKeys.get(possibleURL);
                 if (cacheKey) {
                     return { cacheKey };
                 }
             }
             if (true) {
-                workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__.logger.debug(`Precaching did not find a match for ` +
-                    (0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_1__.getFriendlyURL)(request.url));
+                workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__["logger"].debug(`Precaching did not find a match for ` +
+                    Object(workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_1__["getFriendlyURL"])(request.url));
             }
             return;
         };
@@ -1429,12 +1697,12 @@ class PrecacheRoute extends workbox_routing_Route_js__WEBPACK_IMPORTED_MODULE_2_
 /*!*************************************************************!*\
   !*** ./node_modules/workbox-precaching/PrecacheStrategy.js ***!
   \*************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: PrecacheStrategy */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "PrecacheStrategy": () => (/* binding */ PrecacheStrategy)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PrecacheStrategy", function() { return PrecacheStrategy; });
 /* harmony import */ var workbox_core_copyResponse_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! workbox-core/copyResponse.js */ "./node_modules/workbox-core/copyResponse.js");
 /* harmony import */ var workbox_core_private_cacheNames_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! workbox-core/_private/cacheNames.js */ "./node_modules/workbox-core/_private/cacheNames.js");
 /* harmony import */ var workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! workbox-core/_private/getFriendlyURL.js */ "./node_modules/workbox-core/_private/getFriendlyURL.js");
@@ -1469,7 +1737,7 @@ __webpack_require__.r(__webpack_exports__);
  * @extends module:workbox-strategies.Strategy
  * @memberof module:workbox-precaching
  */
-class PrecacheStrategy extends workbox_strategies_Strategy_js__WEBPACK_IMPORTED_MODULE_5__.Strategy {
+class PrecacheStrategy extends workbox_strategies_Strategy_js__WEBPACK_IMPORTED_MODULE_5__["Strategy"] {
     /**
      *
      * @param {Object} [options]
@@ -1488,7 +1756,7 @@ class PrecacheStrategy extends workbox_strategies_Strategy_js__WEBPACK_IMPORTED_
      * get the response from the network if there's a precache miss.
      */
     constructor(options = {}) {
-        options.cacheName = workbox_core_private_cacheNames_js__WEBPACK_IMPORTED_MODULE_1__.cacheNames.getPrecacheName(options.cacheName);
+        options.cacheName = workbox_core_private_cacheNames_js__WEBPACK_IMPORTED_MODULE_1__["cacheNames"].getPrecacheName(options.cacheName);
         super(options);
         this._fallbackToNetwork = options.fallbackToNetwork === false ? false : true;
         // Redirected responses cannot be used to satisfy a navigation request, so
@@ -1523,8 +1791,8 @@ class PrecacheStrategy extends workbox_strategies_Strategy_js__WEBPACK_IMPORTED_
         // (perhaps due to manual cache cleanup).
         if (this._fallbackToNetwork) {
             if (true) {
-                workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.warn(`The precached response for ` +
-                    `${(0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_2__.getFriendlyURL)(request.url)} in ${this.cacheName} was not ` +
+                workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__["logger"].warn(`The precached response for ` +
+                    `${Object(workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_2__["getFriendlyURL"])(request.url)} in ${this.cacheName} was not ` +
                     `found. Falling back to the network instead.`);
             }
             response = await handler.fetch(request);
@@ -1532,7 +1800,7 @@ class PrecacheStrategy extends workbox_strategies_Strategy_js__WEBPACK_IMPORTED_
         else {
             // This shouldn't normally happen, but there are edge cases:
             // https://github.com/GoogleChrome/workbox/issues/1441
-            throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_4__.WorkboxError('missing-precache-entry', {
+            throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_4__["WorkboxError"]('missing-precache-entry', {
                 cacheName: this.cacheName,
                 url: request.url,
             });
@@ -1542,16 +1810,16 @@ class PrecacheStrategy extends workbox_strategies_Strategy_js__WEBPACK_IMPORTED_
                 await handler.getCacheKey(request, 'read');
             // Workbox is going to handle the route.
             // print the routing details to the console.
-            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.groupCollapsed(`Precaching is responding to: ` +
-                (0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_2__.getFriendlyURL)(request.url));
-            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.log(`Serving the precached url: ${(0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_2__.getFriendlyURL)(cacheKey.url)}`);
-            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.groupCollapsed(`View request details here.`);
-            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.log(request);
-            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.groupEnd();
-            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.groupCollapsed(`View response details here.`);
-            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.log(response);
-            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.groupEnd();
-            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.groupEnd();
+            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__["logger"].groupCollapsed(`Precaching is responding to: ` +
+                Object(workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_2__["getFriendlyURL"])(request.url));
+            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__["logger"].log(`Serving the precached url: ${Object(workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_2__["getFriendlyURL"])(cacheKey.url)}`);
+            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__["logger"].groupCollapsed(`View request details here.`);
+            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__["logger"].log(request);
+            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__["logger"].groupEnd();
+            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__["logger"].groupCollapsed(`View response details here.`);
+            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__["logger"].log(response);
+            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__["logger"].groupEnd();
+            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__["logger"].groupEnd();
         }
         return response;
     }
@@ -1564,7 +1832,7 @@ class PrecacheStrategy extends workbox_strategies_Strategy_js__WEBPACK_IMPORTED_
         if (!wasCached) {
             // Throwing here will lead to the `install` handler failing, which
             // we want to do if *any* of the responses aren't safe to cache.
-            throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_4__.WorkboxError('bad-precaching-response', {
+            throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_4__["WorkboxError"]('bad-precaching-response', {
                 url: request.url,
                 status: response.status,
             });
@@ -1634,7 +1902,7 @@ PrecacheStrategy.defaultPrecacheCacheabilityPlugin = {
 };
 PrecacheStrategy.copyRedirectedCacheableResponsesPlugin = {
     async cacheWillUpdate({ response }) {
-        return response.redirected ? await (0,workbox_core_copyResponse_js__WEBPACK_IMPORTED_MODULE_0__.copyResponse)(response) : response;
+        return response.redirected ? await Object(workbox_core_copyResponse_js__WEBPACK_IMPORTED_MODULE_0__["copyResponse"])(response) : response;
     }
 };
 
@@ -1646,8 +1914,10 @@ PrecacheStrategy.copyRedirectedCacheableResponsesPlugin = {
 /*!*****************************************************!*\
   !*** ./node_modules/workbox-precaching/_version.js ***!
   \*****************************************************/
-/***/ (() => {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
 
 // @ts-ignore
 try {
@@ -1662,12 +1932,12 @@ catch (e) { }
 /*!*******************************************************!*\
   !*** ./node_modules/workbox-precaching/addPlugins.js ***!
   \*******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: addPlugins */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "addPlugins": () => (/* binding */ addPlugins)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addPlugins", function() { return addPlugins; });
 /* harmony import */ var _utils_getOrCreatePrecacheController_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/getOrCreatePrecacheController.js */ "./node_modules/workbox-precaching/utils/getOrCreatePrecacheController.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./_version.js */ "./node_modules/workbox-precaching/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_1__);
@@ -1688,7 +1958,7 @@ __webpack_require__.r(__webpack_exports__);
  * @memberof module:workbox-precaching
  */
 function addPlugins(plugins) {
-    const precacheController = (0,_utils_getOrCreatePrecacheController_js__WEBPACK_IMPORTED_MODULE_0__.getOrCreatePrecacheController)();
+    const precacheController = Object(_utils_getOrCreatePrecacheController_js__WEBPACK_IMPORTED_MODULE_0__["getOrCreatePrecacheController"])();
     precacheController.strategy.plugins.push(...plugins);
 }
 
@@ -1700,12 +1970,12 @@ function addPlugins(plugins) {
 /*!*****************************************************!*\
   !*** ./node_modules/workbox-precaching/addRoute.js ***!
   \*****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: addRoute */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "addRoute": () => (/* binding */ addRoute)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addRoute", function() { return addRoute; });
 /* harmony import */ var workbox_routing_registerRoute_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! workbox-routing/registerRoute.js */ "./node_modules/workbox-routing/registerRoute.js");
 /* harmony import */ var _utils_getOrCreatePrecacheController_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/getOrCreatePrecacheController.js */ "./node_modules/workbox-precaching/utils/getOrCreatePrecacheController.js");
 /* harmony import */ var _PrecacheRoute_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PrecacheRoute.js */ "./node_modules/workbox-precaching/PrecacheRoute.js");
@@ -1737,9 +2007,9 @@ __webpack_require__.r(__webpack_exports__);
  * @memberof module:workbox-precaching
  */
 function addRoute(options) {
-    const precacheController = (0,_utils_getOrCreatePrecacheController_js__WEBPACK_IMPORTED_MODULE_1__.getOrCreatePrecacheController)();
-    const precacheRoute = new _PrecacheRoute_js__WEBPACK_IMPORTED_MODULE_2__.PrecacheRoute(precacheController, options);
-    (0,workbox_routing_registerRoute_js__WEBPACK_IMPORTED_MODULE_0__.registerRoute)(precacheRoute);
+    const precacheController = Object(_utils_getOrCreatePrecacheController_js__WEBPACK_IMPORTED_MODULE_1__["getOrCreatePrecacheController"])();
+    const precacheRoute = new _PrecacheRoute_js__WEBPACK_IMPORTED_MODULE_2__["PrecacheRoute"](precacheController, options);
+    Object(workbox_routing_registerRoute_js__WEBPACK_IMPORTED_MODULE_0__["registerRoute"])(precacheRoute);
 }
 
 
@@ -1750,12 +2020,12 @@ function addRoute(options) {
 /*!******************************************************************!*\
   !*** ./node_modules/workbox-precaching/cleanupOutdatedCaches.js ***!
   \******************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: cleanupOutdatedCaches */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "cleanupOutdatedCaches": () => (/* binding */ cleanupOutdatedCaches)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cleanupOutdatedCaches", function() { return cleanupOutdatedCaches; });
 /* harmony import */ var workbox_core_private_cacheNames_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! workbox-core/_private/cacheNames.js */ "./node_modules/workbox-core/_private/cacheNames.js");
 /* harmony import */ var workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! workbox-core/_private/logger.js */ "./node_modules/workbox-core/_private/logger.js");
 /* harmony import */ var _utils_deleteOutdatedCaches_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils/deleteOutdatedCaches.js */ "./node_modules/workbox-precaching/utils/deleteOutdatedCaches.js");
@@ -1781,11 +2051,11 @@ __webpack_require__.r(__webpack_exports__);
 function cleanupOutdatedCaches() {
     // See https://github.com/Microsoft/TypeScript/issues/28357#issuecomment-436484705
     self.addEventListener('activate', ((event) => {
-        const cacheName = workbox_core_private_cacheNames_js__WEBPACK_IMPORTED_MODULE_0__.cacheNames.getPrecacheName();
-        event.waitUntil((0,_utils_deleteOutdatedCaches_js__WEBPACK_IMPORTED_MODULE_2__.deleteOutdatedCaches)(cacheName).then((cachesDeleted) => {
+        const cacheName = workbox_core_private_cacheNames_js__WEBPACK_IMPORTED_MODULE_0__["cacheNames"].getPrecacheName();
+        event.waitUntil(Object(_utils_deleteOutdatedCaches_js__WEBPACK_IMPORTED_MODULE_2__["deleteOutdatedCaches"])(cacheName).then((cachesDeleted) => {
             if (true) {
                 if (cachesDeleted.length > 0) {
-                    workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_1__.logger.log(`The following out-of-date precaches were cleaned up ` +
+                    workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_1__["logger"].log(`The following out-of-date precaches were cleaned up ` +
                         `automatically:`, cachesDeleted);
                 }
             }
@@ -1801,12 +2071,12 @@ function cleanupOutdatedCaches() {
 /*!********************************************************************!*\
   !*** ./node_modules/workbox-precaching/createHandlerBoundToURL.js ***!
   \********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: createHandlerBoundToURL */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "createHandlerBoundToURL": () => (/* binding */ createHandlerBoundToURL)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createHandlerBoundToURL", function() { return createHandlerBoundToURL; });
 /* harmony import */ var _utils_getOrCreatePrecacheController_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/getOrCreatePrecacheController.js */ "./node_modules/workbox-precaching/utils/getOrCreatePrecacheController.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./_version.js */ "./node_modules/workbox-precaching/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_1__);
@@ -1837,7 +2107,7 @@ __webpack_require__.r(__webpack_exports__);
  * @memberof module:workbox-precaching
  */
 function createHandlerBoundToURL(url) {
-    const precacheController = (0,_utils_getOrCreatePrecacheController_js__WEBPACK_IMPORTED_MODULE_0__.getOrCreatePrecacheController)();
+    const precacheController = Object(_utils_getOrCreatePrecacheController_js__WEBPACK_IMPORTED_MODULE_0__["getOrCreatePrecacheController"])();
     return precacheController.createHandlerBoundToURL(url);
 }
 
@@ -1849,12 +2119,12 @@ function createHandlerBoundToURL(url) {
 /*!**************************************************************!*\
   !*** ./node_modules/workbox-precaching/getCacheKeyForURL.js ***!
   \**************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: getCacheKeyForURL */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getCacheKeyForURL": () => (/* binding */ getCacheKeyForURL)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCacheKeyForURL", function() { return getCacheKeyForURL; });
 /* harmony import */ var _utils_getOrCreatePrecacheController_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/getOrCreatePrecacheController.js */ "./node_modules/workbox-precaching/utils/getOrCreatePrecacheController.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./_version.js */ "./node_modules/workbox-precaching/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_1__);
@@ -1887,7 +2157,7 @@ __webpack_require__.r(__webpack_exports__);
  * @memberof module:workbox-precaching
  */
 function getCacheKeyForURL(url) {
-    const precacheController = (0,_utils_getOrCreatePrecacheController_js__WEBPACK_IMPORTED_MODULE_0__.getOrCreatePrecacheController)();
+    const precacheController = Object(_utils_getOrCreatePrecacheController_js__WEBPACK_IMPORTED_MODULE_0__["getOrCreatePrecacheController"])();
     return precacheController.getCacheKeyForURL(url);
 }
 
@@ -1899,35 +2169,47 @@ function getCacheKeyForURL(url) {
 /*!**************************************************!*\
   !*** ./node_modules/workbox-precaching/index.js ***!
   \**************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: addPlugins, addRoute, cleanupOutdatedCaches, createHandlerBoundToURL, getCacheKeyForURL, matchPrecache, precache, precacheAndRoute, PrecacheController, PrecacheRoute, PrecacheStrategy, PrecacheFallbackPlugin */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "addPlugins": () => (/* reexport safe */ _addPlugins_js__WEBPACK_IMPORTED_MODULE_0__.addPlugins),
-/* harmony export */   "addRoute": () => (/* reexport safe */ _addRoute_js__WEBPACK_IMPORTED_MODULE_1__.addRoute),
-/* harmony export */   "cleanupOutdatedCaches": () => (/* reexport safe */ _cleanupOutdatedCaches_js__WEBPACK_IMPORTED_MODULE_2__.cleanupOutdatedCaches),
-/* harmony export */   "createHandlerBoundToURL": () => (/* reexport safe */ _createHandlerBoundToURL_js__WEBPACK_IMPORTED_MODULE_3__.createHandlerBoundToURL),
-/* harmony export */   "getCacheKeyForURL": () => (/* reexport safe */ _getCacheKeyForURL_js__WEBPACK_IMPORTED_MODULE_4__.getCacheKeyForURL),
-/* harmony export */   "matchPrecache": () => (/* reexport safe */ _matchPrecache_js__WEBPACK_IMPORTED_MODULE_5__.matchPrecache),
-/* harmony export */   "precache": () => (/* reexport safe */ _precache_js__WEBPACK_IMPORTED_MODULE_6__.precache),
-/* harmony export */   "precacheAndRoute": () => (/* reexport safe */ _precacheAndRoute_js__WEBPACK_IMPORTED_MODULE_7__.precacheAndRoute),
-/* harmony export */   "PrecacheController": () => (/* reexport safe */ _PrecacheController_js__WEBPACK_IMPORTED_MODULE_8__.PrecacheController),
-/* harmony export */   "PrecacheRoute": () => (/* reexport safe */ _PrecacheRoute_js__WEBPACK_IMPORTED_MODULE_9__.PrecacheRoute),
-/* harmony export */   "PrecacheStrategy": () => (/* reexport safe */ _PrecacheStrategy_js__WEBPACK_IMPORTED_MODULE_10__.PrecacheStrategy),
-/* harmony export */   "PrecacheFallbackPlugin": () => (/* reexport safe */ _PrecacheFallbackPlugin_js__WEBPACK_IMPORTED_MODULE_11__.PrecacheFallbackPlugin)
-/* harmony export */ });
 /* harmony import */ var _addPlugins_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./addPlugins.js */ "./node_modules/workbox-precaching/addPlugins.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "addPlugins", function() { return _addPlugins_js__WEBPACK_IMPORTED_MODULE_0__["addPlugins"]; });
+
 /* harmony import */ var _addRoute_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./addRoute.js */ "./node_modules/workbox-precaching/addRoute.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "addRoute", function() { return _addRoute_js__WEBPACK_IMPORTED_MODULE_1__["addRoute"]; });
+
 /* harmony import */ var _cleanupOutdatedCaches_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./cleanupOutdatedCaches.js */ "./node_modules/workbox-precaching/cleanupOutdatedCaches.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "cleanupOutdatedCaches", function() { return _cleanupOutdatedCaches_js__WEBPACK_IMPORTED_MODULE_2__["cleanupOutdatedCaches"]; });
+
 /* harmony import */ var _createHandlerBoundToURL_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./createHandlerBoundToURL.js */ "./node_modules/workbox-precaching/createHandlerBoundToURL.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createHandlerBoundToURL", function() { return _createHandlerBoundToURL_js__WEBPACK_IMPORTED_MODULE_3__["createHandlerBoundToURL"]; });
+
 /* harmony import */ var _getCacheKeyForURL_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./getCacheKeyForURL.js */ "./node_modules/workbox-precaching/getCacheKeyForURL.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getCacheKeyForURL", function() { return _getCacheKeyForURL_js__WEBPACK_IMPORTED_MODULE_4__["getCacheKeyForURL"]; });
+
 /* harmony import */ var _matchPrecache_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./matchPrecache.js */ "./node_modules/workbox-precaching/matchPrecache.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "matchPrecache", function() { return _matchPrecache_js__WEBPACK_IMPORTED_MODULE_5__["matchPrecache"]; });
+
 /* harmony import */ var _precache_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./precache.js */ "./node_modules/workbox-precaching/precache.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "precache", function() { return _precache_js__WEBPACK_IMPORTED_MODULE_6__["precache"]; });
+
 /* harmony import */ var _precacheAndRoute_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./precacheAndRoute.js */ "./node_modules/workbox-precaching/precacheAndRoute.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "precacheAndRoute", function() { return _precacheAndRoute_js__WEBPACK_IMPORTED_MODULE_7__["precacheAndRoute"]; });
+
 /* harmony import */ var _PrecacheController_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./PrecacheController.js */ "./node_modules/workbox-precaching/PrecacheController.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PrecacheController", function() { return _PrecacheController_js__WEBPACK_IMPORTED_MODULE_8__["PrecacheController"]; });
+
 /* harmony import */ var _PrecacheRoute_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./PrecacheRoute.js */ "./node_modules/workbox-precaching/PrecacheRoute.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PrecacheRoute", function() { return _PrecacheRoute_js__WEBPACK_IMPORTED_MODULE_9__["PrecacheRoute"]; });
+
 /* harmony import */ var _PrecacheStrategy_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./PrecacheStrategy.js */ "./node_modules/workbox-precaching/PrecacheStrategy.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PrecacheStrategy", function() { return _PrecacheStrategy_js__WEBPACK_IMPORTED_MODULE_10__["PrecacheStrategy"]; });
+
 /* harmony import */ var _PrecacheFallbackPlugin_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./PrecacheFallbackPlugin.js */ "./node_modules/workbox-precaching/PrecacheFallbackPlugin.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PrecacheFallbackPlugin", function() { return _PrecacheFallbackPlugin_js__WEBPACK_IMPORTED_MODULE_11__["PrecacheFallbackPlugin"]; });
+
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./_version.js */ "./node_modules/workbox-precaching/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_12__);
 /*
@@ -1971,24 +2253,36 @@ __webpack_require__.r(__webpack_exports__);
 /*!***************************************************!*\
   !*** ./node_modules/workbox-precaching/index.mjs ***!
   \***************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: addPlugins, addRoute, cleanupOutdatedCaches, createHandlerBoundToURL, getCacheKeyForURL, matchPrecache, precache, precacheAndRoute, PrecacheController, PrecacheRoute, PrecacheStrategy, PrecacheFallbackPlugin */
+/***/ (function(__webpack_module__, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "PrecacheController": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.PrecacheController),
-/* harmony export */   "PrecacheFallbackPlugin": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.PrecacheFallbackPlugin),
-/* harmony export */   "PrecacheRoute": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.PrecacheRoute),
-/* harmony export */   "PrecacheStrategy": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.PrecacheStrategy),
-/* harmony export */   "addPlugins": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.addPlugins),
-/* harmony export */   "addRoute": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.addRoute),
-/* harmony export */   "cleanupOutdatedCaches": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.cleanupOutdatedCaches),
-/* harmony export */   "createHandlerBoundToURL": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.createHandlerBoundToURL),
-/* harmony export */   "getCacheKeyForURL": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.getCacheKeyForURL),
-/* harmony export */   "matchPrecache": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.matchPrecache),
-/* harmony export */   "precache": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.precache),
-/* harmony export */   "precacheAndRoute": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.precacheAndRoute)
-/* harmony export */ });
 /* harmony import */ var _index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.js */ "./node_modules/workbox-precaching/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "addPlugins", function() { return _index_js__WEBPACK_IMPORTED_MODULE_0__["addPlugins"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "addRoute", function() { return _index_js__WEBPACK_IMPORTED_MODULE_0__["addRoute"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "cleanupOutdatedCaches", function() { return _index_js__WEBPACK_IMPORTED_MODULE_0__["cleanupOutdatedCaches"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createHandlerBoundToURL", function() { return _index_js__WEBPACK_IMPORTED_MODULE_0__["createHandlerBoundToURL"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getCacheKeyForURL", function() { return _index_js__WEBPACK_IMPORTED_MODULE_0__["getCacheKeyForURL"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "matchPrecache", function() { return _index_js__WEBPACK_IMPORTED_MODULE_0__["matchPrecache"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "precache", function() { return _index_js__WEBPACK_IMPORTED_MODULE_0__["precache"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "precacheAndRoute", function() { return _index_js__WEBPACK_IMPORTED_MODULE_0__["precacheAndRoute"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PrecacheController", function() { return _index_js__WEBPACK_IMPORTED_MODULE_0__["PrecacheController"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PrecacheRoute", function() { return _index_js__WEBPACK_IMPORTED_MODULE_0__["PrecacheRoute"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PrecacheStrategy", function() { return _index_js__WEBPACK_IMPORTED_MODULE_0__["PrecacheStrategy"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PrecacheFallbackPlugin", function() { return _index_js__WEBPACK_IMPORTED_MODULE_0__["PrecacheFallbackPlugin"]; });
+
 
 
 /***/ }),
@@ -1997,12 +2291,12 @@ __webpack_require__.r(__webpack_exports__);
 /*!**********************************************************!*\
   !*** ./node_modules/workbox-precaching/matchPrecache.js ***!
   \**********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: matchPrecache */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "matchPrecache": () => (/* binding */ matchPrecache)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "matchPrecache", function() { return matchPrecache; });
 /* harmony import */ var _utils_getOrCreatePrecacheController_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/getOrCreatePrecacheController.js */ "./node_modules/workbox-precaching/utils/getOrCreatePrecacheController.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./_version.js */ "./node_modules/workbox-precaching/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_1__);
@@ -2031,7 +2325,7 @@ __webpack_require__.r(__webpack_exports__);
  * @memberof module:workbox-precaching
  */
 function matchPrecache(request) {
-    const precacheController = (0,_utils_getOrCreatePrecacheController_js__WEBPACK_IMPORTED_MODULE_0__.getOrCreatePrecacheController)();
+    const precacheController = Object(_utils_getOrCreatePrecacheController_js__WEBPACK_IMPORTED_MODULE_0__["getOrCreatePrecacheController"])();
     return precacheController.matchPrecache(request);
 }
 
@@ -2043,12 +2337,12 @@ function matchPrecache(request) {
 /*!*****************************************************!*\
   !*** ./node_modules/workbox-precaching/precache.js ***!
   \*****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: precache */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "precache": () => (/* binding */ precache)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "precache", function() { return precache; });
 /* harmony import */ var _utils_getOrCreatePrecacheController_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/getOrCreatePrecacheController.js */ "./node_modules/workbox-precaching/utils/getOrCreatePrecacheController.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./_version.js */ "./node_modules/workbox-precaching/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_1__);
@@ -2081,7 +2375,7 @@ __webpack_require__.r(__webpack_exports__);
  * @memberof module:workbox-precaching
  */
 function precache(entries) {
-    const precacheController = (0,_utils_getOrCreatePrecacheController_js__WEBPACK_IMPORTED_MODULE_0__.getOrCreatePrecacheController)();
+    const precacheController = Object(_utils_getOrCreatePrecacheController_js__WEBPACK_IMPORTED_MODULE_0__["getOrCreatePrecacheController"])();
     precacheController.precache(entries);
 }
 
@@ -2093,12 +2387,12 @@ function precache(entries) {
 /*!*************************************************************!*\
   !*** ./node_modules/workbox-precaching/precacheAndRoute.js ***!
   \*************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: precacheAndRoute */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "precacheAndRoute": () => (/* binding */ precacheAndRoute)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "precacheAndRoute", function() { return precacheAndRoute; });
 /* harmony import */ var _addRoute_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./addRoute.js */ "./node_modules/workbox-precaching/addRoute.js");
 /* harmony import */ var _precache_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./precache.js */ "./node_modules/workbox-precaching/precache.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./_version.js */ "./node_modules/workbox-precaching/_version.js");
@@ -2128,8 +2422,8 @@ __webpack_require__.r(__webpack_exports__);
  * @memberof module:workbox-precaching
  */
 function precacheAndRoute(entries, options) {
-    (0,_precache_js__WEBPACK_IMPORTED_MODULE_1__.precache)(entries);
-    (0,_addRoute_js__WEBPACK_IMPORTED_MODULE_0__.addRoute)(options);
+    Object(_precache_js__WEBPACK_IMPORTED_MODULE_1__["precache"])(entries);
+    Object(_addRoute_js__WEBPACK_IMPORTED_MODULE_0__["addRoute"])(options);
 }
 
 
@@ -2140,12 +2434,12 @@ function precacheAndRoute(entries, options) {
 /*!*************************************************************************!*\
   !*** ./node_modules/workbox-precaching/utils/PrecacheCacheKeyPlugin.js ***!
   \*************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: PrecacheCacheKeyPlugin */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "PrecacheCacheKeyPlugin": () => (/* binding */ PrecacheCacheKeyPlugin)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PrecacheCacheKeyPlugin", function() { return PrecacheCacheKeyPlugin; });
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_version.js */ "./node_modules/workbox-precaching/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_0__);
 /*
@@ -2181,12 +2475,12 @@ class PrecacheCacheKeyPlugin {
 /*!******************************************************************************!*\
   !*** ./node_modules/workbox-precaching/utils/PrecacheInstallReportPlugin.js ***!
   \******************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: PrecacheInstallReportPlugin */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "PrecacheInstallReportPlugin": () => (/* binding */ PrecacheInstallReportPlugin)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PrecacheInstallReportPlugin", function() { return PrecacheInstallReportPlugin; });
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_version.js */ "./node_modules/workbox-precaching/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_0__);
 /*
@@ -2237,12 +2531,12 @@ class PrecacheInstallReportPlugin {
 /*!*****************************************************************!*\
   !*** ./node_modules/workbox-precaching/utils/createCacheKey.js ***!
   \*****************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: createCacheKey */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "createCacheKey": () => (/* binding */ createCacheKey)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createCacheKey", function() { return createCacheKey; });
 /* harmony import */ var workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! workbox-core/_private/WorkboxError.js */ "./node_modules/workbox-core/_private/WorkboxError.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_version.js */ "./node_modules/workbox-precaching/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_1__);
@@ -2268,7 +2562,7 @@ const REVISION_SEARCH_PARAM = '__WB_REVISION__';
  */
 function createCacheKey(entry) {
     if (!entry) {
-        throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_0__.WorkboxError('add-to-cache-list-unexpected-type', { entry });
+        throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_0__["WorkboxError"]('add-to-cache-list-unexpected-type', { entry });
     }
     // If a precache manifest entry is a string, it's assumed to be a versioned
     // URL, like '/app.abcd1234.js'. Return as-is.
@@ -2281,7 +2575,7 @@ function createCacheKey(entry) {
     }
     const { revision, url } = entry;
     if (!url) {
-        throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_0__.WorkboxError('add-to-cache-list-unexpected-type', { entry });
+        throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_0__["WorkboxError"]('add-to-cache-list-unexpected-type', { entry });
     }
     // If there's just a URL and no revision, then it's also assumed to be a
     // versioned URL.
@@ -2310,12 +2604,12 @@ function createCacheKey(entry) {
 /*!***********************************************************************!*\
   !*** ./node_modules/workbox-precaching/utils/deleteOutdatedCaches.js ***!
   \***********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: deleteOutdatedCaches */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "deleteOutdatedCaches": () => (/* binding */ deleteOutdatedCaches)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteOutdatedCaches", function() { return deleteOutdatedCaches; });
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_version.js */ "./node_modules/workbox-precaching/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_0__);
 /*
@@ -2364,12 +2658,12 @@ const deleteOutdatedCaches = async (currentPrecacheName, substringToFind = SUBST
 /*!************************************************************************!*\
   !*** ./node_modules/workbox-precaching/utils/generateURLVariations.js ***!
   \************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: generateURLVariations */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "generateURLVariations": () => (/* binding */ generateURLVariations)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "generateURLVariations", function() { return generateURLVariations; });
 /* harmony import */ var _removeIgnoredSearchParams_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./removeIgnoredSearchParams.js */ "./node_modules/workbox-precaching/utils/removeIgnoredSearchParams.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_version.js */ "./node_modules/workbox-precaching/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_1__);
@@ -2396,7 +2690,7 @@ function* generateURLVariations(url, { ignoreURLParametersMatching = [/^utm_/, /
     const urlObject = new URL(url, location.href);
     urlObject.hash = '';
     yield urlObject.href;
-    const urlWithoutIgnoredParams = (0,_removeIgnoredSearchParams_js__WEBPACK_IMPORTED_MODULE_0__.removeIgnoredSearchParams)(urlObject, ignoreURLParametersMatching);
+    const urlWithoutIgnoredParams = Object(_removeIgnoredSearchParams_js__WEBPACK_IMPORTED_MODULE_0__["removeIgnoredSearchParams"])(urlObject, ignoreURLParametersMatching);
     yield urlWithoutIgnoredParams.href;
     if (directoryIndex && urlWithoutIgnoredParams.pathname.endsWith('/')) {
         const directoryURL = new URL(urlWithoutIgnoredParams.href);
@@ -2423,12 +2717,12 @@ function* generateURLVariations(url, { ignoreURLParametersMatching = [/^utm_/, /
 /*!********************************************************************************!*\
   !*** ./node_modules/workbox-precaching/utils/getOrCreatePrecacheController.js ***!
   \********************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: getOrCreatePrecacheController */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getOrCreatePrecacheController": () => (/* binding */ getOrCreatePrecacheController)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getOrCreatePrecacheController", function() { return getOrCreatePrecacheController; });
 /* harmony import */ var _PrecacheController_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../PrecacheController.js */ "./node_modules/workbox-precaching/PrecacheController.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_version.js */ "./node_modules/workbox-precaching/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_1__);
@@ -2448,7 +2742,7 @@ let precacheController;
  */
 const getOrCreatePrecacheController = () => {
     if (!precacheController) {
-        precacheController = new _PrecacheController_js__WEBPACK_IMPORTED_MODULE_0__.PrecacheController();
+        precacheController = new _PrecacheController_js__WEBPACK_IMPORTED_MODULE_0__["PrecacheController"]();
     }
     return precacheController;
 };
@@ -2460,12 +2754,12 @@ const getOrCreatePrecacheController = () => {
 /*!**********************************************************************!*\
   !*** ./node_modules/workbox-precaching/utils/printCleanupDetails.js ***!
   \**********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: printCleanupDetails */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "printCleanupDetails": () => (/* binding */ printCleanupDetails)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "printCleanupDetails", function() { return printCleanupDetails; });
 /* harmony import */ var workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! workbox-core/_private/logger.js */ "./node_modules/workbox-core/_private/logger.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_version.js */ "./node_modules/workbox-precaching/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_1__);
@@ -2485,11 +2779,11 @@ __webpack_require__.r(__webpack_exports__);
  * @private
  */
 const logGroup = (groupTitle, deletedURLs) => {
-    workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__.logger.groupCollapsed(groupTitle);
+    workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__["logger"].groupCollapsed(groupTitle);
     for (const url of deletedURLs) {
-        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__.logger.log(url);
+        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__["logger"].log(url);
     }
-    workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__.logger.groupEnd();
+    workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__["logger"].groupEnd();
 };
 /**
  * @param {Array<string>} deletedURLs
@@ -2500,11 +2794,11 @@ const logGroup = (groupTitle, deletedURLs) => {
 function printCleanupDetails(deletedURLs) {
     const deletionCount = deletedURLs.length;
     if (deletionCount > 0) {
-        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__.logger.groupCollapsed(`During precaching cleanup, ` +
+        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__["logger"].groupCollapsed(`During precaching cleanup, ` +
             `${deletionCount} cached ` +
             `request${deletionCount === 1 ? ' was' : 's were'} deleted.`);
         logGroup('Deleted Cache Requests', deletedURLs);
-        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__.logger.groupEnd();
+        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__["logger"].groupEnd();
     }
 }
 
@@ -2515,12 +2809,12 @@ function printCleanupDetails(deletedURLs) {
 /*!**********************************************************************!*\
   !*** ./node_modules/workbox-precaching/utils/printInstallDetails.js ***!
   \**********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: printInstallDetails */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "printInstallDetails": () => (/* binding */ printInstallDetails)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "printInstallDetails", function() { return printInstallDetails; });
 /* harmony import */ var workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! workbox-core/_private/logger.js */ "./node_modules/workbox-core/_private/logger.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_version.js */ "./node_modules/workbox-precaching/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_1__);
@@ -2543,11 +2837,11 @@ function _nestedGroup(groupTitle, urls) {
     if (urls.length === 0) {
         return;
     }
-    workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__.logger.groupCollapsed(groupTitle);
+    workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__["logger"].groupCollapsed(groupTitle);
     for (const url of urls) {
-        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__.logger.log(url);
+        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__["logger"].log(url);
     }
-    workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__.logger.groupEnd();
+    workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__["logger"].groupEnd();
 }
 /**
  * @param {Array<string>} urlsToPrecache
@@ -2565,10 +2859,10 @@ function printInstallDetails(urlsToPrecache, urlsAlreadyPrecached) {
             message += ` ${alreadyPrecachedCount} ` +
                 `file${alreadyPrecachedCount === 1 ? ' is' : 's are'} already cached.`;
         }
-        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__.logger.groupCollapsed(message);
+        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__["logger"].groupCollapsed(message);
         _nestedGroup(`View newly precached URLs.`, urlsToPrecache);
         _nestedGroup(`View previously precached URLs.`, urlsAlreadyPrecached);
-        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__.logger.groupEnd();
+        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__["logger"].groupEnd();
     }
 }
 
@@ -2579,12 +2873,12 @@ function printInstallDetails(urlsToPrecache, urlsAlreadyPrecached) {
 /*!****************************************************************************!*\
   !*** ./node_modules/workbox-precaching/utils/removeIgnoredSearchParams.js ***!
   \****************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: removeIgnoredSearchParams */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "removeIgnoredSearchParams": () => (/* binding */ removeIgnoredSearchParams)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeIgnoredSearchParams", function() { return removeIgnoredSearchParams; });
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_version.js */ "./node_modules/workbox-precaching/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_0__);
 /*
@@ -2625,12 +2919,12 @@ function removeIgnoredSearchParams(urlObject, ignoreURLParametersMatching = []) 
 /*!*****************************************************!*\
   !*** ./node_modules/workbox-routing/RegExpRoute.js ***!
   \*****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: RegExpRoute */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "RegExpRoute": () => (/* binding */ RegExpRoute)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RegExpRoute", function() { return RegExpRoute; });
 /* harmony import */ var workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! workbox-core/_private/assert.js */ "./node_modules/workbox-core/_private/assert.js");
 /* harmony import */ var workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! workbox-core/_private/logger.js */ "./node_modules/workbox-core/_private/logger.js");
 /* harmony import */ var _Route_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Route.js */ "./node_modules/workbox-routing/Route.js");
@@ -2660,7 +2954,7 @@ __webpack_require__.r(__webpack_exports__);
  * @memberof module:workbox-routing
  * @extends module:workbox-routing.Route
  */
-class RegExpRoute extends _Route_js__WEBPACK_IMPORTED_MODULE_2__.Route {
+class RegExpRoute extends _Route_js__WEBPACK_IMPORTED_MODULE_2__["Route"] {
     /**
      * If the regular expression contains
      * [capture groups]{@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp#grouping-back-references},
@@ -2676,7 +2970,7 @@ class RegExpRoute extends _Route_js__WEBPACK_IMPORTED_MODULE_2__.Route {
      */
     constructor(regExp, handler, method) {
         if (true) {
-            workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__.assert.isInstance(regExp, RegExp, {
+            workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__["assert"].isInstance(regExp, RegExp, {
                 moduleName: 'workbox-routing',
                 className: 'RegExpRoute',
                 funcName: 'constructor',
@@ -2695,7 +2989,7 @@ class RegExpRoute extends _Route_js__WEBPACK_IMPORTED_MODULE_2__.Route {
             // behind this behavior.
             if ((url.origin !== location.origin) && (result.index !== 0)) {
                 if (true) {
-                    workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_1__.logger.debug(`The regular expression '${regExp}' only partially matched ` +
+                    workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_1__["logger"].debug(`The regular expression '${regExp}' only partially matched ` +
                         `against the cross-origin URL '${url}'. RegExpRoute's will only ` +
                         `handle cross-origin requests if they match the entire URL.`);
                 }
@@ -2719,12 +3013,12 @@ class RegExpRoute extends _Route_js__WEBPACK_IMPORTED_MODULE_2__.Route {
 /*!***********************************************!*\
   !*** ./node_modules/workbox-routing/Route.js ***!
   \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: Route */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Route": () => (/* binding */ Route)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Route", function() { return Route; });
 /* harmony import */ var workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! workbox-core/_private/assert.js */ "./node_modules/workbox-core/_private/assert.js");
 /* harmony import */ var _utils_constants_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/constants.js */ "./node_modules/workbox-routing/utils/constants.js");
 /* harmony import */ var _utils_normalizeHandler_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils/normalizeHandler.js */ "./node_modules/workbox-routing/utils/normalizeHandler.js");
@@ -2762,21 +3056,21 @@ class Route {
      * @param {string} [method='GET'] The HTTP method to match the Route
      * against.
      */
-    constructor(match, handler, method = _utils_constants_js__WEBPACK_IMPORTED_MODULE_1__.defaultMethod) {
+    constructor(match, handler, method = _utils_constants_js__WEBPACK_IMPORTED_MODULE_1__["defaultMethod"]) {
         if (true) {
-            workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__.assert.isType(match, 'function', {
+            workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__["assert"].isType(match, 'function', {
                 moduleName: 'workbox-routing',
                 className: 'Route',
                 funcName: 'constructor',
                 paramName: 'match',
             });
             if (method) {
-                workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__.assert.isOneOf(method, _utils_constants_js__WEBPACK_IMPORTED_MODULE_1__.validMethods, { paramName: 'method' });
+                workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__["assert"].isOneOf(method, _utils_constants_js__WEBPACK_IMPORTED_MODULE_1__["validMethods"], { paramName: 'method' });
             }
         }
         // These values are referenced directly by Router so cannot be
         // altered by minificaton.
-        this.handler = (0,_utils_normalizeHandler_js__WEBPACK_IMPORTED_MODULE_2__.normalizeHandler)(handler);
+        this.handler = Object(_utils_normalizeHandler_js__WEBPACK_IMPORTED_MODULE_2__["normalizeHandler"])(handler);
         this.match = match;
         this.method = method;
     }
@@ -2786,7 +3080,7 @@ class Route {
      * function that returns a Promise resolving to a Response
      */
     setCatchHandler(handler) {
-        this.catchHandler = (0,_utils_normalizeHandler_js__WEBPACK_IMPORTED_MODULE_2__.normalizeHandler)(handler);
+        this.catchHandler = Object(_utils_normalizeHandler_js__WEBPACK_IMPORTED_MODULE_2__["normalizeHandler"])(handler);
     }
 }
 
@@ -2798,12 +3092,12 @@ class Route {
 /*!************************************************!*\
   !*** ./node_modules/workbox-routing/Router.js ***!
   \************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: Router */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Router": () => (/* binding */ Router)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Router", function() { return Router; });
 /* harmony import */ var workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! workbox-core/_private/assert.js */ "./node_modules/workbox-core/_private/assert.js");
 /* harmony import */ var workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! workbox-core/_private/getFriendlyURL.js */ "./node_modules/workbox-core/_private/getFriendlyURL.js");
 /* harmony import */ var _utils_constants_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils/constants.js */ "./node_modules/workbox-routing/utils/constants.js");
@@ -2901,7 +3195,7 @@ class Router {
             if (event.data && event.data.type === 'CACHE_URLS') {
                 const { payload } = event.data;
                 if (true) {
-                    workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.debug(`Caching URLs from the window`, payload.urlsToCache);
+                    workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__["logger"].debug(`Caching URLs from the window`, payload.urlsToCache);
                 }
                 const requestPromises = Promise.all(payload.urlsToCache.map((entry) => {
                     if (typeof entry === 'string') {
@@ -2935,7 +3229,7 @@ class Router {
      */
     handleRequest({ request, event }) {
         if (true) {
-            workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__.assert.isInstance(request, Request, {
+            workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__["assert"].isInstance(request, Request, {
                 moduleName: 'workbox-routing',
                 className: 'Router',
                 funcName: 'handleRequest',
@@ -2945,7 +3239,7 @@ class Router {
         const url = new URL(request.url, location.href);
         if (!url.protocol.startsWith('http')) {
             if (true) {
-                workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.debug(`Workbox Router only supports URLs that start with 'http'.`);
+                workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__["logger"].debug(`Workbox Router only supports URLs that start with 'http'.`);
             }
             return;
         }
@@ -2984,23 +3278,23 @@ class Router {
             if (true) {
                 // No handler so Workbox will do nothing. If logs is set of debug
                 // i.e. verbose, we should print out this information.
-                workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.debug(`No route found for: ${(0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_1__.getFriendlyURL)(url)}`);
+                workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__["logger"].debug(`No route found for: ${Object(workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_1__["getFriendlyURL"])(url)}`);
             }
             return;
         }
         if (true) {
             // We have a handler, meaning Workbox is going to handle the route.
             // print the routing details to the console.
-            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.groupCollapsed(`Router is responding to: ${(0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_1__.getFriendlyURL)(url)}`);
+            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__["logger"].groupCollapsed(`Router is responding to: ${Object(workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_1__["getFriendlyURL"])(url)}`);
             debugMessages.forEach((msg) => {
                 if (Array.isArray(msg)) {
-                    workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.log(...msg);
+                    workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__["logger"].log(...msg);
                 }
                 else {
-                    workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.log(msg);
+                    workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__["logger"].log(msg);
                 }
             });
-            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.groupEnd();
+            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__["logger"].groupEnd();
         }
         // Wrap in try and catch in case the handle method throws a synchronous
         // error. It should still callback to the catch handler.
@@ -3020,11 +3314,11 @@ class Router {
                     if (true) {
                         // Still include URL here as it will be async from the console group
                         // and may not make sense without the URL
-                        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.groupCollapsed(`Error thrown when responding to: ` +
-                            ` ${(0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_1__.getFriendlyURL)(url)}. Falling back to route's Catch Handler.`);
-                        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.error(`Error thrown by:`, route);
-                        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.error(err);
-                        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.groupEnd();
+                        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__["logger"].groupCollapsed(`Error thrown when responding to: ` +
+                            ` ${Object(workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_1__["getFriendlyURL"])(url)}. Falling back to route's Catch Handler.`);
+                        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__["logger"].error(`Error thrown by:`, route);
+                        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__["logger"].error(err);
+                        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__["logger"].groupEnd();
                     }
                     try {
                         return await catchHandler.handle({ url, request, event, params });
@@ -3037,11 +3331,11 @@ class Router {
                     if (true) {
                         // Still include URL here as it will be async from the console group
                         // and may not make sense without the URL
-                        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.groupCollapsed(`Error thrown when responding to: ` +
-                            ` ${(0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_1__.getFriendlyURL)(url)}. Falling back to global Catch Handler.`);
-                        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.error(`Error thrown by:`, route);
-                        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.error(err);
-                        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.groupEnd();
+                        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__["logger"].groupCollapsed(`Error thrown when responding to: ` +
+                            ` ${Object(workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_1__["getFriendlyURL"])(url)}. Falling back to global Catch Handler.`);
+                        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__["logger"].error(`Error thrown by:`, route);
+                        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__["logger"].error(err);
+                        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__["logger"].groupEnd();
                     }
                     return this._catchHandler.handle({ url, request, event });
                 }
@@ -3075,7 +3369,7 @@ class Router {
                     // Warn developers that using an async matchCallback is almost always
                     // not the right thing to do. 
                     if (matchResult instanceof Promise) {
-                        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.warn(`While routing ${(0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_1__.getFriendlyURL)(url)}, an async ` +
+                        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__["logger"].warn(`While routing ${Object(workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_1__["getFriendlyURL"])(url)}, an async ` +
                             `matchCallback function was used. Please convert the ` +
                             `following route to use a synchronous matchCallback function:`, route);
                     }
@@ -3118,8 +3412,8 @@ class Router {
      * @param {string} [method='GET'] The HTTP method to associate with this
      * default handler. Each method has its own default.
      */
-    setDefaultHandler(handler, method = _utils_constants_js__WEBPACK_IMPORTED_MODULE_2__.defaultMethod) {
-        this._defaultHandlerMap.set(method, (0,_utils_normalizeHandler_js__WEBPACK_IMPORTED_MODULE_4__.normalizeHandler)(handler));
+    setDefaultHandler(handler, method = _utils_constants_js__WEBPACK_IMPORTED_MODULE_2__["defaultMethod"]) {
+        this._defaultHandlerMap.set(method, Object(_utils_normalizeHandler_js__WEBPACK_IMPORTED_MODULE_4__["normalizeHandler"])(handler));
     }
     /**
      * If a Route throws an error while handling a request, this `handler`
@@ -3129,7 +3423,7 @@ class Router {
      * function that returns a Promise resulting in a Response.
      */
     setCatchHandler(handler) {
-        this._catchHandler = (0,_utils_normalizeHandler_js__WEBPACK_IMPORTED_MODULE_4__.normalizeHandler)(handler);
+        this._catchHandler = Object(_utils_normalizeHandler_js__WEBPACK_IMPORTED_MODULE_4__["normalizeHandler"])(handler);
     }
     /**
      * Registers a route with the router.
@@ -3138,31 +3432,31 @@ class Router {
      */
     registerRoute(route) {
         if (true) {
-            workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__.assert.isType(route, 'object', {
+            workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__["assert"].isType(route, 'object', {
                 moduleName: 'workbox-routing',
                 className: 'Router',
                 funcName: 'registerRoute',
                 paramName: 'route',
             });
-            workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__.assert.hasMethod(route, 'match', {
+            workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__["assert"].hasMethod(route, 'match', {
                 moduleName: 'workbox-routing',
                 className: 'Router',
                 funcName: 'registerRoute',
                 paramName: 'route',
             });
-            workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__.assert.isType(route.handler, 'object', {
+            workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__["assert"].isType(route.handler, 'object', {
                 moduleName: 'workbox-routing',
                 className: 'Router',
                 funcName: 'registerRoute',
                 paramName: 'route',
             });
-            workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__.assert.hasMethod(route.handler, 'handle', {
+            workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__["assert"].hasMethod(route.handler, 'handle', {
                 moduleName: 'workbox-routing',
                 className: 'Router',
                 funcName: 'registerRoute',
                 paramName: 'route.handler',
             });
-            workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__.assert.isType(route.method, 'string', {
+            workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__["assert"].isType(route.method, 'string', {
                 moduleName: 'workbox-routing',
                 className: 'Router',
                 funcName: 'registerRoute',
@@ -3183,7 +3477,7 @@ class Router {
      */
     unregisterRoute(route) {
         if (!this._routes.has(route.method)) {
-            throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_5__.WorkboxError('unregister-route-but-not-found-with-method', {
+            throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_5__["WorkboxError"]('unregister-route-but-not-found-with-method', {
                 method: route.method,
             });
         }
@@ -3192,7 +3486,7 @@ class Router {
             this._routes.get(route.method).splice(routeIndex, 1);
         }
         else {
-            throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_5__.WorkboxError('unregister-route-route-not-registered');
+            throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_5__["WorkboxError"]('unregister-route-route-not-registered');
         }
     }
 }
@@ -3205,8 +3499,10 @@ class Router {
 /*!**************************************************!*\
   !*** ./node_modules/workbox-routing/_version.js ***!
   \**************************************************/
-/***/ (() => {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
 
 // @ts-ignore
 try {
@@ -3221,12 +3517,12 @@ catch (e) { }
 /*!*******************************************************!*\
   !*** ./node_modules/workbox-routing/registerRoute.js ***!
   \*******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: registerRoute */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "registerRoute": () => (/* binding */ registerRoute)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerRoute", function() { return registerRoute; });
 /* harmony import */ var workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! workbox-core/_private/logger.js */ "./node_modules/workbox-core/_private/logger.js");
 /* harmony import */ var workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! workbox-core/_private/WorkboxError.js */ "./node_modules/workbox-core/_private/WorkboxError.js");
 /* harmony import */ var _Route_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Route.js */ "./node_modules/workbox-routing/Route.js");
@@ -3272,7 +3568,7 @@ function registerRoute(capture, handler, method) {
         const captureUrl = new URL(capture, location.href);
         if (true) {
             if (!(capture.startsWith('/') || capture.startsWith('http'))) {
-                throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_1__.WorkboxError('invalid-string', {
+                throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_1__["WorkboxError"]('invalid-string', {
                     moduleName: 'workbox-routing',
                     funcName: 'registerRoute',
                     paramName: 'capture',
@@ -3285,7 +3581,7 @@ function registerRoute(capture, handler, method) {
             // See https://github.com/pillarjs/path-to-regexp#parameters
             const wildcards = '[*:?+]';
             if ((new RegExp(`${wildcards}`)).exec(valueToCheck)) {
-                workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__.logger.debug(`The '$capture' parameter contains an Express-style wildcard ` +
+                workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__["logger"].debug(`The '$capture' parameter contains an Express-style wildcard ` +
                     `character (${wildcards}). Strings are now always interpreted as ` +
                     `exact matches; use a RegExp for partial or wildcard matches.`);
             }
@@ -3294,7 +3590,7 @@ function registerRoute(capture, handler, method) {
             if (true) {
                 if ((url.pathname === captureUrl.pathname) &&
                     (url.origin !== captureUrl.origin)) {
-                    workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__.logger.debug(`${capture} only partially matches the cross-origin URL ` +
+                    workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__["logger"].debug(`${capture} only partially matches the cross-origin URL ` +
                         `${url}. This route will only handle cross-origin requests ` +
                         `if they match the entire URL.`);
                 }
@@ -3302,27 +3598,27 @@ function registerRoute(capture, handler, method) {
             return url.href === captureUrl.href;
         };
         // If `capture` is a string then `handler` and `method` must be present.
-        route = new _Route_js__WEBPACK_IMPORTED_MODULE_2__.Route(matchCallback, handler, method);
+        route = new _Route_js__WEBPACK_IMPORTED_MODULE_2__["Route"](matchCallback, handler, method);
     }
     else if (capture instanceof RegExp) {
         // If `capture` is a `RegExp` then `handler` and `method` must be present.
-        route = new _RegExpRoute_js__WEBPACK_IMPORTED_MODULE_3__.RegExpRoute(capture, handler, method);
+        route = new _RegExpRoute_js__WEBPACK_IMPORTED_MODULE_3__["RegExpRoute"](capture, handler, method);
     }
     else if (typeof capture === 'function') {
         // If `capture` is a function then `handler` and `method` must be present.
-        route = new _Route_js__WEBPACK_IMPORTED_MODULE_2__.Route(capture, handler, method);
+        route = new _Route_js__WEBPACK_IMPORTED_MODULE_2__["Route"](capture, handler, method);
     }
-    else if (capture instanceof _Route_js__WEBPACK_IMPORTED_MODULE_2__.Route) {
+    else if (capture instanceof _Route_js__WEBPACK_IMPORTED_MODULE_2__["Route"]) {
         route = capture;
     }
     else {
-        throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_1__.WorkboxError('unsupported-route-type', {
+        throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_1__["WorkboxError"]('unsupported-route-type', {
             moduleName: 'workbox-routing',
             funcName: 'registerRoute',
             paramName: 'capture',
         });
     }
-    const defaultRouter = (0,_utils_getOrCreateDefaultRouter_js__WEBPACK_IMPORTED_MODULE_4__.getOrCreateDefaultRouter)();
+    const defaultRouter = Object(_utils_getOrCreateDefaultRouter_js__WEBPACK_IMPORTED_MODULE_4__["getOrCreateDefaultRouter"])();
     defaultRouter.registerRoute(route);
     return route;
 }
@@ -3335,13 +3631,13 @@ function registerRoute(capture, handler, method) {
 /*!*********************************************************!*\
   !*** ./node_modules/workbox-routing/utils/constants.js ***!
   \*********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: defaultMethod, validMethods */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "defaultMethod": () => (/* binding */ defaultMethod),
-/* harmony export */   "validMethods": () => (/* binding */ validMethods)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultMethod", function() { return defaultMethod; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "validMethods", function() { return validMethods; });
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_version.js */ "./node_modules/workbox-routing/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_0__);
 /*
@@ -3384,12 +3680,12 @@ const validMethods = [
 /*!************************************************************************!*\
   !*** ./node_modules/workbox-routing/utils/getOrCreateDefaultRouter.js ***!
   \************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: getOrCreateDefaultRouter */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getOrCreateDefaultRouter": () => (/* binding */ getOrCreateDefaultRouter)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getOrCreateDefaultRouter", function() { return getOrCreateDefaultRouter; });
 /* harmony import */ var _Router_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Router.js */ "./node_modules/workbox-routing/Router.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_version.js */ "./node_modules/workbox-routing/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_1__);
@@ -3412,7 +3708,7 @@ let defaultRouter;
  */
 const getOrCreateDefaultRouter = () => {
     if (!defaultRouter) {
-        defaultRouter = new _Router_js__WEBPACK_IMPORTED_MODULE_0__.Router();
+        defaultRouter = new _Router_js__WEBPACK_IMPORTED_MODULE_0__["Router"]();
         // The helpers that use the default Router assume these listeners exist.
         defaultRouter.addFetchListener();
         defaultRouter.addCacheListener();
@@ -3427,12 +3723,12 @@ const getOrCreateDefaultRouter = () => {
 /*!****************************************************************!*\
   !*** ./node_modules/workbox-routing/utils/normalizeHandler.js ***!
   \****************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: normalizeHandler */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "normalizeHandler": () => (/* binding */ normalizeHandler)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "normalizeHandler", function() { return normalizeHandler; });
 /* harmony import */ var workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! workbox-core/_private/assert.js */ "./node_modules/workbox-core/_private/assert.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_version.js */ "./node_modules/workbox-routing/_version.js");
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_version_js__WEBPACK_IMPORTED_MODULE_1__);
@@ -3455,7 +3751,7 @@ __webpack_require__.r(__webpack_exports__);
 const normalizeHandler = (handler) => {
     if (handler && typeof handler === 'object') {
         if (true) {
-            workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__.assert.hasMethod(handler, 'handle', {
+            workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__["assert"].hasMethod(handler, 'handle', {
                 moduleName: 'workbox-routing',
                 className: 'Route',
                 funcName: 'constructor',
@@ -3466,7 +3762,7 @@ const normalizeHandler = (handler) => {
     }
     else {
         if (true) {
-            workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__.assert.isType(handler, 'function', {
+            workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__["assert"].isType(handler, 'function', {
                 moduleName: 'workbox-routing',
                 className: 'Route',
                 funcName: 'constructor',
@@ -3484,12 +3780,12 @@ const normalizeHandler = (handler) => {
 /*!*****************************************************!*\
   !*** ./node_modules/workbox-strategies/Strategy.js ***!
   \*****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: Strategy */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Strategy": () => (/* binding */ Strategy)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Strategy", function() { return Strategy; });
 /* harmony import */ var workbox_core_private_cacheNames_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! workbox-core/_private/cacheNames.js */ "./node_modules/workbox-core/_private/cacheNames.js");
 /* harmony import */ var workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! workbox-core/_private/WorkboxError.js */ "./node_modules/workbox-core/_private/WorkboxError.js");
 /* harmony import */ var workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! workbox-core/_private/logger.js */ "./node_modules/workbox-core/_private/logger.js");
@@ -3546,7 +3842,7 @@ class Strategy {
          *
          * @type {string}
          */
-        this.cacheName = workbox_core_private_cacheNames_js__WEBPACK_IMPORTED_MODULE_0__.cacheNames.getRuntimeName(options.cacheName);
+        this.cacheName = workbox_core_private_cacheNames_js__WEBPACK_IMPORTED_MODULE_0__["cacheNames"].getRuntimeName(options.cacheName);
         /**
          * The list
          * [Plugins]{@link https://developers.google.com/web/tools/workbox/guides/using-plugins}
@@ -3630,7 +3926,7 @@ class Strategy {
             new Request(options.request) :
             options.request;
         const params = 'params' in options ? options.params : undefined;
-        const handler = new _StrategyHandler_js__WEBPACK_IMPORTED_MODULE_4__.StrategyHandler(this, { event, request, params });
+        const handler = new _StrategyHandler_js__WEBPACK_IMPORTED_MODULE_4__["StrategyHandler"](this, { event, request, params });
         const responseDone = this._getResponse(handler, request, event);
         const handlerDone = this._awaitComplete(responseDone, handler, request, event);
         // Return an array of promises, suitable for use with Promise.all().
@@ -3645,7 +3941,7 @@ class Strategy {
             // but in case a third-party Strategy doesn't, ensure that we have a
             // consistent failure when there's no response or an error response.
             if (!response || response.type === 'error') {
-                throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_1__.WorkboxError('no-response', { url: request.url });
+                throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_1__["WorkboxError"]('no-response', { url: request.url });
             }
         }
         catch (error) {
@@ -3659,7 +3955,7 @@ class Strategy {
                 throw error;
             }
             else if (true) {
-                workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_2__.logger.log(`While responding to '${(0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_3__.getFriendlyURL)(request.url)}', ` +
+                workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_2__["logger"].log(`While responding to '${Object(workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_3__["getFriendlyURL"])(request.url)}', ` +
                     `an ${error} error occurred. Using a fallback response provided by ` +
                     `a handlerDidError plugin.`);
             }
@@ -3729,12 +4025,12 @@ class Strategy {
 /*!************************************************************!*\
   !*** ./node_modules/workbox-strategies/StrategyHandler.js ***!
   \************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: StrategyHandler */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "StrategyHandler": () => (/* binding */ StrategyHandler)
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StrategyHandler", function() { return StrategyHandler; });
 /* harmony import */ var workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! workbox-core/_private/assert.js */ "./node_modules/workbox-core/_private/assert.js");
 /* harmony import */ var workbox_core_private_cacheMatchIgnoreParams_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! workbox-core/_private/cacheMatchIgnoreParams.js */ "./node_modules/workbox-core/_private/cacheMatchIgnoreParams.js");
 /* harmony import */ var workbox_core_private_Deferred_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! workbox-core/_private/Deferred.js */ "./node_modules/workbox-core/_private/Deferred.js");
@@ -3831,7 +4127,7 @@ class StrategyHandler {
          * @memberof module:workbox-strategies.StrategyHandler
          */
         if (true) {
-            workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__.assert.isInstance(options.event, ExtendableEvent, {
+            workbox_core_private_assert_js__WEBPACK_IMPORTED_MODULE_0__["assert"].isInstance(options.event, ExtendableEvent, {
                 moduleName: 'workbox-strategies',
                 className: 'StrategyHandler',
                 funcName: 'constructor',
@@ -3841,7 +4137,7 @@ class StrategyHandler {
         Object.assign(this, options);
         this.event = options.event;
         this._strategy = strategy;
-        this._handlerDeferred = new workbox_core_private_Deferred_js__WEBPACK_IMPORTED_MODULE_2__.Deferred();
+        this._handlerDeferred = new workbox_core_private_Deferred_js__WEBPACK_IMPORTED_MODULE_2__["Deferred"]();
         this._extendLifetimePromises = [];
         // Copy the plugins list (since it's mutable on the strategy),
         // so any mutations don't affect this handler instance.
@@ -3874,8 +4170,8 @@ class StrategyHandler {
             const possiblePreloadResponse = await event.preloadResponse;
             if (possiblePreloadResponse) {
                 if (true) {
-                    workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_5__.logger.log(`Using a preloaded navigation response for ` +
-                        `'${(0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_4__.getFriendlyURL)(request.url)}'`);
+                    workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_5__["logger"].log(`Using a preloaded navigation response for ` +
+                        `'${Object(workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_4__["getFriendlyURL"])(request.url)}'`);
                 }
                 return possiblePreloadResponse;
             }
@@ -3891,7 +4187,7 @@ class StrategyHandler {
             }
         }
         catch (err) {
-            throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_7__.WorkboxError('plugin-error-request-will-fetch', {
+            throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_7__["WorkboxError"]('plugin-error-request-will-fetch', {
                 thrownError: err,
             });
         }
@@ -3905,8 +4201,8 @@ class StrategyHandler {
             fetchResponse = await fetch(request, request.mode === 'navigate' ?
                 undefined : this._strategy.fetchOptions);
             if (true) {
-                workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_5__.logger.debug(`Network request for ` +
-                    `'${(0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_4__.getFriendlyURL)(request.url)}' returned a response with ` +
+                workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_5__["logger"].debug(`Network request for ` +
+                    `'${Object(workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_4__["getFriendlyURL"])(request.url)}' returned a response with ` +
                     `status '${fetchResponse.status}'.`);
             }
             for (const callback of this.iterateCallbacks('fetchDidSucceed')) {
@@ -3920,8 +4216,8 @@ class StrategyHandler {
         }
         catch (error) {
             if (true) {
-                workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_5__.logger.log(`Network request for ` +
-                    `'${(0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_4__.getFriendlyURL)(request.url)}' threw an error.`, error);
+                workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_5__["logger"].log(`Network request for ` +
+                    `'${Object(workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_4__["getFriendlyURL"])(request.url)}' threw an error.`, error);
             }
             // `originalRequest` will only exist if a `fetchDidFail` callback
             // is being used (see above).
@@ -3973,10 +4269,10 @@ class StrategyHandler {
         cachedResponse = await caches.match(effectiveRequest, multiMatchOptions);
         if (true) {
             if (cachedResponse) {
-                workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_5__.logger.debug(`Found a cached response in '${cacheName}'.`);
+                workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_5__["logger"].debug(`Found a cached response in '${cacheName}'.`);
             }
             else {
-                workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_5__.logger.debug(`No cached response found in '${cacheName}'.`);
+                workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_5__["logger"].debug(`No cached response found in '${cacheName}'.`);
             }
         }
         for (const callback of this.iterateCallbacks('cachedResponseWillBeUsed')) {
@@ -4009,29 +4305,29 @@ class StrategyHandler {
         const request = toRequest(key);
         // Run in the next task to avoid blocking other cache reads.
         // https://github.com/w3c/ServiceWorker/issues/1397
-        await (0,workbox_core_private_timeout_js__WEBPACK_IMPORTED_MODULE_6__.timeout)(0);
+        await Object(workbox_core_private_timeout_js__WEBPACK_IMPORTED_MODULE_6__["timeout"])(0);
         const effectiveRequest = await this.getCacheKey(request, 'write');
         if (true) {
             if (effectiveRequest.method && effectiveRequest.method !== 'GET') {
-                throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_7__.WorkboxError('attempt-to-cache-non-get-request', {
-                    url: (0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_4__.getFriendlyURL)(effectiveRequest.url),
+                throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_7__["WorkboxError"]('attempt-to-cache-non-get-request', {
+                    url: Object(workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_4__["getFriendlyURL"])(effectiveRequest.url),
                     method: effectiveRequest.method,
                 });
             }
         }
         if (!response) {
             if (true) {
-                workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_5__.logger.error(`Cannot cache non-existent response for ` +
-                    `'${(0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_4__.getFriendlyURL)(effectiveRequest.url)}'.`);
+                workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_5__["logger"].error(`Cannot cache non-existent response for ` +
+                    `'${Object(workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_4__["getFriendlyURL"])(effectiveRequest.url)}'.`);
             }
-            throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_7__.WorkboxError('cache-put-with-no-response', {
-                url: (0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_4__.getFriendlyURL)(effectiveRequest.url),
+            throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_7__["WorkboxError"]('cache-put-with-no-response', {
+                url: Object(workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_4__["getFriendlyURL"])(effectiveRequest.url),
             });
         }
         const responseToCache = await this._ensureResponseSafeToCache(response);
         if (!responseToCache) {
             if (true) {
-                workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_5__.logger.debug(`Response '${(0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_4__.getFriendlyURL)(effectiveRequest.url)}' ` +
+                workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_5__["logger"].debug(`Response '${Object(workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_4__["getFriendlyURL"])(effectiveRequest.url)}' ` +
                     `will not be cached.`, responseToCache);
             }
             return false;
@@ -4039,15 +4335,15 @@ class StrategyHandler {
         const { cacheName, matchOptions } = this._strategy;
         const cache = await self.caches.open(cacheName);
         const hasCacheUpdateCallback = this.hasCallback('cacheDidUpdate');
-        const oldResponse = hasCacheUpdateCallback ? await (0,workbox_core_private_cacheMatchIgnoreParams_js__WEBPACK_IMPORTED_MODULE_1__.cacheMatchIgnoreParams)(
+        const oldResponse = hasCacheUpdateCallback ? await Object(workbox_core_private_cacheMatchIgnoreParams_js__WEBPACK_IMPORTED_MODULE_1__["cacheMatchIgnoreParams"])(
         // TODO(philipwalton): the `__WB_REVISION__` param is a precaching
         // feature. Consider into ways to only add this behavior if using
         // precaching.
         cache, effectiveRequest.clone(), ['__WB_REVISION__'], matchOptions) :
             null;
         if (true) {
-            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_5__.logger.debug(`Updating the '${cacheName}' cache with a new Response ` +
-                `for ${(0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_4__.getFriendlyURL)(effectiveRequest.url)}.`);
+            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_5__["logger"].debug(`Updating the '${cacheName}' cache with a new Response ` +
+                `for ${Object(workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_4__["getFriendlyURL"])(effectiveRequest.url)}.`);
         }
         try {
             await cache.put(effectiveRequest, hasCacheUpdateCallback ?
@@ -4056,7 +4352,7 @@ class StrategyHandler {
         catch (error) {
             // See https://developer.mozilla.org/en-US/docs/Web/API/DOMException#exception-QuotaExceededError
             if (error.name === 'QuotaExceededError') {
-                await (0,workbox_core_private_executeQuotaErrorCallbacks_js__WEBPACK_IMPORTED_MODULE_3__.executeQuotaErrorCallbacks)();
+                await Object(workbox_core_private_executeQuotaErrorCallbacks_js__WEBPACK_IMPORTED_MODULE_3__["executeQuotaErrorCallbacks"])();
             }
             throw error;
         }
@@ -4230,12 +4526,12 @@ class StrategyHandler {
                 if (responseToCache) {
                     if (responseToCache.status !== 200) {
                         if (responseToCache.status === 0) {
-                            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_5__.logger.warn(`The response for '${this.request.url}' ` +
+                            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_5__["logger"].warn(`The response for '${this.request.url}' ` +
                                 `is an opaque response. The caching strategy that you're ` +
                                 `using will not cache opaque responses by default.`);
                         }
                         else {
-                            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_5__.logger.debug(`The response for '${this.request.url}' ` +
+                            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_5__["logger"].debug(`The response for '${this.request.url}' ` +
                                 `returned a status code of '${response.status}' and won't ` +
                                 `be cached as a result.`);
                         }
@@ -4255,8 +4551,10 @@ class StrategyHandler {
 /*!*****************************************************!*\
   !*** ./node_modules/workbox-strategies/_version.js ***!
   \*****************************************************/
-/***/ (() => {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
 
 // @ts-ignore
 try {
@@ -4267,221 +4565,5 @@ catch (e) { }
 
 /***/ })
 
-/******/ 	});
-/************************************************************************/
-/******/ 	// The module cache
-/******/ 	var __webpack_module_cache__ = {};
-/******/ 	
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/ 		// Check if module is in cache
-/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
-/******/ 		if (cachedModule !== undefined) {
-/******/ 			return cachedModule.exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			// no module.id needed
-/******/ 			// no module.loaded needed
-/******/ 			exports: {}
-/******/ 		};
-/******/ 	
-/******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-/******/ 	
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/ 	
-/************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__webpack_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/************************************************************************/
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
-(() => {
-/*!*******************************************************!*\
-  !*** ./node_modules/@docusaurus/plugin-pwa/src/sw.js ***!
-  \*******************************************************/
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var workbox_precaching__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! workbox-precaching */ "./node_modules/workbox-precaching/index.mjs");
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-/* eslint-disable no-restricted-globals */
-
-
-
-function parseSwParams() {
-  const params = JSON.parse(
-    new URLSearchParams(self.location.search).get('params'),
-  );
-  if (params.debug) {
-    console.log('[Docusaurus-PWA][SW]: Service Worker params:', params);
-  }
-  return params;
-}
-
-// doc advise against dynamic imports in SW
-// https://developers.google.com/web/tools/workbox/guides/using-bundlers#code_splitting_and_dynamic_imports
-// https://twitter.com/sebastienlorber/status/1280155204575518720
-// but I think it's working fine as it's inlined by webpack, need to double check?
-async function runSWCustomCode(params) {
-  if (false) {}
-}
-
-/**
- * Gets different possible variations for a request URL. Similar to
- * https://git.io/JvixK
- *
- * @param {string} url
- */
-function getPossibleURLs(url) {
-  const possibleURLs = [];
-  const urlObject = new URL(url, self.location.href);
-
-  if (urlObject.origin !== self.location.origin) {
-    return possibleURLs;
-  }
-
-  // Ignore search params and hash
-  urlObject.search = '';
-  urlObject.hash = '';
-
-  // /blog.html
-  possibleURLs.push(urlObject.href);
-
-  // /blog/ => /blog/index.html
-  if (urlObject.pathname.endsWith('/')) {
-    possibleURLs.push(`${urlObject.href}index.html`);
-  } else {
-    // /blog => /blog/index.html
-    possibleURLs.push(`${urlObject.href}/index.html`);
-  }
-
-  return possibleURLs;
-}
-
-(async () => {
-  const params = parseSwParams();
-
-  const precacheManifest = [{"revision":"66176655783c7502bd1044c8f4010562","url":"404.html"},{"revision":"48982d1e6154b9f96a70335b01226ba1","url":"assets/css/styles.8af79d4c.css"},{"revision":"0f51f40de2e1a7ef907d9b281a54f24f","url":"assets/js/035c4ab8.2eaf389b.js"},{"revision":"cc5a1f2e802e80350d0742c087748b77","url":"assets/js/04e49abd.084630f4.js"},{"revision":"a4dfa83037a1d7bee87cfd1cd03ffa96","url":"assets/js/1395f85c.4d865fc2.js"},{"revision":"a73ca46cdc7c675bbedde288dbb82805","url":"assets/js/17896441.071edf78.js"},{"revision":"8b3b86c80dd23a602de4797d4201499e","url":"assets/js/1b257175.437ef6ea.js"},{"revision":"e0ea0e1f894b133b01d38e0749fd1b7a","url":"assets/js/1be78505.c5fc08c0.js"},{"revision":"6218bb07e31878e9d62a89ae45e1cc7d","url":"assets/js/1ce26f5d.b91f89c8.js"},{"revision":"1714e5131b487a8388d24ad8e2ce9307","url":"assets/js/2393acd7.a28d05fe.js"},{"revision":"feb79bab46b870103c50b8b9f8197964","url":"assets/js/29b25538.ae2a143d.js"},{"revision":"62dbb247740beaddf3407499aba80d02","url":"assets/js/3b8dc200.0180c3c5.js"},{"revision":"f89871f69111e00649fb7e3cbc52b421","url":"assets/js/403.1209a931.js"},{"revision":"0b0c281fae244775503c639f5939a982","url":"assets/js/4ea9200f.9ed97a5a.js"},{"revision":"20116ec1320971f8c3ffd9f82e7dc358","url":"assets/js/508d93ed.e65caf24.js"},{"revision":"dc29eb872cac789049fd36e534307d43","url":"assets/js/56103bec.2ba2491b.js"},{"revision":"846ae4669ac78b2623277cfef44a8f9e","url":"assets/js/572ca114.e2c3f2b8.js"},{"revision":"880f4d7411bb00b6cb632365fd0e15d7","url":"assets/js/580.4f6d157b.js"},{"revision":"5126916f4367cafd9edaa20fff210276","url":"assets/js/5c672a63.192bbca5.js"},{"revision":"1f4eda2d25606090d3c59c56dc17b544","url":"assets/js/608.1ad4dd87.js"},{"revision":"0a34d7b3fa9570bc4c2880a932cdbff9","url":"assets/js/611.ccd9a1fe.js"},{"revision":"5bcdba908f98f2b50c5f6df7ec253182","url":"assets/js/8f9ef59a.3969e09e.js"},{"revision":"bdefd550c41ac9dcf34084ea515e9afe","url":"assets/js/923.10372b70.js"},{"revision":"d3a3fee5fe60d9e4d0bfa5b2ae899876","url":"assets/js/935f2afb.5999d319.js"},{"revision":"2df92246174185ec09e9017b788083a6","url":"assets/js/9eb10be3.162ceb1f.js"},{"revision":"43d7c638d7c4050ff43b4b706da18748","url":"assets/js/c4f5d8e4.8859ba2d.js"},{"revision":"5e97d25f92aedd081fad5342c85e19a3","url":"assets/js/c7330af1.6e2972ad.js"},{"revision":"b3d989c31509559b7fc30a666be5c0cc","url":"assets/js/d8cd5eba.63046e6e.js"},{"revision":"29e99f171cd3f72f623f64f887e2332e","url":"assets/js/ecb98621.ced85de8.js"},{"revision":"5c174760e0caa184600d74c8b9e54e2b","url":"assets/js/fcab3d3b.85c1fe2c.js"},{"revision":"f8f64e14e51d4d33a3b029a007b9737e","url":"assets/js/ff9f7ebb.bdf245fd.js"},{"revision":"3003d1467f8ae59d0d150933c7616bc1","url":"assets/js/main.b3a66c91.js"},{"revision":"bcca70d1ad1e7726145f39e67ae4a9f2","url":"assets/js/runtime~main.0cd86598.js"},{"revision":"75350f8504d0fc14660ab7738915f83e","url":"docs/account/AccountEinschraekung/index.html"},{"revision":"ef130e5a712ae48885c54becfa0e81e1","url":"docs/account/AusversehenProduktBestellt/index.html"},{"revision":"5ada85690daafe6a5a9f9ed6aed1019c","url":"docs/account/Credits/index.html"},{"revision":"e96968f5605bf9d54a979bc744a81c99","url":"docs/account/DiscordVerifizieren/index.html"},{"revision":"5ea5606fc63499da44a1a149f7dd4540","url":"docs/account/Partner/index.html"},{"revision":"66949e9aa6dd5daceec078dbab4519c4","url":"docs/account/ProduktDeleteError/index.html"},{"revision":"86caee469b13fbb6497376184aedb6f3","url":"docs/account/ProduktIDFinden/index.html"},{"revision":"30decd77000b06efe589d0825841a8e8","url":"docs/account/TicketErstellen/index.html"},{"revision":"a27c50b8048d09ca09e8a91e646dd8d7","url":"docs/database/mysql/index.html"},{"revision":"a0a191378aabefcb36e5e26dac561319","url":"docs/gameserver/ConnectWithFtpClient/index.html"},{"revision":"45e3b816fa90fc78327ca2fedd74e988","url":"docs/gameserver/GameServerStartetNicht/index.html"},{"revision":"610c24451ea9d16568352aba645416cc","url":"docs/general/Beratung/index.html"},{"revision":"2326fb76b4c0814421611faf5b210cfc","url":"docs/index.html"},{"revision":"023baa93d67b0709540ccd05e6f94511","url":"docs/musicbot/musicsoon/index.html"},{"revision":"1a7a3278afd81e7386c3356a6f30b9c9","url":"docs/webspace/ConnectDomain/index.html"},{"revision":"8882d82afd83aa7c594d1f715f55a2cd","url":"docs/webspace/gitverbinden/index.html"},{"revision":"3aee364c0d9ed4db62b3ac463c74ca46","url":"docs/webspace/NextcloudLoginFehler/index.html"},{"revision":"64017a829698795ba63c1e4074a2a856","url":"docs/webspace/nodejs/index.html"},{"revision":"5399211582ef83993581cb8c5ff34df3","url":"docs/webspace/Webmail/index.html"},{"revision":"30d3ed43ab2340e6929e9d9a9a48a42f","url":"docs/webspace/ZertifikatErstellen/index.html"},{"revision":"efad68b5d12f539d00759bd8192bdd78","url":"index.html"},{"revision":"bad28980839f31e8add550f5960231e7","url":"manifest.json"},{"revision":"4343e07bf942aefb5f334501958fbc0e","url":"img/favicon.ico"},{"revision":"8a569becdc1d555f9a7d2a71ddd010ae","url":"img/icons/icon-144x144.png"},{"revision":"5542cb49753aae6257b40386886c0095","url":"img/icons/icon-152x152.png"},{"revision":"00a6a3223b74ea470f6a07895051e91c","url":"img/icons/icon-192x192.png"},{"revision":"8d7555754a6e55efce219004071a3dcd","url":"img/icons/icon-256x256.png"},{"revision":"79ae3b752589396b3237cecdf090f59a","url":"img/icons/icon-72x72.png"},{"revision":"edb51e40677b91a05b6b803ef635ffaa","url":"img/icons/icon-96x96.png"},{"revision":"aa4fa2cdc39d33f2ee3b8f245b6d30d9","url":"img/logo.svg"},{"revision":"d6778e4a4460222012846a7a1ef53021","url":"img/puhhosting.png"},{"revision":"de7de10d0bf3a54b6bb6ffb90691926e","url":"img/undraw-faq.svg"},{"revision":"3a43ee0cf02d05d12d34357127b43c84","url":"img/undraw-free.svg"},{"revision":"9720d44d456ae80478f665a5a1c00dae","url":"img/undraw-tutorial.svg"}];
-  const controller = new workbox_precaching__WEBPACK_IMPORTED_MODULE_0__.PrecacheController({
-    fallbackToNetwork: true, // safer to turn this true?
-  });
-
-  if (params.offlineMode) {
-    controller.addToCacheList(precacheManifest);
-    if (params.debug) {
-      console.log('[Docusaurus-PWA][SW]: addToCacheList', {
-        precacheManifest,
-      });
-    }
-  }
-
-  await runSWCustomCode(params);
-
-  self.addEventListener('install', (event) => {
-    if (params.debug) {
-      console.log('[Docusaurus-PWA][SW]: install event', {
-        event,
-      });
-    }
-    event.waitUntil(controller.install(event));
-  });
-
-  self.addEventListener('activate', (event) => {
-    if (params.debug) {
-      console.log('[Docusaurus-PWA][SW]: activate event', {
-        event,
-      });
-    }
-    event.waitUntil(controller.activate(event));
-  });
-
-  self.addEventListener('fetch', async (event) => {
-    if (params.offlineMode) {
-      const requestURL = event.request.url;
-      const possibleURLs = getPossibleURLs(requestURL);
-      for (let i = 0; i < possibleURLs.length; i += 1) {
-        const possibleURL = possibleURLs[i];
-        const cacheKey = controller.getCacheKeyForURL(possibleURL);
-        if (cacheKey) {
-          const cachedResponse = caches.match(cacheKey);
-          if (params.debug) {
-            console.log('[Docusaurus-PWA][SW]: serving cached asset', {
-              requestURL,
-              possibleURL,
-              possibleURLs,
-              cacheKey,
-              cachedResponse,
-            });
-          }
-          event.respondWith(cachedResponse);
-          break;
-        }
-      }
-    }
-  });
-
-  self.addEventListener('message', async (event) => {
-    if (params.debug) {
-      console.log('[Docusaurus-PWA][SW]: message event', {
-        event,
-      });
-    }
-
-    const type = event.data && event.data.type;
-
-    if (type === 'SKIP_WAITING') {
-      self.skipWaiting();
-    }
-  });
-})();
-
-})();
-
-/******/ })()
-;
+/******/ });
 //# sourceMappingURL=sw.js.map
