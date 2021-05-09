@@ -21,6 +21,7 @@ module.exports = {
     },
   },
   plugins: [
+    require.resolve('@cmfcmf/docusaurus-search-local'),
     [
       '@docusaurus/plugin-sitemap',
       {
