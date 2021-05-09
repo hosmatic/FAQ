@@ -21,7 +21,13 @@ module.exports = {
     },
   },
   plugins: [
-    require.resolve('@cmfcmf/docusaurus-search-local'),
+    [
+        require.resolve('@cmfcmf/docusaurus-search-local'),
+      {
+          indexPages: true,
+          language: "de",
+      }
+    ],
     [
       '@docusaurus/plugin-sitemap',
       {
