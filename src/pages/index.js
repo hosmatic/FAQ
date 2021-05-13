@@ -5,6 +5,7 @@ import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './styles.module.css';
+import Translate from '@docusaurus/Translate';
 
 const features = [
   {
@@ -12,7 +13,9 @@ const features = [
     imageUrl: 'img/undraw-faq.svg',
     description: (
       <>
-        PuhFAQ ist ein Wikipedia, indem man Antworten zu beliebten Kundenfragen finden kann. 
+        <Translate description="The homepage main heading">
+          PuhFAQ ist ein Wikipedia, indem man Antworten zu beliebten Kundenfragen finden kann.
+        </Translate>
       </>
     ),
   },

@@ -13,10 +13,9 @@
 ## Contributing 🔧
 1. Fork this Project
 2. Add your custom FAQ File in the folder docs
-3. Add your FAQ ID to sidebars.js in the right section
-4. To test your FAQ you can build locally the FAQ with **npm start** and now open http://localhost:3000
-5. Create a Pull Request with your email or userid on Puh.Hosting
-6. Once the Pull Request gets approved you receive a small gift :)
+3. To test your FAQ you can build locally the FAQ with **npm start** and now open http://localhost:3000
+4. Create a Pull Request with your email or userid on Puh.Hosting
+5. Once the Pull Request gets approved you receive a small gift :)
 
 ## Contributors
 
