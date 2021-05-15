@@ -18,7 +18,7 @@ Rufe nun die Datei übr den Webbrowser aus. Gehe hierzu auf ```DeineDomain/setup
 
 > Schritt 3.1: Installation
 
-Wähle das Verzeichniss aus, indem deine Cloud erreichbar sein soll. Soll Die Cloud direkt im Basisverzeichniss installiert werden, gebe hier `.` ein. Ansonsten das Unterverzeichniss, wie z.B. `cloud
+Wähle das Verzeichniss aus, indem deine Cloud erreichbar sein soll. Soll Die Cloud direkt im Basisverzeichniss installiert werden, gebe hier `.` ein. Ansonsten das Unterverzeichniss, wie z.B. `cloud`
 ![](https://screen.r-it.link/Zono0/PILoqUmu72.png/raw)
 Klicke danach auf "Next"</br>
 Die nun folgende Installation kann einige Momente dauern. Habe hier einfach ein wenig geduld!
