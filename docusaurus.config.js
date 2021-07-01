@@ -80,7 +80,7 @@ module.exports = {
       title: 'PuhHosting FAQ',
       logo: {
         alt: 'PuhHosting Logo',
-        src: 'https://cdn.puh.hosting/puhhosting/Logo/App.png',
+        src: 'https://www.puh.hosting/assets/img/puhhosting/logo.png',
       },
       items: [
         {
@@ -145,7 +145,6 @@ module.exports = {
           sidebarPath: require.resolve("./sidebars.js"),
           editUrl:
               "https://github.com/PuhHosting/FAQ/edit/master/",
-          showLastUpdateAuthor: true,
           showLastUpdateTime: true
         },
         theme: {
