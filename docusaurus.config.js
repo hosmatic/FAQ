@@ -125,11 +125,11 @@ module.exports = {
           items: [
             {
               label: 'Impressum',
-              href: 'https://www.puh.hosting/imprint',
+              href: 'https://www.puh.hosting/legal/imprint',
             },
             {
               label: 'Datenschutz',
-              href: 'https://www.puh.hosting/privacy',
+              href: 'https://www.puh.hosting/legal/privacy',
             },
           ],
         },
