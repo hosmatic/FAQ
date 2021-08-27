@@ -144,9 +144,12 @@ const isType = (object, expectedType, details) => {
         throw new _private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_0__.WorkboxError('incorrect-type', details);
     }
 };
-const isInstance = (object, expectedClass, details) => {
+const isInstance = (object, 
+// Need the general type to do the check later.
+// eslint-disable-next-line @typescript-eslint/ban-types
+expectedClass, details) => {
     if (!(object instanceof expectedClass)) {
-        details['expectedClass'] = expectedClass;
+        details['expectedClassName'] = expectedClass.name;
         throw new _private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_0__.WorkboxError('incorrect-class', details);
     }
 };
@@ -157,7 +160,10 @@ const isOneOf = (value, validValues, details) => {
         throw new _private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_0__.WorkboxError('invalid-value', details);
     }
 };
-const isArrayOfClass = (value, expectedClass, details) => {
+const isArrayOfClass = (value, 
+// Need general type to do check later.
+expectedClass, // eslint-disable-line
+details) => {
     const error = new _private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_0__.WorkboxError('not-array-of-class', details);
     if (!Array.isArray(value)) {
         throw error;
@@ -226,7 +232,7 @@ async function cacheMatchIgnoreParams(cache, request, ignoreParams, matchOptions
         return cache.match(request, matchOptions);
     }
     // Otherwise, match by comparing keys
-    const keysOptions = { ...matchOptions, ignoreSearch: true };
+    const keysOptions = Object.assign(Object.assign({}, matchOptions), { ignoreSearch: true });
     const cacheKeys = await cache.keys(request, keysOptions);
     for (const cacheKey of cacheKeys) {
         const strippedCacheKeyURL = stripParams(cacheKey.url, ignoreParams);
@@ -502,6 +508,7 @@ const logger = ( false ? 0 : (() => {
             inGroup = false;
         }
     };
+    // eslint-disable-next-line @typescript-eslint/ban-types
     const api = {};
     const loggerMethods = Object.keys(methodToColorMap);
     for (const key of loggerMethods) {
@@ -598,7 +605,7 @@ function waitUntil(event, asyncFn) {
 
 // @ts-ignore
 try {
-    self['workbox:core:6.1.5'] && _();
+    self['workbox:core:6.2.4'] && _();
 }
 catch (e) { }
 
@@ -761,22 +768,24 @@ const messages = {
         if (!expectedType || !paramName || !moduleName || !funcName) {
             throw new Error(`Unexpected input to 'incorrect-type' error.`);
         }
+        const classNameStr = className ? `${className}.` : '';
         return `The parameter '${paramName}' passed into ` +
-            `'${moduleName}.${className ? (className + '.') : ''}` +
+            `'${moduleName}.${classNameStr}` +
             `${funcName}()' must be of type ${expectedType}.`;
     },
-    'incorrect-class': ({ expectedClass, paramName, moduleName, className, funcName, isReturnValueProblem }) => {
-        if (!expectedClass || !moduleName || !funcName) {
+    'incorrect-class': ({ expectedClassName, paramName, moduleName, className, funcName, isReturnValueProblem }) => {
+        if (!expectedClassName || !moduleName || !funcName) {
             throw new Error(`Unexpected input to 'incorrect-class' error.`);
         }
+        const classNameStr = className ? `${className}.` : '';
         if (isReturnValueProblem) {
             return `The return value from ` +
-                `'${moduleName}.${className ? (className + '.') : ''}${funcName}()' ` +
-                `must be an instance of class ${expectedClass.name}.`;
+                `'${moduleName}.${classNameStr}${funcName}()' ` +
+                `must be an instance of class ${expectedClassName}.`;
         }
         return `The parameter '${paramName}' passed into ` +
-            `'${moduleName}.${className ? (className + '.') : ''}${funcName}()' ` +
-            `must be an instance of class ${expectedClass.name}.`;
+            `'${moduleName}.${classNameStr}${funcName}()' ` +
+            `must be an instance of class ${expectedClassName}.`;
     },
     'missing-a-method': ({ expectedMethod, paramName, moduleName, className, funcName }) => {
         if (!expectedMethod || !paramName || !moduleName || !className
@@ -800,17 +809,17 @@ const messages = {
         }
         return `Two of the entries passed to ` +
             `'workbox-precaching.PrecacheController.addToCacheList()' had the URL ` +
-            `${firstEntry._entryId} but different revision details. Workbox is ` +
+            `${firstEntry} but different revision details. Workbox is ` +
             `unable to cache and version the asset correctly. Please remove one ` +
             `of the entries.`;
     },
-    'plugin-error-request-will-fetch': ({ thrownError }) => {
-        if (!thrownError) {
+    'plugin-error-request-will-fetch': ({ thrownErrorMessage }) => {
+        if (!thrownErrorMessage) {
             throw new Error(`Unexpected input to ` +
                 `'plugin-error-request-will-fetch', error.`);
         }
         return `An error was thrown by a plugins 'requestWillFetch()' method. ` +
-            `The thrown error message was: '${thrownError.message}'.`;
+            `The thrown error message was: '${thrownErrorMessage}'.`;
     },
     'invalid-cache-name': ({ cacheNameId, value }) => {
         if (!cacheNameId) {
@@ -974,6 +983,8 @@ __webpack_require__.r(__webpack_exports__);
 */
 
 // Callbacks to be executed whenever there's a quota error.
+// Can't change Function type right now.
+// eslint-disable-next-line @typescript-eslint/ban-types
 const quotaErrorCallbacks = new Set();
 
 
@@ -1147,6 +1158,8 @@ class PrecacheController {
      * @return {Promise<module:workbox-precaching.InstallResult>}
      */
     install(event) {
+        // waitUntil returns Promise<any>
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return (0,workbox_core_private_waitUntil_js__WEBPACK_IMPORTED_MODULE_4__.waitUntil)(event, async () => {
             const installReportPlugin = new _utils_PrecacheInstallReportPlugin_js__WEBPACK_IMPORTED_MODULE_6__.PrecacheInstallReportPlugin();
             this.strategy.plugins.push(installReportPlugin);
@@ -1184,6 +1197,8 @@ class PrecacheController {
      * @return {Promise<module:workbox-precaching.CleanupResult>}
      */
     activate(event) {
+        // waitUntil returns Promise<any>
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return (0,workbox_core_private_waitUntil_js__WEBPACK_IMPORTED_MODULE_4__.waitUntil)(event, async () => {
             const cache = await self.caches.open(this.strategy.cacheName);
             const currentlyCachedRequests = await cache.keys();
@@ -1274,7 +1289,7 @@ class PrecacheController {
         }
         return (options) => {
             options.request = new Request(url);
-            options.params = { cacheKey, ...options.params };
+            options.params = Object.assign({ cacheKey }, options.params);
             return this.strategy.handle(options);
         };
     }
@@ -1538,12 +1553,16 @@ class PrecacheStrategy extends workbox_strategies_Strategy_js__WEBPACK_IMPORTED_
             });
         }
         if (true) {
+            // Params in handlers is type any, can't change right now.
+            // eslint-disable-next-line
             const cacheKey = handler.params && handler.params.cacheKey ||
                 await handler.getCacheKey(request, 'read');
             // Workbox is going to handle the route.
             // print the routing details to the console.
             workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.groupCollapsed(`Precaching is responding to: ` +
                 (0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_2__.getFriendlyURL)(request.url));
+            // cacheKey is type any, can't change right now.
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.log(`Serving the precached url: ${(0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_2__.getFriendlyURL)(cacheKey.url)}`);
             workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.groupCollapsed(`View request details here.`);
             workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.log(request);
@@ -1651,7 +1670,7 @@ PrecacheStrategy.copyRedirectedCacheableResponsesPlugin = {
 
 // @ts-ignore
 try {
-    self['workbox:precaching:6.1.5'] && _();
+    self['workbox:precaching:6.2.4'] && _();
 }
 catch (e) { }
 
@@ -1967,32 +1986,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/workbox-precaching/index.mjs":
-/*!***************************************************!*\
-  !*** ./node_modules/workbox-precaching/index.mjs ***!
-  \***************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "PrecacheController": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.PrecacheController),
-/* harmony export */   "PrecacheFallbackPlugin": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.PrecacheFallbackPlugin),
-/* harmony export */   "PrecacheRoute": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.PrecacheRoute),
-/* harmony export */   "PrecacheStrategy": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.PrecacheStrategy),
-/* harmony export */   "addPlugins": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.addPlugins),
-/* harmony export */   "addRoute": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.addRoute),
-/* harmony export */   "cleanupOutdatedCaches": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.cleanupOutdatedCaches),
-/* harmony export */   "createHandlerBoundToURL": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.createHandlerBoundToURL),
-/* harmony export */   "getCacheKeyForURL": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.getCacheKeyForURL),
-/* harmony export */   "matchPrecache": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.matchPrecache),
-/* harmony export */   "precache": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.precache),
-/* harmony export */   "precacheAndRoute": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.precacheAndRoute)
-/* harmony export */ });
-/* harmony import */ var _index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.js */ "./node_modules/workbox-precaching/index.js");
-
-
-/***/ }),
-
 /***/ "./node_modules/workbox-precaching/matchPrecache.js":
 /*!**********************************************************!*\
   !*** ./node_modules/workbox-precaching/matchPrecache.js ***!
@@ -2165,6 +2158,8 @@ __webpack_require__.r(__webpack_exports__);
 class PrecacheCacheKeyPlugin {
     constructor({ precacheController }) {
         this.cacheKeyWillBeUsed = async ({ request, params, }) => {
+            // Params is type any, can't change right now.
+            // eslint-disable-next-line
             const cacheKey = params && params.cacheKey ||
                 this._precacheController.getCacheKeyForURL(request.url);
             return cacheKey ? new Request(cacheKey) : request;
@@ -2215,13 +2210,16 @@ class PrecacheInstallReportPlugin {
         };
         this.cachedResponseWillBeUsed = async ({ event, state, cachedResponse, }) => {
             if (event.type === 'install') {
-                // TODO: `state` should never be undefined...
-                const url = state.originalRequest.url;
-                if (cachedResponse) {
-                    this.notUpdatedURLs.push(url);
-                }
-                else {
-                    this.updatedURLs.push(url);
+                if (state && state.originalRequest
+                    && state.originalRequest instanceof Request) {
+                    // TODO: `state` should never be undefined...
+                    const url = state.originalRequest.url;
+                    if (cachedResponse) {
+                        this.notUpdatedURLs.push(url);
+                    }
+                    else {
+                        this.updatedURLs.push(url);
+                    }
                 }
             }
             return cachedResponse;
@@ -2695,8 +2693,8 @@ class RegExpRoute extends _Route_js__WEBPACK_IMPORTED_MODULE_2__.Route {
             // behind this behavior.
             if ((url.origin !== location.origin) && (result.index !== 0)) {
                 if (true) {
-                    workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_1__.logger.debug(`The regular expression '${regExp}' only partially matched ` +
-                        `against the cross-origin URL '${url}'. RegExpRoute's will only ` +
+                    workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_1__.logger.debug(`The regular expression '${regExp.toString()}' only partially matched ` +
+                        `against the cross-origin URL '${url.toString()}'. RegExpRoute's will only ` +
                         `handle cross-origin requests if they match the entire URL.`);
                 }
                 return;
@@ -2898,8 +2896,9 @@ class Router {
     addCacheListener() {
         // See https://github.com/Microsoft/TypeScript/issues/28357#issuecomment-436484705
         self.addEventListener('message', ((event) => {
-            if (event.data && event.data.type === 'CACHE_URLS') {
-                const { payload } = event.data;
+            // event.data is type 'any'
+            if (event.data && event.data.type === 'CACHE_URLS') { // eslint-disable-line
+                const { payload } = event.data; // eslint-disable-line
                 if (true) {
                     workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.debug(`Caching URLs from the window`, payload.urlsToCache);
                 }
@@ -2916,7 +2915,7 @@ class Router {
                 event.waitUntil(requestPromises);
                 // If a MessageChannel was used, reply to the message on success.
                 if (event.ports && event.ports[0]) {
-                    requestPromises.then(() => event.ports[0].postMessage(true));
+                    void requestPromises.then(() => event.ports[0].postMessage(true));
                 }
             }
         }));
@@ -3030,7 +3029,9 @@ class Router {
                         return await catchHandler.handle({ url, request, event, params });
                     }
                     catch (catchErr) {
-                        err = catchErr;
+                        if (catchErr instanceof Error) {
+                            err = catchErr;
+                        }
                     }
                 }
                 if (this._catchHandler) {
@@ -3069,11 +3070,13 @@ class Router {
         const routes = this._routes.get(request.method) || [];
         for (const route of routes) {
             let params;
+            // route.match returns type any, not possible to change right now.
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             const matchResult = route.match({ url, sameOrigin, request, event });
             if (matchResult) {
                 if (true) {
                     // Warn developers that using an async matchCallback is almost always
-                    // not the right thing to do. 
+                    // not the right thing to do.
                     if (matchResult instanceof Promise) {
                         workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.warn(`While routing ${(0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_1__.getFriendlyURL)(url)}, an async ` +
                             `matchCallback function was used. Please convert the ` +
@@ -3081,12 +3084,13 @@ class Router {
                     }
                 }
                 // See https://github.com/GoogleChrome/workbox/issues/2079
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 params = matchResult;
-                if (Array.isArray(matchResult) && matchResult.length === 0) {
+                if (Array.isArray(params) && params.length === 0) {
                     // Instead of passing an empty array in as params, use undefined.
                     params = undefined;
                 }
-                else if ((matchResult.constructor === Object &&
+                else if ((matchResult.constructor === Object && // eslint-disable-line
                     Object.keys(matchResult).length === 0)) {
                     // Instead of passing an empty object in as params, use undefined.
                     params = undefined;
@@ -3210,7 +3214,7 @@ class Router {
 
 // @ts-ignore
 try {
-    self['workbox:routing:6.1.5'] && _();
+    self['workbox:routing:6.2.4'] && _();
 }
 catch (e) { }
 
@@ -3295,7 +3299,7 @@ function registerRoute(capture, handler, method) {
                 if ((url.pathname === captureUrl.pathname) &&
                     (url.origin !== captureUrl.origin)) {
                     workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_0__.logger.debug(`${capture} only partially matches the cross-origin URL ` +
-                        `${url}. This route will only handle cross-origin requests ` +
+                        `${url.toString()}. This route will only handle cross-origin requests ` +
                         `if they match the entire URL.`);
                 }
             }
@@ -3649,10 +3653,12 @@ class Strategy {
             }
         }
         catch (error) {
-            for (const callback of handler.iterateCallbacks('handlerDidError')) {
-                response = await callback({ error, event, request });
-                if (response) {
-                    break;
+            if (error instanceof Error) {
+                for (const callback of handler.iterateCallbacks('handlerDidError')) {
+                    response = await callback({ error, event, request });
+                    if (response) {
+                        break;
+                    }
                 }
             }
             if (!response) {
@@ -3660,7 +3666,7 @@ class Strategy {
             }
             else if (true) {
                 workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_2__.logger.log(`While responding to '${(0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_3__.getFriendlyURL)(request.url)}', ` +
-                    `an ${error} error occurred. Using a fallback response provided by ` +
+                    `an ${error instanceof Error ? error.toString() : ''} error occurred. Using a fallback response provided by ` +
                     `a handlerDidError plugin.`);
             }
         }
@@ -3689,13 +3695,15 @@ class Strategy {
             await handler.doneWaiting();
         }
         catch (waitUntilError) {
-            error = waitUntilError;
+            if (waitUntilError instanceof Error) {
+                error = waitUntilError;
+            }
         }
         await handler.runCallbacks('handlerDidComplete', {
             event,
             request,
             response,
-            error,
+            error: error,
         });
         handler.destroy();
         if (error) {
@@ -3891,9 +3899,9 @@ class StrategyHandler {
             }
         }
         catch (err) {
-            throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_7__.WorkboxError('plugin-error-request-will-fetch', {
-                thrownError: err,
-            });
+            if (err instanceof Error) {
+                throw new workbox_core_private_WorkboxError_js__WEBPACK_IMPORTED_MODULE_7__.WorkboxError('plugin-error-request-will-fetch', { thrownErrorMessage: err.message });
+            }
         }
         // The request can be altered by plugins with `requestWillFetch` making
         // the original request (most likely from a `fetch` event) different
@@ -3927,7 +3935,7 @@ class StrategyHandler {
             // is being used (see above).
             if (originalRequest) {
                 await this.runCallbacks('fetchDidFail', {
-                    error,
+                    error: error,
                     event,
                     originalRequest: originalRequest.clone(),
                     request: pluginFilteredRequest.clone(),
@@ -3949,7 +3957,7 @@ class StrategyHandler {
     async fetchAndCachePut(input) {
         const response = await this.fetch(input);
         const responseClone = response.clone();
-        this.waitUntil(this.cachePut(input, responseClone));
+        void this.waitUntil(this.cachePut(input, responseClone));
         return response;
     }
     /**
@@ -3969,7 +3977,7 @@ class StrategyHandler {
         let cachedResponse;
         const { cacheName, matchOptions } = this._strategy;
         const effectiveRequest = await this.getCacheKey(request, 'read');
-        const multiMatchOptions = { ...matchOptions, ...{ cacheName } };
+        const multiMatchOptions = Object.assign(Object.assign({}, matchOptions), { cacheName });
         cachedResponse = await caches.match(effectiveRequest, multiMatchOptions);
         if (true) {
             if (cachedResponse) {
@@ -4054,11 +4062,13 @@ class StrategyHandler {
                 responseToCache.clone() : responseToCache);
         }
         catch (error) {
-            // See https://developer.mozilla.org/en-US/docs/Web/API/DOMException#exception-QuotaExceededError
-            if (error.name === 'QuotaExceededError') {
-                await (0,workbox_core_private_executeQuotaErrorCallbacks_js__WEBPACK_IMPORTED_MODULE_3__.executeQuotaErrorCallbacks)();
+            if (error instanceof Error) {
+                // See https://developer.mozilla.org/en-US/docs/Web/API/DOMException#exception-QuotaExceededError
+                if (error.name === 'QuotaExceededError') {
+                    await (0,workbox_core_private_executeQuotaErrorCallbacks_js__WEBPACK_IMPORTED_MODULE_3__.executeQuotaErrorCallbacks)();
+                }
+                throw error;
             }
-            throw error;
         }
         for (const callback of this.iterateCallbacks('cacheDidUpdate')) {
             await callback({
@@ -4090,6 +4100,7 @@ class StrategyHandler {
                     mode,
                     request: effectiveRequest,
                     event: this.event,
+                    // params has a type any can't change right now.
                     params: this.params,
                 }));
             }
@@ -4149,7 +4160,7 @@ class StrategyHandler {
             if (typeof plugin[name] === 'function') {
                 const state = this._pluginStateMap.get(plugin);
                 const statefulCallback = (param) => {
-                    const statefulParam = { ...param, state };
+                    const statefulParam = Object.assign(Object.assign({}, param), { state });
                     // TODO(philipwalton): not sure why `any` is needed. It seems like
                     // this should work with `as WorkboxPluginCallbackParam[C]`.
                     return plugin[name](statefulParam);
@@ -4196,7 +4207,7 @@ class StrategyHandler {
      * `waitUntil()` promises.
      */
     destroy() {
-        this._handlerDeferred.resolve();
+        this._handlerDeferred.resolve(null);
     }
     /**
      * This method will call cacheWillUpdate on the available plugins (or use
@@ -4260,9 +4271,35 @@ class StrategyHandler {
 
 // @ts-ignore
 try {
-    self['workbox:strategies:6.1.5'] && _();
+    self['workbox:strategies:6.2.4'] && _();
 }
 catch (e) { }
+
+
+/***/ }),
+
+/***/ "./node_modules/workbox-precaching/index.mjs":
+/*!***************************************************!*\
+  !*** ./node_modules/workbox-precaching/index.mjs ***!
+  \***************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "PrecacheController": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.PrecacheController),
+/* harmony export */   "PrecacheFallbackPlugin": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.PrecacheFallbackPlugin),
+/* harmony export */   "PrecacheRoute": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.PrecacheRoute),
+/* harmony export */   "PrecacheStrategy": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.PrecacheStrategy),
+/* harmony export */   "addPlugins": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.addPlugins),
+/* harmony export */   "addRoute": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.addRoute),
+/* harmony export */   "cleanupOutdatedCaches": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.cleanupOutdatedCaches),
+/* harmony export */   "createHandlerBoundToURL": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.createHandlerBoundToURL),
+/* harmony export */   "getCacheKeyForURL": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.getCacheKeyForURL),
+/* harmony export */   "matchPrecache": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.matchPrecache),
+/* harmony export */   "precache": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.precache),
+/* harmony export */   "precacheAndRoute": () => (/* reexport safe */ _index_js__WEBPACK_IMPORTED_MODULE_0__.precacheAndRoute)
+/* harmony export */ });
+/* harmony import */ var _index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.js */ "./node_modules/workbox-precaching/index.js");
 
 
 /***/ })
@@ -4406,7 +4443,7 @@ function getPossibleURLs(url) {
 (async () => {
   const params = parseSwParams();
 
-  const precacheManifest = [{"revision":"6a44c5b5742ed18aa08e67349df55db2","url":"404.html"},{"revision":"cfa15dc372bbf7f3f4c1d5ac333f7380","url":"assets/css/styles.f19170fa.css"},{"revision":"8c447ee193c78345514fcfde4941636b","url":"assets/js/0f4c36dc.0b8cb589.js"},{"revision":"5b4a09c74fe6e7db2260531bb5b318b2","url":"assets/js/17896441.8361ed82.js"},{"revision":"3c271a735bf2cc3c35020ed7fdb72375","url":"assets/js/19af1ab9.01d2758f.js"},{"revision":"ddc9525ab5acd889a86b0af9f4da260a","url":"assets/js/1be78505.16c0826e.js"},{"revision":"b160114395300c5e9692952d407cf43f","url":"assets/js/247ca940.d83d85fd.js"},{"revision":"06d4b4b5ac93d247023162a48b769ac2","url":"assets/js/261.3620a394.js"},{"revision":"a4b33a9032f72f3a7bfdcb4ce5fa6f8b","url":"assets/js/369e6452.d7c77b38.js"},{"revision":"0ea4310ac5d7be94f63fdd65523e0b13","url":"assets/js/371533b2.c73404e3.js"},{"revision":"74470cd617ca050b6a0fa0d58b0e25fb","url":"assets/js/403.89ab64ba.js"},{"revision":"5abc91a80ea3ff0b5ab1f35b97af9026","url":"assets/js/49362468.bdaa4202.js"},{"revision":"c54bd1144505c19221940b4e505674ef","url":"assets/js/580.a6ed7fc7.js"},{"revision":"a21bb1154324e25f82f1ec6b54b5b3a9","url":"assets/js/608.02f05b57.js"},{"revision":"2f3de4756b630af366cd7f2a414d0c66","url":"assets/js/655d0472.54c45be0.js"},{"revision":"7182a52fc65f9e7bb43b5d0cd5cd8227","url":"assets/js/683b8442.9f42fb9a.js"},{"revision":"fabb7da600ba397e536cb4b446d4dafe","url":"assets/js/6a0b3869.7f7d1bdf.js"},{"revision":"10c677eea35c161743ee71144bcc84e0","url":"assets/js/6a2db6be.10cb187b.js"},{"revision":"605824f087700c6694fd8a17e2e0fc20","url":"assets/js/6aa72b4e.bb807dde.js"},{"revision":"f430b77363a06e1d996e05081d45f615","url":"assets/js/756f4a14.10abe268.js"},{"revision":"6975e85cfd13b8885dfd4a9ff6b468fb","url":"assets/js/79f432f8.14a8cc2b.js"},{"revision":"16aa28c655ba500de2caf455a8f94415","url":"assets/js/7dc130a9.6a86f1b8.js"},{"revision":"faf05bf7493b984c4e53d7ff3e6a4015","url":"assets/js/8285ed18.619bd9c3.js"},{"revision":"eb216aa493c97f81e9d6d6be7533338f","url":"assets/js/843bf7fd.a2f424f4.js"},{"revision":"d3148159cc9ffbb6e2e8895abb14d7a9","url":"assets/js/8b0e28bc.c6c1c987.js"},{"revision":"7222bbef417628467302a62a360d076c","url":"assets/js/923.f1a0de97.js"},{"revision":"d2a0539cb396b9ef4cfc5798de97272b","url":"assets/js/935f2afb.ff3a18e5.js"},{"revision":"f045823d37ade7c3090fffb0b06f5349","url":"assets/js/95d72018.6428d466.js"},{"revision":"e6bcdc0d578e2fc9d169faf954ac9152","url":"assets/js/a9cce72f.f9f9d08f.js"},{"revision":"4d7bb4ba669e3c1be7103aef8fcf4949","url":"assets/js/bd983e46.91ae1c84.js"},{"revision":"b0b9220aec92a2c8efc507324e492886","url":"assets/js/c4f5d8e4.5df569c0.js"},{"revision":"038a383a32f3614f48fc873e206cbd96","url":"assets/js/main.061a671d.js"},{"revision":"c533642600f70ae4787a829e8b450887","url":"assets/js/runtime~main.b3f85bde.js"},{"revision":"011bd7cffff5d6812b502efb72a8518c","url":"docs/Account/AccountEinschraekung/index.html"},{"revision":"9e0102e5680c29f29c6dbeacf94e8037","url":"docs/Account/AusversehenProduktBestellt/index.html"},{"revision":"93a6bf28864be5f4b99d1e76594e4f12","url":"docs/Account/Credits/index.html"},{"revision":"87184951c3078a769fd0219065a69224","url":"docs/Account/DiscordVerifizieren/index.html"},{"revision":"623d74669ec3a90a8b447d65682a7d39","url":"docs/Account/Partner/index.html"},{"revision":"dbbf4c1326a55daf522d71b65b44dae1","url":"docs/Account/ProduktDeleteError/index.html"},{"revision":"c6c5e3e90e0a3fa98e5ad7704a68fcd3","url":"docs/Account/ProduktIDFinden/index.html"},{"revision":"c672286e0bda80d4cfe1077f358f9603","url":"docs/Account/TicketErstellen/index.html"},{"revision":"0aa54b1df20eb1ebd4b1c08c2803a6b0","url":"docs/Database/mysql/index.html"},{"revision":"bb613f47cb1201a8e49cee5a1c926f9a","url":"docs/Gameserver/ConnectWithFtpClient/index.html"},{"revision":"435764c129ecaa90583108a651afdc30","url":"docs/Gameserver/GameServerStartetNicht/index.html"},{"revision":"dd8162bf7ac2f21c4e80b747bc050029","url":"docs/General/Beratung/index.html"},{"revision":"cb66c7e222e17970bff580a4e01a2f29","url":"docs/index.html"},{"revision":"300e33cf7236980045c396685509c560","url":"docs/Musicbot/musicsoon/index.html"},{"revision":"d48d37f88867a473f2d84987d953f77f","url":"docs/Webspace/ConnectDomain/index.html"},{"revision":"cc6abcc21189be282b1d85fd2945734f","url":"docs/Webspace/gitverbinden/index.html"},{"revision":"ddc9d79f0285c138ef15d85f300c09b6","url":"docs/Webspace/NextcloudLoginFehler/index.html"},{"revision":"574993a601389dfc6cddb6dfee42e9e6","url":"docs/Webspace/nodejs/index.html"},{"revision":"929051d36fe76e83e276f905b8ee8690","url":"docs/Webspace/Webmail/index.html"},{"revision":"433aec3065304d85fb46c1bed2a2c2d4","url":"docs/Webspace/ZertifikatErstellen/index.html"},{"revision":"cdcec3d0e7ba3863c93a2ed07fb20ea1","url":"index.html"},{"revision":"bad28980839f31e8add550f5960231e7","url":"manifest.json"},{"revision":"e911e2994456bdce0bc40667b210ae91","url":"search-index.json"},{"revision":"4343e07bf942aefb5f334501958fbc0e","url":"img/favicon.ico"},{"revision":"8a569becdc1d555f9a7d2a71ddd010ae","url":"img/icons/icon-144x144.png"},{"revision":"5542cb49753aae6257b40386886c0095","url":"img/icons/icon-152x152.png"},{"revision":"00a6a3223b74ea470f6a07895051e91c","url":"img/icons/icon-192x192.png"},{"revision":"8d7555754a6e55efce219004071a3dcd","url":"img/icons/icon-256x256.png"},{"revision":"79ae3b752589396b3237cecdf090f59a","url":"img/icons/icon-72x72.png"},{"revision":"edb51e40677b91a05b6b803ef635ffaa","url":"img/icons/icon-96x96.png"},{"revision":"aa4fa2cdc39d33f2ee3b8f245b6d30d9","url":"img/logo.svg"},{"revision":"d6778e4a4460222012846a7a1ef53021","url":"img/puhhosting.png"},{"revision":"de7de10d0bf3a54b6bb6ffb90691926e","url":"img/undraw-faq.svg"},{"revision":"3a43ee0cf02d05d12d34357127b43c84","url":"img/undraw-free.svg"},{"revision":"9720d44d456ae80478f665a5a1c00dae","url":"img/undraw-tutorial.svg"}];
+  const precacheManifest = [{"revision":"fff84decadafb3e15f8c14d52296b4e5","url":"404.html"},{"revision":"aae6a4e9e9c9c4b50faeea53f8a59d39","url":"assets/css/styles.6ac58e08.css"},{"revision":"41d22b744d931add82db1f70c8b70219","url":"assets/js/0f4c36dc.b0872ef5.js"},{"revision":"dbfe6eae7ba7a706fed6e1c64c24e184","url":"assets/js/131.569780ae.js"},{"revision":"dba6415ac98c54e0c0be9926e1581aae","url":"assets/js/17896441.3fc24695.js"},{"revision":"b08e2e03fa6af9fa80fac9fe387691eb","url":"assets/js/19af1ab9.deb3ae18.js"},{"revision":"ff80e74f2243e2768de6adf97eb43119","url":"assets/js/1be78505.83f74a83.js"},{"revision":"7a7601ce5f819dd8dfcf82605f348b5e","url":"assets/js/247ca940.87acc286.js"},{"revision":"aff104730c48f7bf23d3461580aef628","url":"assets/js/261.de8066a5.js"},{"revision":"9415dabdb8d6740881caea447e302be6","url":"assets/js/369e6452.8837569f.js"},{"revision":"eff1ae6de522e893fa231b1776f89cc4","url":"assets/js/371533b2.b79629b2.js"},{"revision":"d96c28aed5ccf466d2b90efd9959b530","url":"assets/js/403.6e8317a4.js"},{"revision":"b7ab04bec3c6c89b6a667f6b8091a770","url":"assets/js/49362468.01d826ce.js"},{"revision":"a21bb1154324e25f82f1ec6b54b5b3a9","url":"assets/js/608.02f05b57.js"},{"revision":"0490735ba791b0c27f502c6695b98344","url":"assets/js/655d0472.e52f820d.js"},{"revision":"57fba87c8d3ec5658383d446ec856016","url":"assets/js/683b8442.cb0be809.js"},{"revision":"c55ec7b2cf52d4fdf10b2971cc2a506b","url":"assets/js/6a0b3869.f21bf3d7.js"},{"revision":"9ea1d15d70dc37628ee2a128f90cf3c2","url":"assets/js/6a2db6be.5fb3d862.js"},{"revision":"2721201093c2ba5fa2b5bbf394d848bd","url":"assets/js/6aa72b4e.4c3066f4.js"},{"revision":"42a4745d7dda54a9d086ccbd56d3f0f8","url":"assets/js/756f4a14.8f7e4d9f.js"},{"revision":"87a3161add62d44ec767cee33310c6c7","url":"assets/js/79f432f8.a3666f9f.js"},{"revision":"ca3fb4379fbb456251dd6063da7d1797","url":"assets/js/7dc130a9.33129448.js"},{"revision":"2e5d416e8a353cb6ee502e965b1c0615","url":"assets/js/8285ed18.92c9b40e.js"},{"revision":"7f582ce1c233d34a4c4c377f37085555","url":"assets/js/843bf7fd.e3269656.js"},{"revision":"880f308eac3302dde95a2fcce8820b28","url":"assets/js/8b0e28bc.c817ca54.js"},{"revision":"46a0f303113db65e7fc01188d4a3f9dd","url":"assets/js/923.e5779ad6.js"},{"revision":"578f4b953f0aae4740d71b598fecf21d","url":"assets/js/935f2afb.e0c1d7d4.js"},{"revision":"5d8f66b3fbc4a8f930cc26efdaf375fd","url":"assets/js/95d72018.2f3019ab.js"},{"revision":"bc822d7ee34ab9474adf4e81948d07f6","url":"assets/js/a9cce72f.54684009.js"},{"revision":"4b71301314116f4ebaf0ab806849b6bf","url":"assets/js/bd983e46.d085c846.js"},{"revision":"9d64b570ce0b308dea45a061d64e30bd","url":"assets/js/c4f5d8e4.f20ad889.js"},{"revision":"04af86e938d238c0ce26091db12e6092","url":"assets/js/main.1602bd46.js"},{"revision":"3473afb6150ef4dc11b41dd1217368a6","url":"assets/js/runtime~main.f411a53e.js"},{"revision":"34fbe0bbd632720461c1a2e3ada44e12","url":"docs/Account/AccountEinschraekung/index.html"},{"revision":"2316e0b3600b780b67e85fc5783d19b2","url":"docs/Account/AusversehenProduktBestellt/index.html"},{"revision":"cf259972b0309c3e2dd257553c9c654d","url":"docs/Account/Credits/index.html"},{"revision":"d26f6b7838647eebb4f7e2e5ab5ae737","url":"docs/Account/DiscordVerifizieren/index.html"},{"revision":"fad94a20ee2d26bc8ba856497606c0a7","url":"docs/Account/Partner/index.html"},{"revision":"7ef40f4bb2125cedbe62b4a360fa3172","url":"docs/Account/ProduktDeleteError/index.html"},{"revision":"8d2c3f7c4752a6f6aa563fba3e097687","url":"docs/Account/ProduktIDFinden/index.html"},{"revision":"8c75519ebf11a5d9fe06fd09f089c929","url":"docs/Account/TicketErstellen/index.html"},{"revision":"d8e1a03ec011487b850aaf893222b909","url":"docs/Database/mysql/index.html"},{"revision":"f0c5d20c8334c2dafc6108f26c654b42","url":"docs/Gameserver/ConnectWithFtpClient/index.html"},{"revision":"1e77fdaaf37d8034e80ba56f35bdbe3f","url":"docs/Gameserver/GameServerStartetNicht/index.html"},{"revision":"0bb1a982e38cbedf1522b18cc585641d","url":"docs/General/Beratung/index.html"},{"revision":"0e3439f7608fd37894c5e2b9ae59f419","url":"docs/index.html"},{"revision":"5b0a307751f148c5ac4adb312190c89f","url":"docs/Musicbot/musicsoon/index.html"},{"revision":"5780fd0438532dcc24071402c8cc1a82","url":"docs/Webspace/ConnectDomain/index.html"},{"revision":"01ec6916c9712b881ba33eeb5a2fd1ce","url":"docs/Webspace/gitverbinden/index.html"},{"revision":"863701d6fbac8e4d3be53a317e8b3be2","url":"docs/Webspace/NextcloudLoginFehler/index.html"},{"revision":"23d189e8100939746f863a0e9474b2ed","url":"docs/Webspace/nodejs/index.html"},{"revision":"97c12efa7979547714b66267291e26cf","url":"docs/Webspace/Webmail/index.html"},{"revision":"8d2ea2f0c5cc7a4c69c3ee857fc643c0","url":"docs/Webspace/ZertifikatErstellen/index.html"},{"revision":"d43f55ce689f73f6c895e1433aa4809e","url":"index.html"},{"revision":"bad28980839f31e8add550f5960231e7","url":"manifest.json"},{"revision":"e911e2994456bdce0bc40667b210ae91","url":"search-index.json"},{"revision":"4343e07bf942aefb5f334501958fbc0e","url":"img/favicon.ico"},{"revision":"8a569becdc1d555f9a7d2a71ddd010ae","url":"img/icons/icon-144x144.png"},{"revision":"5542cb49753aae6257b40386886c0095","url":"img/icons/icon-152x152.png"},{"revision":"00a6a3223b74ea470f6a07895051e91c","url":"img/icons/icon-192x192.png"},{"revision":"8d7555754a6e55efce219004071a3dcd","url":"img/icons/icon-256x256.png"},{"revision":"79ae3b752589396b3237cecdf090f59a","url":"img/icons/icon-72x72.png"},{"revision":"edb51e40677b91a05b6b803ef635ffaa","url":"img/icons/icon-96x96.png"},{"revision":"aa4fa2cdc39d33f2ee3b8f245b6d30d9","url":"img/logo.svg"},{"revision":"d6778e4a4460222012846a7a1ef53021","url":"img/puhhosting.png"},{"revision":"de7de10d0bf3a54b6bb6ffb90691926e","url":"img/undraw-faq.svg"},{"revision":"3a43ee0cf02d05d12d34357127b43c84","url":"img/undraw-free.svg"},{"revision":"9720d44d456ae80478f665a5a1c00dae","url":"img/undraw-tutorial.svg"}];
   const controller = new workbox_precaching__WEBPACK_IMPORTED_MODULE_0__.PrecacheController({
     fallbackToNetwork: true, // safer to turn this true?
   });
