@@ -1248,6 +1248,14 @@ class PrecacheController {
         return this._urlsToCacheKeys.get(urlObject.href);
     }
     /**
+     * @param {string} url A cache key whose SRI you want to look up.
+     * @return {string} The subresource integrity associated with the cache key,
+     * or undefined if it's not set.
+     */
+    getIntegrityForCacheKey(cacheKey) {
+        return this._cacheKeysToIntegrities.get(cacheKey);
+    }
+    /**
      * This acts as a drop-in replacement for
      * [`cache.match()`](https://developer.mozilla.org/en-US/docs/Web/API/Cache/match)
      * with the following differences:
@@ -1423,7 +1431,8 @@ class PrecacheRoute extends workbox_routing_Route_js__WEBPACK_IMPORTED_MODULE_2_
             for (const possibleURL of (0,_utils_generateURLVariations_js__WEBPACK_IMPORTED_MODULE_3__.generateURLVariations)(request.url, options)) {
                 const cacheKey = urlsToCacheKeys.get(possibleURL);
                 if (cacheKey) {
-                    return { cacheKey };
+                    const integrity = precacheController.getIntegrityForCacheKey(cacheKey);
+                    return { cacheKey, integrity };
                 }
             }
             if (true) {
@@ -1505,7 +1514,8 @@ class PrecacheStrategy extends workbox_strategies_Strategy_js__WEBPACK_IMPORTED_
     constructor(options = {}) {
         options.cacheName = workbox_core_private_cacheNames_js__WEBPACK_IMPORTED_MODULE_1__.cacheNames.getPrecacheName(options.cacheName);
         super(options);
-        this._fallbackToNetwork = options.fallbackToNetwork === false ? false : true;
+        this._fallbackToNetwork =
+            options.fallbackToNetwork === false ? false : true;
         // Redirected responses cannot be used to satisfy a navigation request, so
         // any redirected response must be "copied" rather than cloned, so the new
         // response doesn't contain the `redirected` flag. See:
@@ -1521,28 +1531,49 @@ class PrecacheStrategy extends workbox_strategies_Strategy_js__WEBPACK_IMPORTED_
      */
     async _handle(request, handler) {
         const response = await handler.cacheMatch(request);
-        if (!response) {
-            // If this is an `install` event then populate the cache. If this is a
-            // `fetch` event (or any other event) then respond with the cached
-            // response.
-            if (handler.event && handler.event.type === 'install') {
-                return await this._handleInstall(request, handler);
-            }
-            return await this._handleFetch(request, handler);
+        if (response) {
+            return response;
         }
-        return response;
+        // If this is an `install` event for an entry that isn't already cached,
+        // then populate the cache.
+        if (handler.event && handler.event.type === 'install') {
+            return await this._handleInstall(request, handler);
+        }
+        // Getting here means something went wrong. An entry that should have been
+        // precached wasn't found in the cache.
+        return await this._handleFetch(request, handler);
     }
     async _handleFetch(request, handler) {
         let response;
-        // Fall back to the network if we don't have a cached response
-        // (perhaps due to manual cache cleanup).
+        const params = (handler.params || {});
+        // Fall back to the network if we're configured to do so.
         if (this._fallbackToNetwork) {
             if (true) {
                 workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.warn(`The precached response for ` +
                     `${(0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_2__.getFriendlyURL)(request.url)} in ${this.cacheName} was not ` +
-                    `found. Falling back to the network instead.`);
+                    `found. Falling back to the network.`);
             }
-            response = await handler.fetch(request);
+            const integrityInManifest = params.integrity;
+            const integrityInRequest = request.integrity;
+            const noIntegrityConflict = !integrityInRequest || integrityInRequest === integrityInManifest;
+            response = await handler.fetch(new Request(request, {
+                integrity: integrityInRequest || integrityInManifest,
+            }));
+            // It's only "safe" to repair the cache if we're using SRI to guarantee
+            // that the response matches the precache manifest's expectations,
+            // and there's either a) no integrity property in the incoming request
+            // or b) there is an integrity, and it matches the precache manifest.
+            // See https://github.com/GoogleChrome/workbox/issues/2858
+            if (integrityInManifest && noIntegrityConflict) {
+                this._useDefaultCacheabilityPluginIfNeeded();
+                const wasCached = await handler.cachePut(request, response.clone());
+                if (true) {
+                    if (wasCached) {
+                        workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.log(`A response for ${(0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_2__.getFriendlyURL)(request.url)} ` +
+                            `was used to "repair" the precache.`);
+                    }
+                }
+            }
         }
         else {
             // This shouldn't normally happen, but there are edge cases:
@@ -1553,17 +1584,11 @@ class PrecacheStrategy extends workbox_strategies_Strategy_js__WEBPACK_IMPORTED_
             });
         }
         if (true) {
-            // Params in handlers is type any, can't change right now.
-            // eslint-disable-next-line
-            const cacheKey = handler.params && handler.params.cacheKey ||
-                await handler.getCacheKey(request, 'read');
+            const cacheKey = params.cacheKey || (await handler.getCacheKey(request, 'read'));
             // Workbox is going to handle the route.
             // print the routing details to the console.
-            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.groupCollapsed(`Precaching is responding to: ` +
-                (0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_2__.getFriendlyURL)(request.url));
-            // cacheKey is type any, can't change right now.
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.log(`Serving the precached url: ${(0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_2__.getFriendlyURL)(cacheKey.url)}`);
+            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.groupCollapsed(`Precaching is responding to: ` + (0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_2__.getFriendlyURL)(request.url));
+            workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.log(`Serving the precached url: ${(0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_2__.getFriendlyURL)(cacheKey instanceof Request ? cacheKey.url : cacheKey)}`);
             workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.groupCollapsed(`View request details here.`);
             workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.log(request);
             workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_3__.logger.groupEnd();
@@ -1649,12 +1674,12 @@ PrecacheStrategy.defaultPrecacheCacheabilityPlugin = {
             return null;
         }
         return response;
-    }
+    },
 };
 PrecacheStrategy.copyRedirectedCacheableResponsesPlugin = {
     async cacheWillUpdate({ response }) {
         return response.redirected ? await (0,workbox_core_copyResponse_js__WEBPACK_IMPORTED_MODULE_0__.copyResponse)(response) : response;
-    }
+    },
 };
 
 
@@ -2159,10 +2184,13 @@ class PrecacheCacheKeyPlugin {
     constructor({ precacheController }) {
         this.cacheKeyWillBeUsed = async ({ request, params, }) => {
             // Params is type any, can't change right now.
-            // eslint-disable-next-line
-            const cacheKey = params && params.cacheKey ||
+            /* eslint-disable */
+            const cacheKey = (params === null || params === void 0 ? void 0 : params.cacheKey) ||
                 this._precacheController.getCacheKeyForURL(request.url);
-            return cacheKey ? new Request(cacheKey) : request;
+            /* eslint-enable */
+            return cacheKey
+                ? new Request(cacheKey, { headers: request.headers })
+                : request;
         };
         this._precacheController = precacheController;
     }
@@ -4026,6 +4054,14 @@ class StrategyHandler {
                     method: effectiveRequest.method,
                 });
             }
+            // See https://github.com/GoogleChrome/workbox/issues/2818
+            const vary = response.headers.get('Vary');
+            if (vary) {
+                workbox_core_private_logger_js__WEBPACK_IMPORTED_MODULE_5__.logger.debug(`The response for ${(0,workbox_core_private_getFriendlyURL_js__WEBPACK_IMPORTED_MODULE_4__.getFriendlyURL)(effectiveRequest.url)} ` +
+                    `has a 'Vary: ${vary}' header. ` +
+                    `Consider setting the {ignoreVary: true} option on your strategy ` +
+                    `to ensure cache matching and deletion works as expected.`);
+            }
         }
         if (!response) {
             if (true) {
@@ -4443,7 +4479,7 @@ function getPossibleURLs(url) {
 (async () => {
   const params = parseSwParams();
 
-  const precacheManifest = [{"revision":"3d9303687ed7a62e7cb605a784b6f4a9","url":"404.html"},{"revision":"3c7591393d2e6f8effc0c24cd616061d","url":"assets/css/styles.49ee03ac.css"},{"revision":"e9625b508ce630975252da38c5f1bfee","url":"assets/js/0f4c36dc.109fbcb2.js"},{"revision":"dbfe6eae7ba7a706fed6e1c64c24e184","url":"assets/js/131.569780ae.js"},{"revision":"b1f40d2565ee4e309733c1cd64e929d1","url":"assets/js/17896441.6d2825ea.js"},{"revision":"3465b099c32e44e3122f83a035eb2099","url":"assets/js/19af1ab9.a4175c26.js"},{"revision":"8dc3e14844e1b3f5c2b95de17184a977","url":"assets/js/1be78505.962029ed.js"},{"revision":"0356423a292d996384f126695e5daae9","url":"assets/js/247ca940.9ac659d8.js"},{"revision":"37f6c5c8e0e312e521be5cb848d27ce9","url":"assets/js/369e6452.df43e532.js"},{"revision":"245d32e19b77a4bb754c95405eab0e07","url":"assets/js/371533b2.8538b917.js"},{"revision":"a0495c057417cb102f3e287fb8e5b5e7","url":"assets/js/3720c009.d704cb51.js"},{"revision":"5c04ebfe56e4c7f51b977b90a8d66251","url":"assets/js/403.2ca12a12.js"},{"revision":"7146cdd8de84656fef0a5c4346aadf15","url":"assets/js/49362468.6e9d7eee.js"},{"revision":"6fc3ffa7f57ac6a1b9b8558ef00e3af2","url":"assets/js/55960ee5.34253d63.js"},{"revision":"716e7c7a91c2e6f6131dbb4d7321bc30","url":"assets/js/655d0472.713525cf.js"},{"revision":"4ecf2aa53ee10d97a24dd4a6808819f1","url":"assets/js/683b8442.26612e0d.js"},{"revision":"78dced833a559d789dfb99f0de69cfd7","url":"assets/js/698.6921665f.js"},{"revision":"3b53746c294a782f4c3c1b98f1d40bde","url":"assets/js/6a0b3869.86ca8651.js"},{"revision":"b5dd711b470a75b4c01ff8d27f38bc90","url":"assets/js/6a2db6be.f31a7cac.js"},{"revision":"214ee5267cc2e2837bf7d6cd1d67d471","url":"assets/js/6aa72b4e.e5c88ecc.js"},{"revision":"05779820629b81a419a75a650d376400","url":"assets/js/75.d45ca21e.js"},{"revision":"edb6622ad5188994701e8c5d693f6b08","url":"assets/js/756f4a14.e06e8777.js"},{"revision":"5a0a1a92feb430f8496fdc5df4c2700d","url":"assets/js/79f432f8.135396f1.js"},{"revision":"5bfcf086f982b5a988a2a2a744fd5e58","url":"assets/js/7dc130a9.93a54cb2.js"},{"revision":"4df0bf5833776b62aa5aca0d919b2a56","url":"assets/js/8285ed18.2be73f67.js"},{"revision":"7b41d873dfabfa6e198d8e93fcced8e0","url":"assets/js/843bf7fd.0a84efb8.js"},{"revision":"67ee6885fafa020fbb7ef1d382bd46e1","url":"assets/js/8b0e28bc.26fe7714.js"},{"revision":"46a0f303113db65e7fc01188d4a3f9dd","url":"assets/js/923.e5779ad6.js"},{"revision":"3dec6c861aca370b4bfb358034f1ef9a","url":"assets/js/935f2afb.935dc490.js"},{"revision":"59df2d140bf40fd3b07414f9848dbdeb","url":"assets/js/95d72018.c0fc2398.js"},{"revision":"4ce5f54c2096aacbd5fed79375385fa8","url":"assets/js/9e4087bc.7a723c84.js"},{"revision":"bf898ee1276983c1dae36890a7a63511","url":"assets/js/a9cce72f.66f0a04a.js"},{"revision":"754194bb818d8280feae7f56e1b8d31c","url":"assets/js/bd983e46.2e083f13.js"},{"revision":"01ecbcd95c42c1afb44d2f9806c8cde0","url":"assets/js/c4f5d8e4.5b69dff7.js"},{"revision":"884d27cade8d120815dff4a9a32c722f","url":"assets/js/f6cbeee1.84f2a54a.js"},{"revision":"eea86b2807ca219cace72dc5adeb953d","url":"assets/js/main.b577c63d.js"},{"revision":"4c0c609fd8fbe13a49d93ed50994ca19","url":"assets/js/runtime~main.41aaf0ea.js"},{"revision":"ebd3408d665c04e5439cba55d22e9bbb","url":"blog/archive/index.html"},{"revision":"42b46043289ac080106f078717f58cbf","url":"docs/Account/AccountEinschraekung/index.html"},{"revision":"0cb9ee002032b467061d080d7ad816ff","url":"docs/Account/AusversehenProduktBestellt/index.html"},{"revision":"25aa7fd68315a4955bea6f84acf2f00e","url":"docs/Account/Credits/index.html"},{"revision":"e9613d77b0d39bdf4c735a8c721edc6c","url":"docs/Account/DiscordVerifizieren/index.html"},{"revision":"98a9f3863ff6099da97a00c2dc600905","url":"docs/Account/Partner/index.html"},{"revision":"1bef3530eea15ccd0a55edf21b76c493","url":"docs/Account/ProduktDeleteError/index.html"},{"revision":"e953058f9039ace2c2902f4770aa32c0","url":"docs/Account/ProduktIDFinden/index.html"},{"revision":"934a885321d00debb4ef8b3a67d63789","url":"docs/Account/TicketErstellen/index.html"},{"revision":"3ec7ee596cf2adef7687baacd301b80b","url":"docs/Database/mysql/index.html"},{"revision":"1dc807cbdc28587ad58dd82eb9a79fb6","url":"docs/Gameserver/ConnectWithFtpClient/index.html"},{"revision":"7b12d041bcd2bbc6510e27f52c466c87","url":"docs/Gameserver/GameServerStartetNicht/index.html"},{"revision":"aed214acb623b6f4834ae909776c667c","url":"docs/General/Beratung/index.html"},{"revision":"ed96eb3b527e22b8ab3af200b926e537","url":"docs/index.html"},{"revision":"4869b67d1f1cdcdf19e150a90f6cc2c9","url":"docs/Musicbot/musicsoon/index.html"},{"revision":"92e0af4fbe021eb8cce5adf302d4d248","url":"docs/tags/index.html"},{"revision":"5ff27928abab4a7a999dbe6254220492","url":"docs/Webspace/ConnectDomain/index.html"},{"revision":"4d3afbdadbb9c582597783a9cb76bd5e","url":"docs/Webspace/gitverbinden/index.html"},{"revision":"ad8b378900ade5257123485cbb0d7944","url":"docs/Webspace/NextcloudLoginFehler/index.html"},{"revision":"2ccda0ca9c0d349beb3d7a958886e142","url":"docs/Webspace/nodejs/index.html"},{"revision":"a6a6ef63443e4efc15cfdff16d3e4d2a","url":"docs/Webspace/Webmail/index.html"},{"revision":"e1f4f3e09a5bfdd36964cf709c27755c","url":"docs/Webspace/ZertifikatErstellen/index.html"},{"revision":"3889ff6c1a157524a416c84429a45f45","url":"index.html"},{"revision":"bad28980839f31e8add550f5960231e7","url":"manifest.json"},{"revision":"60270ea8d3ea0fa39d46d4936fced148","url":"search-index.json"},{"revision":"4343e07bf942aefb5f334501958fbc0e","url":"img/favicon.ico"},{"revision":"8a569becdc1d555f9a7d2a71ddd010ae","url":"img/icons/icon-144x144.png"},{"revision":"5542cb49753aae6257b40386886c0095","url":"img/icons/icon-152x152.png"},{"revision":"00a6a3223b74ea470f6a07895051e91c","url":"img/icons/icon-192x192.png"},{"revision":"8d7555754a6e55efce219004071a3dcd","url":"img/icons/icon-256x256.png"},{"revision":"79ae3b752589396b3237cecdf090f59a","url":"img/icons/icon-72x72.png"},{"revision":"edb51e40677b91a05b6b803ef635ffaa","url":"img/icons/icon-96x96.png"},{"revision":"aa4fa2cdc39d33f2ee3b8f245b6d30d9","url":"img/logo.svg"},{"revision":"d6778e4a4460222012846a7a1ef53021","url":"img/puhhosting.png"},{"revision":"de7de10d0bf3a54b6bb6ffb90691926e","url":"img/undraw-faq.svg"},{"revision":"3a43ee0cf02d05d12d34357127b43c84","url":"img/undraw-free.svg"},{"revision":"9720d44d456ae80478f665a5a1c00dae","url":"img/undraw-tutorial.svg"}];
+  const precacheManifest = [{"revision":"15ebbed0aee1a834f96db4d191c47b64","url":"404.html"},{"revision":"353edbdd0f8d748a34c4919c27b18517","url":"assets/css/styles.517690d8.css"},{"revision":"f3bdbb1fbcce48a6e60b8042ed61ca0b","url":"assets/js/0f4c36dc.b49d4ea7.js"},{"revision":"dd3f1e48aee9cef5e8592b53aa16b973","url":"assets/js/131.8df7f461.js"},{"revision":"b1f40d2565ee4e309733c1cd64e929d1","url":"assets/js/17896441.6d2825ea.js"},{"revision":"407fca595a1ace637d712b8cf63fe09f","url":"assets/js/19af1ab9.be24ea03.js"},{"revision":"0ebe50298fb5b41531f84a3fb4ff7038","url":"assets/js/1be78505.a122891e.js"},{"revision":"dee5fac0770f60b93d3155b7d377ea85","url":"assets/js/247ca940.b4bc2faa.js"},{"revision":"feef03a32eb7eca4689c6a1898ed0d02","url":"assets/js/369e6452.3507c175.js"},{"revision":"0e741ece6def2a2edf4409ba32e6fb65","url":"assets/js/371533b2.2adf57af.js"},{"revision":"a0495c057417cb102f3e287fb8e5b5e7","url":"assets/js/3720c009.d704cb51.js"},{"revision":"5c04ebfe56e4c7f51b977b90a8d66251","url":"assets/js/403.2ca12a12.js"},{"revision":"fdf40acdbf728d6a3828d0ca9d0d1719","url":"assets/js/42f9915b.2eb64472.js"},{"revision":"eabea5ba96ac1601ba6d03ae69d266fe","url":"assets/js/49362468.4614ba9e.js"},{"revision":"6fc3ffa7f57ac6a1b9b8558ef00e3af2","url":"assets/js/55960ee5.34253d63.js"},{"revision":"bc8adb06d189640016ba9232b55a4c8c","url":"assets/js/655d0472.790e9fd9.js"},{"revision":"4aae99da1f632434a2091d0a7faf8153","url":"assets/js/683b8442.2806f6b0.js"},{"revision":"8ecdba4ba256e2a23735388a7fe18af9","url":"assets/js/698.2156683b.js"},{"revision":"df6f0f05211d62c5a89f0e89b4322255","url":"assets/js/6a0b3869.8724c88c.js"},{"revision":"bb8e2387fc26dd1321a2c7a9c069b8d6","url":"assets/js/6a2db6be.1431e178.js"},{"revision":"a05987cc35e11614e43919dd5dbcedb3","url":"assets/js/6aa72b4e.53b6cf04.js"},{"revision":"05779820629b81a419a75a650d376400","url":"assets/js/75.d45ca21e.js"},{"revision":"6a6b33ff7a33a20baaf029a0d5e83d41","url":"assets/js/756f4a14.6ababad8.js"},{"revision":"acef11c17ce4868df8a0829ffcc25960","url":"assets/js/79f432f8.97cc5d0a.js"},{"revision":"759239e30e00873ddd36481f819d048e","url":"assets/js/7c39b34a.9a6f1970.js"},{"revision":"e55c015147d6762ab7a024791aabcd14","url":"assets/js/7dc130a9.130e49ad.js"},{"revision":"e52369394c8af9cb96c96a9feeb939f6","url":"assets/js/8285ed18.923dafd2.js"},{"revision":"8696fa3b1d2534c7203ca3f063c0bd94","url":"assets/js/843bf7fd.e81a09d1.js"},{"revision":"ca5e8a82b7952e6ed076d014fc054023","url":"assets/js/8b0e28bc.a2dcb9e0.js"},{"revision":"46a0f303113db65e7fc01188d4a3f9dd","url":"assets/js/923.e5779ad6.js"},{"revision":"c55659de57719290aebe25f1eab5613f","url":"assets/js/935f2afb.11820327.js"},{"revision":"38da29ccf2d05d4642033296f5fd998e","url":"assets/js/95d72018.07ed22f7.js"},{"revision":"4ce5f54c2096aacbd5fed79375385fa8","url":"assets/js/9e4087bc.7a723c84.js"},{"revision":"1953e4982db30c1a0e4672d69de73489","url":"assets/js/a9cce72f.160d02ea.js"},{"revision":"4fccd31b46dcbad0626a3df389b81a01","url":"assets/js/bd983e46.93946fca.js"},{"revision":"01ecbcd95c42c1afb44d2f9806c8cde0","url":"assets/js/c4f5d8e4.5b69dff7.js"},{"revision":"884d27cade8d120815dff4a9a32c722f","url":"assets/js/f6cbeee1.84f2a54a.js"},{"revision":"7a5b6493b709c10efe6cb788791c8f85","url":"assets/js/main.84a3bb04.js"},{"revision":"a42f478ac1c0b3402867c43f1b939006","url":"assets/js/runtime~main.f39b4176.js"},{"revision":"e5c7dd8927a96e63cce235ae66e02e15","url":"blog/archive/index.html"},{"revision":"bc0aa8481853a9329bfbd232fa992950","url":"docs/Account/AccessGeben/index.html"},{"revision":"0301ce4098958ec0a42fdfe386d6109b","url":"docs/Account/AccountEinschraekung/index.html"},{"revision":"773e36f1c09b46b5b85f4d91e1895335","url":"docs/Account/AusversehenProduktBestellt/index.html"},{"revision":"2b31dacb5113e28aca210b9577a90343","url":"docs/Account/Credits/index.html"},{"revision":"d466411ddb3f17e0315ea74563e14ad6","url":"docs/Account/DiscordVerifizieren/index.html"},{"revision":"ec797cd6ddb4c19415246ad98e689167","url":"docs/Account/Partner/index.html"},{"revision":"42ea01b05dc47bfc9d1acd32c29ea8c8","url":"docs/Account/ProduktDeleteError/index.html"},{"revision":"207a4c256adbfc98a237c5cb82df9652","url":"docs/Account/ProduktIDFinden/index.html"},{"revision":"0d211996169e6c513279fb09312798da","url":"docs/Account/TicketErstellen/index.html"},{"revision":"9b795473400870017d3a6a3a1840ca32","url":"docs/Database/mysql/index.html"},{"revision":"cdec35cfd36efef1afa8b874ad87e7b5","url":"docs/Gameserver/ConnectWithFtpClient/index.html"},{"revision":"befb2db9573813ca8e9ae4ed71b457ad","url":"docs/Gameserver/GameServerStartetNicht/index.html"},{"revision":"f04336388f0df1dae6664948118c1e1e","url":"docs/General/Beratung/index.html"},{"revision":"6c86bbbaf885a4cda89eee4b704eabeb","url":"docs/index.html"},{"revision":"991143aded7b1a5b6e5b9f7a76ad4b0b","url":"docs/Musicbot/musicsoon/index.html"},{"revision":"324abf9f02ef525585be5f51f5926876","url":"docs/tags/index.html"},{"revision":"0b803a603cfc661d5c833c3f75ecc036","url":"docs/Webspace/ConnectDomain/index.html"},{"revision":"9ca5455b2d7d387bfe4cd3356e8ef3a8","url":"docs/Webspace/gitverbinden/index.html"},{"revision":"a931ad7ec73549d1e29f777e2eeccbf0","url":"docs/Webspace/NextcloudLoginFehler/index.html"},{"revision":"0015d303f77a89001261cab2a1658b74","url":"docs/Webspace/NextcloudOhnePleskInstallieren/index.html"},{"revision":"9a2aabc4dc91ee110f67bca3e6ae9368","url":"docs/Webspace/nodejs/index.html"},{"revision":"c5803b76d17ad2891b3c00c053c593d7","url":"docs/Webspace/Webmail/index.html"},{"revision":"48f5fcb571801314e0a8b958a1e3fcd8","url":"docs/Webspace/ZertifikatErstellen/index.html"},{"revision":"f9e44931b56b7d764a1978b4dec7fe3f","url":"index.html"},{"revision":"bad28980839f31e8add550f5960231e7","url":"manifest.json"},{"revision":"51f9f91e0f0bd4645baf5eb32c87204d","url":"search-index.json"},{"revision":"4343e07bf942aefb5f334501958fbc0e","url":"img/favicon.ico"},{"revision":"8a569becdc1d555f9a7d2a71ddd010ae","url":"img/icons/icon-144x144.png"},{"revision":"5542cb49753aae6257b40386886c0095","url":"img/icons/icon-152x152.png"},{"revision":"00a6a3223b74ea470f6a07895051e91c","url":"img/icons/icon-192x192.png"},{"revision":"8d7555754a6e55efce219004071a3dcd","url":"img/icons/icon-256x256.png"},{"revision":"79ae3b752589396b3237cecdf090f59a","url":"img/icons/icon-72x72.png"},{"revision":"edb51e40677b91a05b6b803ef635ffaa","url":"img/icons/icon-96x96.png"},{"revision":"aa4fa2cdc39d33f2ee3b8f245b6d30d9","url":"img/logo.svg"},{"revision":"d6778e4a4460222012846a7a1ef53021","url":"img/puhhosting.png"},{"revision":"de7de10d0bf3a54b6bb6ffb90691926e","url":"img/undraw-faq.svg"},{"revision":"3a43ee0cf02d05d12d34357127b43c84","url":"img/undraw-free.svg"},{"revision":"9720d44d456ae80478f665a5a1c00dae","url":"img/undraw-tutorial.svg"}];
   const controller = new workbox_precaching__WEBPACK_IMPORTED_MODULE_0__.PrecacheController({
     fallbackToNetwork: true, // safer to turn this true?
   });
