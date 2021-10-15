@@ -27,17 +27,17 @@ Die nun folgende Installation kann einige Momente dauern. Habe hier einfach ein 
 
 Lege dir dort nun einen Admin-Account an. Gebe dafür einen Nutzernamen sowie ein Passwort an.
 ![](https://screen.r-it.link/Zono0/JOpaROQO34.png/raw)
-Danach wird eine MySQL-Datenbank benötogt. Diese erstellen wir uns in Plesk: </br>
+Danach wird eine MySQL-Datenbank benötogt. Diese erstellen wir uns in Plesk:
 ![](https://screen.r-it.link/Zono0/pemUjiwe64.png/raw)
 ![](https://screen.r-it.link/Zono0/fArEpULi51.png/raw)
-Hier Geben wir einen Datenbank-Namen an. Danach musst du deine Domain auswählen, auf der Du deine Nextloud installiert hast. </br>
-Danach suchst Du dir einen Datenbank-User-Namen und gibst diesen hier ein. Anschließend wird noch ein Passwort für die Dantenbanke benötigt. Hier kannst du dir entweder eines aussuchen und 2 mal eingeben, oder du klickst auf generieren um dir eines erstellen zu lassen.</br>
-Mit einem Klick auf "Anzeigen" wird dir das Passwort im oberen Textfeld eingeblendet, sodass du es dir kopieren kannst.</br>
+Hier Geben wir einen Datenbank-Namen an. Danach musst du deine Domain auswählen, auf der Du deine Nextloud installiert hast.
+Danach suchst Du dir einen Datenbank-User-Namen und gibst diesen hier ein. Anschließend wird noch ein Passwort für die Dantenbanke benötigt. Hier kannst du dir entweder eines aussuchen und 2 mal eingeben, oder du klickst auf generieren um dir eines erstellen zu lassen.
+Mit einem Klick auf "Anzeigen" wird dir das Passwort im oberen Textfeld eingeblendet, sodass du es dir kopieren kannst.
 Dieses solltest du nun in dem Einrichtungsassistenten deiner NextCloud eingeben. Danach sollte es so aussehen:
 ![](https://screen.r-it.link/Zono0/QOzoSuLa86.png/raw)
-Nun kannst du noch mit einem Häkchen auswählen, ob empfohlene Apps für deine Nextcloud mitinstalliert werden sollen. </br>
-Das hängt davon ab, ob du die Cloud ausschließlich als Datenablage nutzen willst oder auch als eine Art "Büro" </br>
-Wenn du sie nur als Datenablage nutzen willst, brauchst Du diese Apps nicht. Man kann sie aber jederzeit Nachträglich installieren.</br>
+Nun kannst du noch mit einem Häkchen auswählen, ob empfohlene Apps für deine Nextcloud mitinstalliert werden sollen.
+Das hängt davon ab, ob du die Cloud ausschließlich als Datenablage nutzen willst oder auch als eine Art "Büro"
+Wenn du sie nur als Datenablage nutzen willst, brauchst Du diese Apps nicht. Man kann sie aber jederzeit Nachträglich installieren.
 Nun kannst Du auf "Installation abschließen" drücken. Dieser Vorgang kann wieder ein paar Minuten daurn.
 
 > Fertig!
